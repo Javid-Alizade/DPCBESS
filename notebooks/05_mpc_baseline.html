@@ -1,0 +1,1025 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>05 Online MPC baseline &#8212; DPC for battery voltage regulation (preliminary)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tables.css?v=a1794d84" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/05_mpc_baseline';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="06 Oracle subset: all controllers on the same 28 days" href="06_oracle_subset.html" />
+    <link rel="prev" title="04 Seeds of the selected policy, and the tuned Volt-VAR droop" href="04_seeds_and_droop.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DPC for battery voltage regulation (preliminary)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Results on the validation part (preliminary)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_network_and_solver.html">01 Network and differentiable solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data_pipeline.html">02 Data pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_dpc_training_and_selection.html">03 DPC training and the pre-specified selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_seeds_and_droop.html">04 Seeds of the selected policy, and the tuned Volt-VAR droop</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">05 Online MPC baseline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_oracle_subset.html">06 Oracle subset: all controllers on the same 28 days</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_ablations.html">07 Ablations (degradation off)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project record</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../decisions.html">Decisions and protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/05_mpc_baseline.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>05 Online MPC baseline</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-soc-model-is-lossless-superseded-pilots">Why the SoC model is lossless (superseded pilots)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lossless-pilot-pre-specified-pass-criteria">Lossless pilot: pre-specified pass criteria</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#full-validation-run-persistence-mpc-next-to-dpc-and-the-droops">Full validation run: persistence MPC next to DPC and the droops</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-solver-statistics-full-run">MPC solver statistics (full run)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="online-mpc-baseline">
+<h1>05 Online MPC baseline<a class="headerlink" href="#online-mpc-baseline" title="Link to this heading">#</a></h1>
+<p>The MPC solves, at every 5-minute step, a convex problem over 144 steps with the same eq. (16) terms and weights as DPC
+and the same terminal dead-zone term. It uses the same information as DPC (a persistence forecast: current load and PV
+held over the horizon). Its first action passes through the same safety layer, and the plant is the same nonlinear
+DistFlow simulation.</p>
+<p><strong>Differences from the proposal, which apply to every MPC number on this site:</strong></p>
+<ol class="arabic simple">
+<li><p>The MPC uses a <strong>convex LinDistFlow model</strong>, not the non-convex AC OPF named in the proposal.</p></li>
+<li><p>Its voltage limits are <strong>soft</strong> (squared slack, weight 1000), as in the DPC loss.</p></li>
+<li><p>Its SoC model is <strong>lossless</strong> (one signed P per battery); the plant keeps a charge and discharge efficiency of 0.95.</p></li>
+<li><p>It was <strong>not tuned</strong>: same weights as DPC, nothing chosen on validation.</p></li>
+</ol>
+<p>Any speed comparison of DPC on this site is therefore against a convex MPC, not against an AC-OPF MPC.</p>
+<div class="warning admonition">
+<p class="admonition-title">Read these results with the following caveats</p>
+<ul class="simple">
+<li><p><strong>Preliminary, validation part only.</strong> The test part is sealed and has not been evaluated. Every number comes from one
+network (IEEE 33-bus) and from the validation part, which was also used to select the DPC policy, so the DPC numbers are
+optimistically biased.</p></li>
+<li><p><strong>Data.</strong> Solar (Utrecht, 2014-2017) and load (Portugal, 2012-2014) are real measurements, but they come from different
+places and years and share no real weather. The PV size of 3.9 MW was chosen after a no-control check on the training part
+only (at 2.6 MW no training step exceeded 1.05 pu).</p></li>
+<li><p><strong>RQ2 was reworded</strong> on 2026-11-04, before any controller existed, because extreme ramps and voltage violations rarely
+coincide in this data (see <a class="reference internal" href="../decisions.html"><span class="doc">Decisions</span></a>).</p></li>
+<li><p><strong>Training bias.</strong> 30% of the training windows contain an extreme solar ramp.</p></li>
+<li><p><strong>Differences from the proposal’s eq. (16).</strong> Degradation and C-rate terms are off in every variant (“degradation off”).
+A terminal SoC term with a 30-70% dead zone is added and is not in eq. (16).</p></li>
+<li><p><strong>The safety layer goes beyond the proposal</strong>: it also limits P by the stored energy (SoC kept within 10-90%), not only by
+the inverter limits of eqs. (4)-(7). It does not guarantee voltage feasibility.</p></li>
+<li><p><strong>Active power use is marginal and not seed-robust.</strong> Voltage is regulated mostly with reactive power Q; the selected
+policy passes the pre-specified “P is used” threshold on 1 of 3 seeds.</p></li>
+<li><p><strong>The MPC baseline</strong> is a convex LinDistFlow MPC with soft voltage limits and a lossless SoC model, not the AC-OPF MPC
+named in the proposal, and it was not tuned. Speed comparisons are therefore against a convex MPC. The oracle MPC uses
+exact future data and is an upper bound, not a real controller.</p></li>
+<li><p><strong>Ablations.</strong> “penalty-only” includes a soft inverter-limit penalty that was added on purpose (decision D1). Variants
+without the safety layer can break the inverter limits; such steps are physically impossible operation and are reported
+as shares, not as achievable performance.</p></li>
+<li><p><strong>Corrections to the proposal</strong>: a discharging battery enters the net load with a minus sign, and the left side of
+eq. (9) is P, not 2P. Results computed before the SoC energy limit was added (2026-11-05) are superseded and not shown.</p></li>
+</ul>
+</div>
+<section id="why-the-soc-model-is-lossless-superseded-pilots">
+<h2>Why the SoC model is lossless (superseded pilots)<a class="headerlink" href="#why-the-soc-model-is-lossless-superseded-pilots" title="Link to this heading">#</a></h2>
+<p>The first MPC version modelled efficiency by splitting P into charge and discharge parts. On the two pilot days it charged
+and discharged at the same time, which in its own model burns stored energy. A pre-specified diagnostic and a fixed small
+penalty did not remove this, so the model was changed to one signed P per battery, before any comparison with DPC existed.
+The numbers below belong to the <strong>superseded</strong> versions and are shown only to document that change.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">p1</span><span class="p">,</span> <span class="n">ov</span><span class="p">,</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m4_mpc_pilot.json"</span><span class="p">),</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m4_mpc_overlap_diagnostic_rerun.json"</span><span class="p">),</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m4_mpc_pilot_penalty.json"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rec</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">p1</span><span class="p">,</span> <span class="s2">"m4_mpc_pilot.json"</span><span class="p">),</span> <span class="p">(</span><span class="n">ov</span><span class="p">,</span> <span class="s2">"m4_mpc_overlap_diagnostic_rerun.json"</span><span class="p">),</span> <span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="s2">"m4_mpc_pilot_penalty.json"</span><span class="p">)]:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">rec</span><span class="p">,</span> <span class="n">name</span><span class="p">)))</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">ov</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"regime"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+                 <span class="s2">"simultaneous charge+discharge, first pilot"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"share_battery_steps_simultaneous_charge_discharge"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"mean overlap (MW), diagnostic"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s2">"overlap_mw"</span><span class="p">][</span><span class="s2">"mean"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+                 <span class="s2">"mean overlap (MW), with penalty"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">pp</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"overlap_mw"</span><span class="p">][</span><span class="s2">"mean"</span><span class="p">],</span> <span class="mi">3</span><span class="p">)})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"regime"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m4_mpc_pilot.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">5ccb3fc</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m4_mpc_overlap_diagnostic_rerun.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">152586a</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m4_mpc_pilot_penalty.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">36decdd</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>regime</th>
+      <th>simultaneous charge+discharge, first pilot</th>
+      <th>mean overlap (MW), diagnostic</th>
+      <th>mean overlap (MW), with penalty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>base (load ×0.7)</th>
+      <td>30.7%</td>
+      <td>0.129</td>
+      <td>0.131</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>23.9%</td>
+      <td>0.096</td>
+      <td>0.098</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="lossless-pilot-pre-specified-pass-criteria">
+<h2>Lossless pilot: pre-specified pass criteria<a class="headerlink" href="#lossless-pilot-pre-specified-pass-criteria" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m4_mpc_pilot_lossless.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">lp</span><span class="p">,</span> <span class="s2">"m4_mpc_pilot_lossless.json"</span><span class="p">)))</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">lp</span><span class="p">[</span><span class="s2">"criteria"</span><span class="p">]</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">lp</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"regime"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">"steps"</span><span class="p">],</span> <span class="sa">f</span><span class="s2">"optimal (≥ </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s1">'min_optimal_share'</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"optimal_share"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"no charge/discharge split"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"no_simultaneous_by_construction"</span><span class="p">]),</span>
+                 <span class="sa">f</span><span class="s2">"max one-step SoC mismatch (fail above </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s1">'mismatch_bound'</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="s1">'mismatch_slack'</span><span class="p">],</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"soc_mismatch_1_step"</span><span class="p">][</span><span class="s2">"max"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+                 <span class="s2">"safety layer changed the action"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"share_battery_steps_safety_layer_changes_action"</span><span class="p">])})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"regime"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"All criteria pass: **</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">lp</span><span class="p">[</span><span class="s1">'all_criteria_pass'</span><span class="p">])</span><span class="si">}</span><span class="s2">**."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m4_mpc_pilot_lossless.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">2c70d3f</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>regime</th>
+      <th>steps</th>
+      <th>optimal (≥ 99.9%)</th>
+      <th>no charge/discharge split</th>
+      <th>max one-step SoC mismatch (fail above 0.0044)</th>
+      <th>safety layer changed the action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>base (load ×0.7)</th>
+      <td>576</td>
+      <td>100.0%</td>
+      <td>yes</td>
+      <td>1.04e-04</td>
+      <td>0.00%</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>576</td>
+      <td>100.0%</td>
+      <td>yes</td>
+      <td>1.07e-04</td>
+      <td>0.00%</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><p>All criteria pass: <strong>yes</strong>.</p>
+</div>
+</div>
+</section>
+<section id="full-validation-run-persistence-mpc-next-to-dpc-and-the-droops">
+<h2>Full validation run: persistence MPC next to DPC and the droops<a class="headerlink" href="#full-validation-run-persistence-mpc-next-to-dpc-and-the-droops" title="Link to this heading">#</a></h2>
+<p>All controllers below run on exactly the same validation steps, in the continuous loop with 15 solver sweeps.
+DPC: median and range over seeds 0, 1 and 2.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mpc</span> <span class="o">=</span> <span class="p">{</span><span class="n">reg</span><span class="p">:</span> <span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">"m4_mpc_full/</span><span class="si">{</span><span class="n">reg</span><span class="si">}</span><span class="s2">.json"</span><span class="p">)</span> <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">}</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="s2">"m4_mpc_pilot_lossless.json"</span><span class="p">),</span> <span class="s2">"m4_mpc_full/ (same commit as the lossless pilot)"</span><span class="p">)))</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_exp2_seeds.json"</span><span class="p">);</span> <span class="n">d2</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_droop_tuning_round2.json"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">summary_row</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"controller"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"regime"</span><span class="p">:</span> <span class="n">REGIMES</span><span class="p">[</span><span class="n">reg</span><span class="p">],</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+            <span class="s2">"VVR"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"vvr_share_of_steps_with_any_violation"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">"V-RMSE (pu)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"v_rmse_pu"</span><span class="p">]),</span>
+            <span class="s2">"losses (kW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"mean_network_loss_kw"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">"mean |P| (MW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"mean_abs_p_mw"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s2">"mean |Q| (Mvar)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"mean_abs_q_mvar"</span><span class="p">],</span> <span class="mi">3</span><span class="p">)}</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">:</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary_row</span><span class="p">(</span><span class="s2">"no battery action"</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"references"</span><span class="p">][</span><span class="s2">"no_battery_action"</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]))</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary_row</span><span class="p">(</span><span class="s2">"droop, original"</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"references"</span><span class="p">][</span><span class="s2">"volt_var_droop"</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]))</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">d2</span><span class="p">[</span><span class="s2">"validation"</span><span class="p">][</span><span class="s2">"droop_final_tuned"</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"controller"</span><span class="p">:</span> <span class="s2">"droop, tuned (final)"</span><span class="p">,</span> <span class="s2">"regime"</span><span class="p">:</span> <span class="n">REGIMES</span><span class="p">[</span><span class="n">reg</span><span class="p">],</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+                 <span class="s2">"VVR"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">"vvr_share_of_steps_with_any_violation"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">"losses (kW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">"mean_network_loss_kw"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"mean |Q| (Mvar)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">"mean_abs_q_mvar"</span><span class="p">])),</span> <span class="mi">3</span><span class="p">)})</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary_row</span><span class="p">(</span><span class="s2">"persistence MPC"</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">mpc</span><span class="p">[</span><span class="n">reg</span><span class="p">]))</span>
+    <span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">]]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mr</span><span class="p">(</span><span class="n">get</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seeds</span><span class="p">])</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="k">if</span> <span class="n">as_pct</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">digits</span><span class="p">))</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="si">}</span><span class="s2">]"</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"controller"</span><span class="p">:</span> <span class="s2">"DPC, seeds 0/1/2"</span><span class="p">,</span> <span class="s2">"regime"</span><span class="p">:</span> <span class="n">REGIMES</span><span class="p">[</span><span class="n">reg</span><span class="p">],</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">mr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+                 <span class="s2">"VVR"</span><span class="p">:</span> <span class="n">mr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">][</span><span class="s2">"vvr_share_of_steps_with_any_violation"</span><span class="p">],</span> <span class="n">as_pct</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                 <span class="s2">"V-RMSE (pu)"</span><span class="p">:</span> <span class="n">mr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">][</span><span class="s2">"v_rmse_pu"</span><span class="p">]),</span>
+                 <span class="s2">"losses (kW)"</span><span class="p">:</span> <span class="n">mr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">][</span><span class="s2">"mean_network_loss_kw"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"mean |P| (MW)"</span><span class="p">:</span> <span class="n">mr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">][</span><span class="s2">"mean_abs_p_mw"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
+                 <span class="s2">"mean |Q| (Mvar)"</span><span class="p">:</span> <span class="n">mr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">][</span><span class="s2">"mean_abs_q_mvar"</span><span class="p">],</span> <span class="mi">3</span><span class="p">)})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"regime"</span><span class="p">,</span> <span class="s2">"controller"</span><span class="p">])</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"—"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m4_mpc_full/</span> <span class="pre">(same</span> <span class="pre">commit</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">lossless</span> <span class="pre">pilot)</span></code>, commit <code class="docutils literal notranslate"><span class="pre">2c70d3f</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>objective</th>
+      <th>VVR</th>
+      <th>V-RMSE (pu)</th>
+      <th>losses (kW)</th>
+      <th>mean |P| (MW)</th>
+      <th>mean |Q| (Mvar)</th>
+    </tr>
+    <tr>
+      <th>regime</th>
+      <th>controller</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">base (load ×0.7)</th>
+      <th>no battery action</th>
+      <td>0.01526</td>
+      <td>1.342%</td>
+      <td>0.01918</td>
+      <td>29.3</td>
+      <td>0.0000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>droop, original</th>
+      <td>0.01022</td>
+      <td>0.000%</td>
+      <td>0.01523</td>
+      <td>25.5</td>
+      <td>0.0000</td>
+      <td>0.116</td>
+    </tr>
+    <tr>
+      <th>droop, tuned (final)</th>
+      <td>0.00808</td>
+      <td>0.000%</td>
+      <td>—</td>
+      <td>27.1</td>
+      <td>—</td>
+      <td>0.232</td>
+    </tr>
+    <tr>
+      <th>persistence MPC</th>
+      <td>0.00529</td>
+      <td>0.000%</td>
+      <td>0.00838</td>
+      <td>29.4</td>
+      <td>0.0084</td>
+      <td>0.395</td>
+    </tr>
+    <tr>
+      <th>DPC, seeds 0/1/2</th>
+      <td>0.00497 [0.00497-0.00498]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>0.00809 [0.00803-0.00811]</td>
+      <td>27.8 [27.8-28.1]</td>
+      <td>0.0251 [0.0250-0.0252]</td>
+      <td>0.400 [0.400-0.404]</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">stress (load ×1.0)</th>
+      <th>no battery action</th>
+      <td>0.23183</td>
+      <td>26.312%</td>
+      <td>0.02834</td>
+      <td>55.9</td>
+      <td>0.0000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>droop, original</th>
+      <td>0.01993</td>
+      <td>0.384%</td>
+      <td>0.02167</td>
+      <td>44.0</td>
+      <td>0.0000</td>
+      <td>0.199</td>
+    </tr>
+    <tr>
+      <th>droop, tuned (final)</th>
+      <td>0.01619</td>
+      <td>0.056%</td>
+      <td>—</td>
+      <td>44.3</td>
+      <td>—</td>
+      <td>0.325</td>
+    </tr>
+    <tr>
+      <th>persistence MPC</th>
+      <td>0.01296</td>
+      <td>0.039%</td>
+      <td>0.01599</td>
+      <td>44.8</td>
+      <td>0.0067</td>
+      <td>0.462</td>
+    </tr>
+    <tr>
+      <th>DPC, seeds 0/1/2</th>
+      <td>0.01241 [0.01241-0.01242]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>0.01562 [0.01561-0.01563]</td>
+      <td>43.1 [43.1-43.2]</td>
+      <td>0.0253 [0.0250-0.0256]</td>
+      <td>0.462 [0.461-0.463]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><em>— means the value is not stored in that record.</em></p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rel</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">:</span>
+    <span class="n">dpc</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">([</span><span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">]]))</span>
+    <span class="n">rel</span><span class="p">[</span><span class="n">reg</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dpc</span><span class="p">,</span> <span class="n">mpc</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">],</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">dpc</span> <span class="o">-</span> <span class="n">mpc</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">])</span> <span class="o">/</span> <span class="n">mpc</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"On the validation objective, DPC (median over seeds) is "</span> <span class="o">+</span>
+                 <span class="s2">" and "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% </span><span class="si">{</span><span class="s1">'lower'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'higher'</span><span class="si">}</span><span class="s2"> than the persistence MPC in the </span><span class="si">{</span><span class="n">REGIMES</span><span class="p">[</span><span class="n">reg</span><span class="p">]</span><span class="si">}</span><span class="s2"> regime "</span>
+                              <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> against </span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">)"</span> <span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="ow">in</span> <span class="n">rel</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span>
+                 <span class="s2">". This is a validation result: the DPC variant and its seeds were chosen on the validation part, while the MPC "</span>
+                 <span class="s2">"was not tuned."</span><span class="p">))</span>
+<span class="n">lp_h</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m4_mpc_pilot_lossless.json"</span><span class="p">)[</span><span class="s2">"horizon"</span><span class="p">]</span> <span class="o">*</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m2_summary.json"</span><span class="p">)[</span><span class="s2">"config"</span><span class="p">][</span><span class="s2">"time"</span><span class="p">][</span><span class="s2">"dt_min"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The persistence forecast holds the current load and PV constant for </span><span class="si">{</span><span class="n">lp_h</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> hours, which is a crude forecast; a "</span>
+                 <span class="s2">"better forecast would probably improve the MPC. The oracle MPC on page 06 shows the upper bound."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>On the validation objective, DPC (median over seeds) is 6.0% lower than the persistence MPC in the base (load ×0.7) regime (0.00497 against 0.00529) and 4.2% lower than the persistence MPC in the stress (load ×1.0) regime (0.01241 against 0.01296). This is a validation result: the DPC variant and its seeds were chosen on the validation part, while the MPC was not tuned.</p>
+<p>The persistence forecast holds the current load and PV constant for 12 hours, which is a crude forecast; a better forecast would probably improve the MPC. The oracle MPC on page 06 shows the upper bound.</p>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">REGIMES</span><span class="p">):</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"droop, tuned"</span><span class="p">,</span> <span class="n">d2</span><span class="p">[</span><span class="s2">"validation"</span><span class="p">][</span><span class="s2">"droop_final_tuned"</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">]),</span>
+             <span class="p">(</span><span class="s2">"persistence MPC"</span><span class="p">,</span> <span class="n">mpc</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">])]</span>
+    <span class="n">items</span> <span class="o">+=</span> <span class="p">[(</span><span class="sa">f</span><span class="s2">"DPC seed </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">][</span><span class="sa">f</span><span class="s2">"seed_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">([</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">items</span><span class="p">],</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">SERIES</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">SERIES</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">SERIES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SERIES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SERIES</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">();</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"validation objective (lower is better)"</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">REGIMES</span><span class="p">[</span><span class="n">reg</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.25</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"No battery action and the original droop are left out of the chart because their objectives are much "</span>
+                 <span class="s2">"larger; they are in the table above."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/8050c36a8cd688516435f952a82a2be0261df2fecdf8d7d22a1042cedab3769a.png" src="../_images/8050c36a8cd688516435f952a82a2be0261df2fecdf8d7d22a1042cedab3769a.png" />
+<p>No battery action and the original droop are left out of the chart because their objectives are much larger; they are in the table above.</p>
+</div>
+</div>
+</section>
+<section id="mpc-solver-statistics-full-run">
+<h2>MPC solver statistics (full run)<a class="headerlink" href="#mpc-solver-statistics-full-run" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">mpc</span><span class="p">[</span><span class="n">reg</span><span class="p">];</span> <span class="n">s</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">"solve_seconds"</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"regime"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">:</span> <span class="n">m</span><span class="p">[</span><span class="s2">"steps"</span><span class="p">],</span> <span class="s2">"solver statuses"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="s2">"solver_statuses"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span>
+                 <span class="s2">"solve time median / p95 / max (s)"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'median'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'p95'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'max'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                 <span class="s2">"safety layer changed the action"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">"share_battery_steps_safety_layer_changes_action"</span><span class="p">]),</span>
+                 <span class="s2">"end-of-day SoC"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">'end_of_day_soc_min'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">'end_of_day_soc_max'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"regime"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"A latency study of DPC against MPC at different horizons and network sizes has not been done yet."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>regime</th>
+      <th>steps</th>
+      <th>solver statuses</th>
+      <th>solve time median / p95 / max (s)</th>
+      <th>safety layer changed the action</th>
+      <th>end-of-day SoC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>base (load ×0.7)</th>
+      <td>48217</td>
+      <td>optimal: 48217</td>
+      <td>0.365 / 0.901 / 11.83</td>
+      <td>0.00%</td>
+      <td>0.30 - 0.47</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>48217</td>
+      <td>optimal: 48217</td>
+      <td>0.343 / 0.404 / 5.03</td>
+      <td>0.00%</td>
+      <td>0.30 - 0.46</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><p>A latency study of DPC against MPC at different horizons and network sizes has not been done yet.</p>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_seeds_and_droop.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">04 Seeds of the selected policy, and the tuned Volt-VAR droop</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_oracle_subset.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">06 Oracle subset: all controllers on the same 28 days</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-soc-model-is-lossless-superseded-pilots">Why the SoC model is lossless (superseded pilots)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lossless-pilot-pre-specified-pass-criteria">Lossless pilot: pre-specified pass criteria</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#full-validation-run-persistence-mpc-next-to-dpc-and-the-droops">Full validation run: persistence MPC next to DPC and the droops</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-solver-statistics-full-run">MPC solver statistics (full run)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javid Alizade
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

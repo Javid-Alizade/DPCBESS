@@ -1,0 +1,973 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Decisions and protocols &#8212; DPC for battery voltage regulation (preliminary)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/tables.css?v=a1794d84" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'decisions';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to reproduce" href="reproduce.html" />
+    <link rel="prev" title="07 Ablations (degradation off)" href="notebooks/07_ablations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DPC for battery voltage regulation (preliminary)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Results on the validation part (preliminary)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_network_and_solver.html">01 Network and differentiable solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_data_pipeline.html">02 Data pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_dpc_training_and_selection.html">03 DPC training and the pre-specified selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_seeds_and_droop.html">04 Seeds of the selected policy, and the tuned Volt-VAR droop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_mpc_baseline.html">05 Online MPC baseline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/06_oracle_subset.html">06 Oracle subset: all controllers on the same 28 days</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/07_ablations.html">07 Ablations (degradation off)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project record</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Decisions and protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproduce.html">How to reproduce</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/decisions.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Decisions and protocols</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions-fixed-from-the-start">Conventions (fixed from the start)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-scenarios-chosen-before-any-data-or-controller-result">Load scenarios (chosen, before any data or controller result)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-data-decisions-chosen-after-seeing-option-tables">M2 data decisions (chosen, after seeing option tables)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rq2-wording-chosen-2026-11-04">RQ2 wording (chosen, 2026-11-04)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rq2-metrics-2026-11-04-before-any-controller-existed-definitions-option-proposed">RQ2 metrics (2026-11-04, before any controller existed; definitions: option proposed)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-assumptions-option-proposed-unless-marked-chosen">Data assumptions (option proposed unless marked “chosen”)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-design-2026-11-05-24-options-proposed-and-chosen">M3 design (2026-11-05; 24 options proposed and chosen)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#soc-penalty-selection-rule-written-2026-11-05-before-the-check-rule-chosen">SoC-penalty selection rule (written 2026-11-05, BEFORE the check; rule chosen)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documented-change-soc-physically-bounded-2026-11-05">Documented change: SoC physically bounded (2026-11-05)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-1-result-h-24-2026-11-05-as-it-is">Experiment 1 result (H = 24, 2026-11-05), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-2-pre-specified-2026-11-05-added-after-seeing-experiment-1">Experiment 2 (pre-specified 2026-11-05, ADDED AFTER seeing Experiment 1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-2-result-2026-11-06-as-it-is">Experiment 2 result (2026-11-06), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seed-reporting-rule-written-2026-11-06-before-seeds-1-and-2">Seed reporting rule (written 2026-11-06, BEFORE seeds 1 and 2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seed-result-2026-11-06-as-it-is">Seed result (2026-11-06), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-from-proposal-eq-16">Difference from proposal eq. (16)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volt-var-droop-tuning-protocol-written-2026-11-06-before-the-run-confirmed">Volt-VAR droop tuning (protocol written 2026-11-06, BEFORE the run; confirmed)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seeds-in-later-comparisons-chosen-2026-11-06-before-any-m4-result">Seeds in later comparisons (chosen, 2026-11-06, BEFORE any M4 result)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-plan-online-mpc-baseline-all-options-proposed-and-chosen-2026-11-06-before-any-m4-code">M4 plan: online MPC baseline (all options proposed and chosen, 2026-11-06, before any M4 code)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-pilots-and-the-change-of-item-7-2026-11-06">MPC pilots and the change of item 7 (2026-11-06)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-result-2026-11-06-07-one-commit-no-resume-as-it-is">M4 result (2026-11-06/07, one commit, no resume), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-ablations-protocol-written-2026-11-07-before-any-ablation-run">M3 ablations (protocol written 2026-11-07, BEFORE any ablation run)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ablation-result-2026-11-07-one-commit-no-resume-as-it-is">Ablation result (2026-11-07, one commit, no resume), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#site-v1-decisions-s1-s8-options-proposed-and-chosen-2026-11-07">Site v1 (decisions S1-S8, options proposed and chosen, 2026-11-07)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-work">Related work</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-questions">Open questions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="decisions-and-protocols">
+<h1>Decisions and protocols<a class="headerlink" href="#decisions-and-protocols" title="Link to this heading">#</a></h1>
+<p>This is the dated record of the project’s decisions, pre-specified protocols and their outcomes, in the order they were
+made. It is the public version of the project’s working notes.</p>
+<p><strong>Labels.</strong> “Option proposed” marks a default that was proposed as an option and then accepted; “chosen” marks a choice
+made directly. Every rule can be changed only in a new dated entry.</p>
+<p><strong>Pre-specification.</strong> A protocol marked “written BEFORE” was written down and committed to the repository before the run it governs.</p>
+<p><strong>Commit hashes.</strong> Text labels in the exported result files were normalised (file-name references replaced); no numeric value was changed. Commit hashes stored in the result files (<code class="docutils literal notranslate"><span class="pre">results/</span></code>) and cited in the decision record refer to the private development history, which is not published. The public repository starts from a single initial commit.</p>
+<p><strong>Status.</strong> All results are from the validation part. The test part is sealed: the code refuses to load it, and it has not
+been evaluated.</p>
+<hr class="docutils" />
+<section id="conventions-fixed-from-the-start">
+<h2>Conventions (fixed from the start)<a class="headerlink" href="#conventions-fixed-from-the-start" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Per-unit system. Bus 0 is the slack bus. Buses are in topological order (parent[j] &lt; j).</p></li>
+<li><p>Battery sign: P &gt; 0 means DISCHARGE. Net consumption p_net = load − solar − P_bess. The proposal had <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">P_bess</span></code>, which
+is a sign error: it would make discharge increase the load.</p></li>
+<li><p>Proposal eq. (9): the left side is P_ij,t, not 2 P_ij,t, and the battery enters with a minus sign.</p></li>
+<li><p>Physics: branch-flow DistFlow with a backward/forward sweep (<code class="docutils literal notranslate"><span class="pre">src/dpc_grid/physics.py</span></code>), kept differentiable.</p></li>
+<li><p>Safety layer: an energy limit on P from SoC, then clipping and radial scaling of (P, Q). It acts on battery and inverter
+limits only and does NOT guarantee voltage feasibility. Voltage violations are measured (VVR) and penalised in the loss.</p></li>
+<li><p>Strict split on time (train / validation / test, non-overlapping). Nothing is tuned on the test part.</p></li>
+<li><p>Only open datasets, cited. IEEE 33-bus: Baran and Wu (1989), pandapower <code class="docutils literal notranslate"><span class="pre">case33bw</span></code>.</p></li>
+<li><p>Results are never adjusted to look better. If DPC does not beat a baseline, that is reported.</p></li>
+<li><p>Both load regimes (×0.7 and ×1.0) are reported for every result.</p></li>
+</ul>
+</section>
+<section id="load-scenarios-chosen-before-any-data-or-controller-result">
+<h2>Load scenarios (chosen, before any data or controller result)<a class="headerlink" href="#load-scenarios-chosen-before-any-data-or-controller-result" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Base scenario: load ×0.7. Stress scenario: standard load ×1.0. The standard case33bw already violates the ±5% limit at
+peak without any control, so the load is reduced to study the effect of solar and battery control. The scale was chosen
+before looking at any time series or controller result and is not changed after seeing results.</p></li>
+<li><p>The ×0.7 load scale was chosen from peak-load voltages of case33bw, before any real time series was used. The PV
+placement and the first PV size (2.6 MW) came from a table that assumed a midday load of 30% of the scenario load; the
+real load is about 66% of peak at midday, which changed the PV size to 3.9 MW (see the data entries).</p></li>
+</ul>
+</section>
+<section id="m2-data-decisions-chosen-after-seeing-option-tables">
+<h2>M2 data decisions (chosen, after seeing option tables)<a class="headerlink" href="#m2-data-decisions-chosen-after-seeing-option-tables" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Solar: Utrecht rooftop PV (Visser et al. 2022, Zenodo, CC BY 4.0). Load: UCI ElectricityLoadDiagrams20112014
+(Trindade 2015, CC BY 4.0).</p></li>
+<li><p>Years paired by calendar: train UCI 2012 + 2013 H1 ↔ Utrecht 2014 + 2015 H1; validation UCI 2013 H2 ↔ Utrecht 2016 H2;
+test UCI 2014 ↔ Utrecht 2017. <strong>Solar and load share no real weather.</strong> Train was moved to 2014-2015 because the Utrecht
+data have large gaps from Sep 2015 to Apr 2016 (decided from data availability only, before seeing any power values of
+validation or test). Gaps are never filled; windows with missing solar are excluded.</p></li>
+<li><p>Load scale refers to the feeder total peak on the training set (scale × 3.715 MW).</p></li>
+<li><p>Placement: PV at buses 14, 17, 29, 32 (3.9 MW total); batteries at buses 17, 32 (1.0 MW total, 2 h of energy).</p></li>
+<li><p><strong>PV was changed from 2.6 to 3.9 MW</strong> after a no-control check on the TRAINING part only, before any controller existed:
+at 2.6 MW no training step exceeded 1.05 pu in either scenario.</p></li>
+<li><p>dt = 5 min, H = 24 (2 h) at first. Split: 18 months train / 6 months validation / 12 months test.</p></li>
+<li><p>Extreme ramp: top 1% of |r_t| of total feeder PV, threshold computed on the training set only.</p></li>
+</ul>
+</section>
+<section id="rq2-wording-chosen-2026-11-04">
+<h2>RQ2 wording (chosen, 2026-11-04)<a class="headerlink" href="#rq2-wording-chosen-2026-11-04" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Old: “… reduce voltage violations during extreme solar-ramp events …”.</p></li>
+<li><p>New: “… improve voltage margin and reduce voltage violations during extreme solar-ramp events …”.</p></li>
+<li><p>Reason: extreme ramps and violations rarely coincide in this data. On training data with no controller, 90 of 1567
+extreme-ramp steps have a violation at ×0.7 and 25 of 1567 at ×1.0. The proposal document itself is not edited.</p></li>
+<li><p>Optional extension, documented and NOT implemented: a separate hard-event scenario pairing real strong-ramp days with
+real low-load days, reported apart from the main regimes, with selection rules fixed on training data.</p></li>
+</ul>
+</section>
+<section id="rq2-metrics-2026-11-04-before-any-controller-existed-definitions-option-proposed">
+<h2>RQ2 metrics (2026-11-04, before any controller existed; definitions: option proposed)<a class="headerlink" href="#rq2-metrics-2026-11-04-before-any-controller-existed-definitions-option-proposed" title="Link to this heading">#</a></h2>
+<p>Implemented in <code class="docutils literal notranslate"><span class="pre">src/dpc_grid/metrics.py</span></code>, values in <code class="docutils literal notranslate"><span class="pre">configs/m2.json</span></code>.</p>
+<ul class="simple">
+<li><p>Step margin: m_t = min over all buses of min(V − 0.95, 1.05 − V), in pu. Negative means a violation.</p></li>
+<li><p>Ramp window: the extreme-ramp step t and the next 11 steps (60 min, forward only). Every extreme-ramp step starts its own
+window; windows may overlap. Only fully valid, consecutive windows inside one split are used; the number excluded is
+reported. 60 min is long enough for a controller to act after the ramp and shorter than the 2 h horizon.</p></li>
+<li><p>Primary, over all windows, both regimes: (1) worst margin, min of m_t over the window (higher is better);
+(2) maximum deviation, max |V − 1| over buses and the window (lower is better); (3) time to the safe band, minutes from t
+until all buses are inside 0.96-1.04 pu (0 = already inside; if never, censored at 60 min, with the censored share
+reported).</p></li>
+<li><p>Secondary: violations at the extreme-ramp step itself (count of steps, of distinct days, and share).</p></li>
+<li><p>Uncertainty: 95% percentile interval from a bootstrap over whole days (2000 samples, seed from the config), because
+extreme ramps cluster within a day.</p></li>
+<li><p>Status: not yet computed for any controller.</p></li>
+</ul>
+</section>
+<section id="data-assumptions-option-proposed-unless-marked-chosen">
+<h2>Data assumptions (option proposed unless marked “chosen”)<a class="headerlink" href="#data-assumptions-option-proposed-unless-marked-chosen" title="Link to this heading">#</a></h2>
+<p>Numeric rules were set from training data or before seeing data. Values: <code class="docutils literal notranslate"><span class="pre">configs/m2.json</span></code>, <code class="docutils literal notranslate"><span class="pre">src/dpc_grid/data.py</span></code>.</p>
+<p><strong>Load (UCI).</strong></p>
+<ul class="simple">
+<li><p>A client is kept if at most 1% of its training values are exact zeros (313 of 370 kept).</p></li>
+<li><p>Clients are assigned to buses at random with seed 0, 9-10 per bus. Bus load = plain sum of client kW, so one client can
+dominate a bus (largest client share in a bus: median 39%, max 82% on train).</p></li>
+<li><p>Each bus group is divided by its training mean and multiplied by its case33bw P. One common factor sets the feeder total
+training peak to 3.715 MW at ×1.0 (“feeder total peak” basis: chosen). Bus peaks reach 0.85-1.87 of their case33bw
+values on train; the validation peak is 3.815 MW at ×1.0.</p></li>
+<li><p>Q = P × the constant Q/P of the bus in case33bw (the data contain no reactive power).</p></li>
+<li><p>15-minute values are held constant over their three 5-minute steps.</p></li>
+</ul>
+<p><strong>Solar (Utrecht).</strong></p>
+<ul class="simple">
+<li><p>File <code class="docutils literal notranslate"><span class="pre">filtered_pv_power_measurements_ac.csv</span></code> (the authors’ quality-controlled data).</p></li>
+<li><p>Normalised by <code class="docutils literal notranslate"><span class="pre">estimated_dc_capacity</span></code> (W/Wp), then multiplied by the bus PV capacity.</p></li>
+<li><p>A system is kept if it reports on at least 90% of training steps (121 of 175 kept).</p></li>
+<li><p>Systems are assigned to PV buses at random with seed 0, 30-31 per bus. Bus PV uses only the systems reporting at a step.</p></li>
+<li><p>A 5-minute value needs at least 3 valid minutes. A step is valid only if each PV bus has at least 5 systems reporting.</p></li>
+<li><p>Gaps are never filled. Total PV and total battery capacity are split equally between their buses (totals: chosen).</p></li>
+</ul>
+<p><strong>Time.</strong></p>
+<ul class="simple">
+<li><p>Time stamps mark the END of an interval; UTC is the base clock.</p></li>
+<li><p>UCI labels are treated as the START of 15 minutes (inferred, not documented: the abnormal hours on clock-change days
+carry labels 01:00-01:45, and Portugal changes the clock at 01:00).</p></li>
+<li><p>March: the abnormal hour is removed. October: the hour holds the sum of two hours, so each row becomes two rows of half
+the value (the doubling was seen in the training data, as the UCI description says).</p></li>
+<li><p>Utrecht 1-minute labels are treated as the END of the minute (undocumented; matters by at most 1 minute).</p></li>
+<li><p>Scenario clock: UCI in UTC, Utrecht in UTC+1, so solar noon aligns within minutes. February 29 is removed.</p></li>
+</ul>
+<p><strong>Ramps and windows.</strong></p>
+<ul class="simple">
+<li><p>r_t is in MW per minute on total feeder PV; NaN at the first step, at gaps, at a new split and next to missing data.</p></li>
+<li><p>The 99th percentile uses all valid training steps including night, so about 2% of daytime steps are labelled extreme.</p></li>
+<li><p>Seed 0 everywhere.</p></li>
+</ul>
+<p><strong>PV size and placement.</strong> Placement schemes A, B and C were proposed as options; scheme B was chosen, using a table
+that assumed midday load = 0.3 × scenario load. That assumption proved wrong (real midday load is
+about 0.66 of peak). 2.6 MW (chosen, 2026-11-04) was replaced by 3.9 MW (chosen, 2026-11-04) after the training-only check.</p>
+</section>
+<section id="m3-design-2026-11-05-24-options-proposed-and-chosen">
+<h2>M3 design (2026-11-05; 24 options proposed and chosen)<a class="headerlink" href="#m3-design-2026-11-05-24-options-proposed-and-chosen" title="Link to this heading">#</a></h2>
+<p>Values in <code class="docutils literal notranslate"><span class="pre">configs/m3.json</span></code>.</p>
+<ol class="arabic simple">
+<li><p>Policy: MLP, 2 hidden layers of 128, Tanh, 4 outputs (P and Q of each battery), scaled by the 0.5 MW limit.</p></li>
+<li><p>Inputs: SoC, V at the battery buses on the previous step, total load, PV at the 4 PV buses, latest r_t, previous action,
+time of day as sin/cos.</p></li>
+<li><p>No forecast of the future. Adding one requires a new dated decision.</p></li>
+<li><p>Exogenous inputs normalised with training mean and std only.</p></li>
+<li><p>Inverter: |P| and |Q| ≤ 0.5, S ≤ 0.5 MVA per battery.</p></li>
+<li><p>Battery: 1 MWh each, efficiency 0.95, SoC limits 10-90%, training starts uniform in 30-70%.</p></li>
+<li><p>H = 24 steps (chosen).</p></li>
+<li><p>A terminal soft penalty on SoC away from 50%, which is NOT in proposal eq. (16).</p></li>
+<li><p>Starting weights: α_L = 1, α_V = 1, α_B = 0.01, α_SoC = 100, α_V,g = 1000, α_C = 0, α_D = 0, changed only using validation.</p></li>
+<li><p>C-rate term off: 0.5 MW on 1 MWh never exceeds 0.5 C.</p></li>
+<li><p>No extra loss term for margin, to avoid training directly on the metric.</p></li>
+<li><p>AdamW, lr 1e-3, grad clip 1.0, batch 64, up to 1000 steps, validation every 100.</p></li>
+<li><p>Solver: 8 iterations in training, 15 in evaluation.</p></li>
+<li><p>One seed first, then 3, and all seeds are reported.</p></li>
+<li><p>One policy for both regimes: each window draws ×0.7 or ×1.0 at random; results reported per regime.</p></li>
+<li><p>30% of training windows contain an extreme ramp, the rest are uniform. This bias is stated with the results.</p></li>
+<li><p>Model selection by the eq. (16) loss on validation, not by an RQ2 metric.</p></li>
+<li><p>Degradation off (DPC-no-deg, chosen).</p></li>
+<li><p>Ablations without degradation: no-deg, penalty-only, projection-only, no-constraints, labelled “degradation off”.</p></li>
+<li><p>Without projection, actions are not clipped in evaluation, and the share of inverter-limit violations is reported.</p></li>
+<li><p>References: no battery action AND a rule-based local Volt-VAR droop (chosen).</p></li>
+<li><p>Evaluation runs the loop continuously, carries SoC forward, and resets SoC to 50% after a data gap.</p></li>
+<li><p>Solver vectorised.</p></li>
+<li><p>Git repository, local only.</p></li>
+</ol>
+<p>Additions (2026-11-05): a short pilot comes before any full run, with its curve and every loss term shown;
+the test part is not run until a separate, explicit decision; every run logs its config, seed and git commit.</p>
+<p>Implementation details (option proposed, 2026-11-05):</p>
+<ul class="simple">
+<li><p>Terminal SoC penalty weight 10, on (SoC − 0.5)² at the last step of the horizon, averaged over batteries.</p></li>
+<li><p>Volt-VAR droop, set before any evaluation and not tuned at that point: each battery uses V at its own bus on the previous
+step; Q = 0 inside 0.99-1.01 pu, rising linearly to the full 0.5 Mvar at 0.95 and 1.05 pu (inject when V is low); P = 0.</p></li>
+<li><p>At the first step of a window, “previous V” comes from a solve with idle batteries, and the previous action is 0.</p></li>
+<li><p>SoC, V and actions use fixed scaling: (SoC − 0.5)/0.25, (V − 1)/0.05, action / 0.5 MW.</p></li>
+</ul>
+</section>
+<section id="soc-penalty-selection-rule-written-2026-11-05-before-the-check-rule-chosen">
+<h2>SoC-penalty selection rule (written 2026-11-05, BEFORE the check; rule chosen)<a class="headerlink" href="#soc-penalty-selection-rule-written-2026-11-05-before-the-check-rule-chosen" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Candidates: terminal SoC weight 10, weight 0, weight 0.1, and a 30-70% dead zone (no penalty inside 30-70%, weight 10 on
+the squared distance outside). Seed 0, variant no-deg, one commit.</p></li>
+<li><p>Check: continuous loop on the VALIDATION part, 15 solver iterations, both regimes. References: no battery action and the
+droop. RQ2 metrics are not computed.</p></li>
+<li><p>Rule: among the candidates that pass (a) and (b), choose the lowest validation objective.
+(a) Active power is used: mean |P| ≥ 0.025 MW (5% of the limit) for each battery in each regime.
+(b) No SoC drift: every end-of-day SoC (the step stamped 00:00 that closes a scenario day, when valid) is inside 20-80%,
+both batteries, both regimes.
+If no candidate passes, nothing is selected and the next step is decided separately.</p></li>
+<li><p>Validation objective: mean over valid steps of the eq. (16) terms only (losses, voltage deviation, effort, SoC penalty,
+voltage penalty, configured weights), then the mean of both regimes. The terminal term is left out because it differs
+between candidates. ((a), (b) and this objective were made precise .)</p></li>
+</ul>
+</section>
+<section id="documented-change-soc-physically-bounded-2026-11-05">
+<h2>Documented change: SoC physically bounded (2026-11-05)<a class="headerlink" href="#documented-change-soc-physically-bounded-2026-11-05" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Reason: a simulation defect. The weight-0 candidate reached SoC −0.062 and 1.077, because the limits were only soft
+penalties and the safety layer did not know the stored energy.</p></li>
+<li><p>Change: the safety layer limits P with a differentiable clamp so that SoC stays inside [0.10, 0.90] within each step,
+using the SoC equation with its efficiencies. The P, Q and S inverter limits stay; Q is not limited by SoC.</p></li>
+<li><p>This is a bug fix made BEFORE any new results. All results obtained before this fix (the 200-step candidates and the
+pilot runs of 2026-11-05) are SUPERSEDED: they are not reported, and their files are not published.</p></li>
+<li><p>It goes beyond proposal eqs. (4)-(7), which define only inverter limits. The soft SoC penalty stays in the loss.</p></li>
+<li><p>The limit is part of the safety layer, so ablation variants without the safety layer have no energy limit; their share
+of steps outside the SoC limits is reported as physically impossible operation.</p></li>
+<li><p>Rerun: all four candidates retrained for 1000 steps (not 200), seed 0, with the fixed safety layer. Rule unchanged.</p></li>
+</ul>
+</section>
+<section id="experiment-1-result-h-24-2026-11-05-as-it-is">
+<h2>Experiment 1 result (H = 24, 2026-11-05), as it is<a class="headerlink" href="#experiment-1-result-h-24-2026-11-05-as-it-is" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The rule selected NO candidate. Weight 0 failed (b): SoC ended every day at 10%. Weights 10 and 0.1 and the dead zone
+failed (a); the dead zone missed by one battery in the stress regime (0.0228 MW).</p></li>
+<li><p>Voltage was regulated mostly with Q (|Q| about 10-20 times |P|); the inverter was at its S limit on 43-79% of steps.</p></li>
+</ul>
+</section>
+<section id="experiment-2-pre-specified-2026-11-05-added-after-seeing-experiment-1">
+<h2>Experiment 2 (pre-specified 2026-11-05, ADDED AFTER seeing Experiment 1)<a class="headerlink" href="#experiment-2-pre-specified-2026-11-05-added-after-seeing-experiment-1" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Reason: in Experiment 1 the policy used almost no active power. Hypothesis (not tested): with a 2 h horizon and no
+forecast, training cannot see why it should store energy for later, while Q helps the voltage at no energy cost. A
+longer horizon may give P a purpose. Experiment 1 stays reported.</p></li>
+<li><p>Horizons H = 72 (6 h) and H = 144 (12 h); everything else as in Experiment 1. Same four SoC-penalty variants at each
+horizon (8 candidates). Inputs unchanged, NO forecast.</p></li>
+<li><p>Instability rule, defined before running: a run is unstable if any loss or gradient is not finite, or if the gradient
+norm before clipping is above 10 on more than 5% of steps after step 100. Then it is repeated once with truncated BPTT
+(gradients stop every 24 steps); both runs are reported; if that is unstable too, the candidate fails.</p></li>
+<li><p>Same selection rule (a), (b) and objective, over all 8 candidates. The continuous loop is the same for every horizon.</p></li>
+</ul>
+</section>
+<section id="experiment-2-result-2026-11-06-as-it-is">
+<h2>Experiment 2 result (2026-11-06), as it is<a class="headerlink" href="#experiment-2-result-2026-11-06-as-it-is" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>All 8 runs were stable; no truncated rerun.</p></li>
+<li><p>The rule selected <strong>H144_dead_zone_30_70</strong> (objective 0.00870), the only candidate that passed (a) and (b). It passes (a)
+by a very small margin: lowest mean |P| 0.02504 MW against the 0.025 MW threshold. H72_dead_zone missed (a) (0.0225 MW in
+stress). Weight 0 had the lowest objective at both horizons but failed (b): SoC ended almost every day at 10%.</p></li>
+<li><p>Voltage is still regulated mostly with Q: |Q| about 14-20 times |P|, at the S limit on 53-77% of steps.</p></li>
+<li><p>Confirmed on 2026-11-06 as the outcome of the pre-specified rule. Any claim that P is used is MARGINAL.</p></li>
+<li><p>Descriptive diagnostics (cannot change the selection; validation, 110 full days): a small daily cycle, charging around
+9-14 h and discharging around 15-21 h; mean SoC about 0.31 → 0.53 → 0.33; daily swing 0.23-0.25; throughput about
+0.5 MWh/day per battery (0.25 equivalent full cycles); SoC rests near 0.30-0.33 overnight.</p></li>
+</ul>
+</section>
+<section id="seed-reporting-rule-written-2026-11-06-before-seeds-1-and-2">
+<h2>Seed reporting rule (written 2026-11-06, BEFORE seeds 1 and 2)<a class="headerlink" href="#seed-reporting-rule-written-2026-11-06-before-seeds-1-and-2" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>H144_dead_zone_30_70 is trained again with seeds 1 and 2, with exactly the Experiment 2 settings. Every seed is shown.</p></li>
+<li><p>NO re-selection after seeing the seeds; no seed is chosen by its result. If a seed fails (a) or (b), the use of P is
+stated as not robust across seeds.</p></li>
+</ul>
+</section>
+<section id="seed-result-2026-11-06-as-it-is">
+<h2>Seed result (2026-11-06), as it is<a class="headerlink" href="#seed-result-2026-11-06-as-it-is" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Condition (a) passes for 1 of 3 seeds, (b) for 3 of 3. The per-seed minimum of mean |P| is 0.02504 (seed 0), 0.02300
+(seed 1, battery 2) and 0.02499 (seed 2) MW. <strong>The use of P is NOT robust across seeds.</strong></p></li>
+<li><p>Otherwise very similar across seeds: objective 0.00869-0.00870, VVR 0 in both regimes, end-of-day SoC 0.29-0.35.</p></li>
+</ul>
+</section>
+<section id="difference-from-proposal-eq-16">
+<h2>Difference from proposal eq. (16)<a class="headerlink" href="#difference-from-proposal-eq-16" title="Link to this heading">#</a></h2>
+<p>Any candidate with a nonzero terminal weight or the dead zone adds a term that is NOT in eq. (16). Every candidate at this
+stage also differs from the full eq. (16) because degradation (α_D) and C-rate (α_C) are off.</p>
+</section>
+<section id="volt-var-droop-tuning-protocol-written-2026-11-06-before-the-run-confirmed">
+<h2>Volt-VAR droop tuning (protocol written 2026-11-06, BEFORE the run; confirmed)<a class="headerlink" href="#volt-var-droop-tuning-protocol-written-2026-11-06-before-the-run-confirmed" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Reason: the original droop setting (0.01 / 0.05 pu) was never tuned on data, while DPC was trained. To make the comparison
+fair, the droop is tuned once on the TRAINING part only.</p></li>
+<li><p>Grid of 16: dead band {0, 0.005, 0.01, 0.02} pu × full-Q point {0.03, 0.04, 0.05, 0.06} pu. Same objective as the DPC
+candidates, mean of both regimes, continuous loop, 15 iterations. Ties (within 1e-9) go to the smaller mean |Q|.</p></li>
+<li><p>Also described: the share of steps where Q changes sign.</p></li>
+<li><p>Result (round 1): dead band 0, full Q at 0.03 pu (training objective 0.01158). The optimum lies at a corner of the grid.
+The tuned droop oscillates: Q changes sign on 8.7-10.8% of validation steps, against 0% for the original.</p></li>
+<li><p>Round 2 (written BEFORE its run, ADDED AFTER seeing round 1): extended grid of 12, dead band
+{0, 0.0025, 0.005} × full-Q point {0.01, 0.015, 0.02, 0.025}; final choice = minimum over all 28 settings; no further
+tuning whatever it shows.</p></li>
+<li><p>Round 2 result: none of the 12 settings beats round 1 (training objectives 0.01362-0.01615). The final tuned droop stays
+dead band 0, full Q at 0.03 pu.</p></li>
+<li><p>Validation, mean of regimes: original droop 0.01507, final tuned droop 0.01213, DPC seeds 0/1/2 median 0.00870
+(range 0.00869-0.00870). DPC: VVR 0 in both regimes for all seeds.</p></li>
+</ul>
+</section>
+<section id="seeds-in-later-comparisons-chosen-2026-11-06-before-any-m4-result">
+<h2>Seeds in later comparisons (chosen, 2026-11-06, BEFORE any M4 result)<a class="headerlink" href="#seeds-in-later-comparisons-chosen-2026-11-06-before-any-m4-result" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Numeric comparisons of DPC use all three seeds (0, 1, 2) of H144_dead_zone_30_70 and report the median and range.</p></li>
+<li><p>Single-trajectory plots and example days use seed 0, the seed on which the candidate was selected.</p></li>
+</ul>
+</section>
+<section id="m4-plan-online-mpc-baseline-all-options-proposed-and-chosen-2026-11-06-before-any-m4-code">
+<h2>M4 plan: online MPC baseline (all options proposed and chosen, 2026-11-06, before any M4 code)<a class="headerlink" href="#m4-plan-online-mpc-baseline-all-options-proposed-and-chosen-2026-11-06-before-any-m4-code" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Model inside the MPC: LinDistFlow (linearised around 1.0 pu, no losses in the voltage equation), convex. The plant is
+still the nonlinear DistFlow with 15 iterations, on the same steps as DPC.</p></li>
+<li><p>Forecast: persistence (the current load and PV held over the horizon), the same information as DPC. Extra variant:
+oracle (exact future data), labelled as an upper bound.</p></li>
+<li><p>H = 144, as the selected DPC.</p></li>
+<li><p>Objective: the eq. (16) terms with the same weights; losses approximated by Σ r (P² + Q²); the same terminal dead-zone
+term.</p></li>
+<li><p>Voltage limits SOFT (squared slack, weight 1000), as in DPC.</p></li>
+<li><p>Inverter limits exact and convex; SoC 10-90% hard.</p></li>
+<li><p>Efficiencies via a charge/discharge split (changed later, see below).</p></li>
+<li><p>Solver: Clarabel in cvxpy, parameterised once (DPP).</p></li>
+<li><p>The MPC action passes through the same safety layer as DPC.</p></li>
+<li><p>No tuning of the MPC.</p></li>
+<li><p>A 2-day pilot first; the full run only after a separate decision.</p></li>
+</ol>
+<p><strong>Differences from the proposal, stated wherever MPC is shown:</strong> (i) the MPC uses a convex LinDistFlow model, NOT the
+non-convex AC OPF named in the proposal; (ii) the voltage constraints are SOFT. Any speed comparison of DPC is therefore
+against a convex MPC.</p>
+</section>
+<section id="mpc-pilots-and-the-change-of-item-7-2026-11-06">
+<h2>MPC pilots and the change of item 7 (2026-11-06)<a class="headerlink" href="#mpc-pilots-and-the-change-of-item-7-2026-11-06" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>First pilot (efficiency model): optimal on all 576 steps per regime; median solve 0.31-0.32 s per step. Simultaneous
+charge and discharge on 30.7% (×0.7) and 23.9% (×1.0) of battery steps, so the relaxation was NOT tight.</p></li>
+<li><p>Overlap diagnostic (rule written BEFORE it ran; rule chosen): mean overlap min(P_ch, P_dis) 0.129 MW (×0.7) and
+0.096 MW (×1.0), above the 0.01 MW trigger, so a fixed penalty (1e-5) was added and the pilot re-run once. It changed
+almost nothing (overlap 0.131 / 0.098 MW). Hypothesis (not tested): in its own model the MPC burns stored energy to reach
+the terminal dead zone.</p></li>
+<li><p><strong>Change of item 7 (chosen, 2026-11-06, written BEFORE any run of the new MPC):</strong> the MPC uses a LOSSLESS SoC model (one
+signed P per battery, no efficiency inside the MPC); the plant keeps efficiency 0.95. Motivated ONLY by the relaxation
+artefact, not by any comparison with DPC (none existed). Cost: the MPC’s SoC model differs from the plant by at most
+0.0043 SoC per step. The earlier pilots are superseded.</p></li>
+<li><p>Pre-specified pass criteria for the lossless pilot: optimal on ≥ 99.9% of steps per regime; no charge/discharge split
+in the model; a one-step SoC mismatch above 0.0043 + 1e-4 counts as a failure. If all pass, the full run starts.</p></li>
+<li><p>Oracle plan (chosen, 2026-11-06): exact future load and PV for all 144 steps (last known value held where a future step
+is invalid; share reported). Every 4th full validation day (28 days), SoC reset to 0.5 each day; on exactly these days:
+oracle MPC, persistence MPC, DPC seeds 0/1/2, both droops, no battery.</p></li>
+</ul>
+</section>
+<section id="m4-result-2026-11-06-07-one-commit-no-resume-as-it-is">
+<h2>M4 result (2026-11-06/07, one commit, no resume), as it is<a class="headerlink" href="#m4-result-2026-11-06-07-one-commit-no-resume-as-it-is" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Lossless pilot: all criteria pass in both regimes.</p></li>
+<li><p>Full persistence MPC on all 48,217 validation steps per regime: optimal on every step; safety layer changed nothing;
+median solve 0.34-0.37 s per step.
+Objective: MPC 0.00529 (×0.7) and 0.01296 (×1.0); DPC seeds 0/1/2 0.00497-0.00498 and 0.01241-0.01242; tuned droop
+0.00808 and 0.01619. <strong>On this objective the persistence MPC is worse than DPC in both regimes.</strong>
+VVR: MPC 0 (×0.7) and 0.039% = 19 steps (×1.0); DPC 0 in both.</p></li>
+<li><p>Oracle subset (28 days): oracle MPC (UPPER BOUND) 0.00379 / 0.01078; DPC 0.00484-0.00486 / 0.01251-0.01253; persistence
+MPC 0.00511 / 0.01296; tuned droop 0.00827 / 0.01646; original droop 0.01022 / 0.02001; no battery 0.01528 / 0.20154.</p></li>
+<li><p>Reading, descriptive only: on validation DPC lies between the persistence MPC and the oracle bound. One network, one
+untuned convex MPC, validation only.</p></li>
+</ul>
+</section>
+<section id="m3-ablations-protocol-written-2026-11-07-before-any-ablation-run">
+<h2>M3 ablations (protocol written 2026-11-07, BEFORE any ablation run)<a class="headerlink" href="#m3-ablations-protocol-written-2026-11-07-before-any-ablation-run" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Base configuration for every variant: exactly as the selected candidate (H = 144, dead-zone terminal term, 1000 steps,
+…). Degradation and C-rate off in all variants. The selected candidate (penalties + projection) is the reference.</p></li>
+<li><p>penalty-only-no-deg: the WHOLE safety layer is removed; the loss keeps the soft SoC and voltage penalties.
+projection-only: the soft SoC and voltage penalties are removed; the safety layer stays.
+no-constraints-no-deg: both removed.</p></li>
+<li><p>Without the safety layer the policy output is used as it is. The MLP output layer is linear, so P, Q and SoC are not
+bounded. Nothing is clipped. Steps breaking the inverter or SoC limits are reported as physically impossible operation.</p></li>
+<li><p>Seeds 0, 1, 2 for each variant (9 runs). Same stability rule. Validation only; all steps; RQ2 metrics not computed.</p></li>
+<li><p>Decisions D1-D5 (options proposed and chosen on 2026-11-07):
+D1. penalty-only gets a soft penalty on inverter-limit excess, relu(|P| − P_max)² + relu(|Q| − Q_max)² + relu(S − S_max)²,
+weight 1000 like the voltage penalty. <strong>This is a change from the original code</strong>: without it, “penalty-only” would
+not penalise the constraints that the projection enforces, and the ablation would mostly measure unlimited reactive
+power. It enters the loss only in penalty-only and is not part of the common comparison objective.
+D2. Model selection by each variant’s own training objective; the common objective is reported for comparison.
+D3. The terminal dead-zone term is kept in all variants.
+D4. A 200-step pilot of each variant before the full runs.
+D5. The ablations enter the future test run as secondary results, all 3 seeds.</p></li>
+<li><p>Pilots (200 steps, seed 0): all stable.</p></li>
+</ul>
+</section>
+<section id="ablation-result-2026-11-07-one-commit-no-resume-as-it-is">
+<h2>Ablation result (2026-11-07, one commit, no resume), as it is<a class="headerlink" href="#ablation-result-2026-11-07-one-commit-no-resume-as-it-is" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>All 9 runs stable; no truncated rerun.</p></li>
+<li><p>Common objective, median [min-max] over seeds, ×0.7 / ×1.0:
+selected 0.00497 [0.00497-0.00498] / 0.01241 [0.01241-0.01242];
+projection-only 0.00498 [0.00498-0.00500] / 0.01243 [0.01242-0.01243];
+penalty-only (D1) 0.00507 [0.00503-0.00508] / 0.01260 [0.01254-0.01262];
+no-constraints 0.00458 [0.00458-0.00460] / 0.00908 [0.00907-0.00910].</p></li>
+<li><p>Battery steps breaking an inverter limit (physically impossible): selected and projection-only 0; penalty-only 1.5% /
+14.3%; no-constraints 40.6% / 72.3% (battery 2 mean |Q| up to 0.88 Mvar against the 0.5 Mvar limit). The lower objective
+of no-constraints therefore comes from impossible operation and is NOT achievable performance.</p></li>
+<li><p>In all 9 runs: VVR 0, SoC always inside 10-90%, end-of-day SoC 0.29-0.36. Condition (a) fails descriptively in all 9.</p></li>
+<li><p>Reading, descriptive only: with the safety layer, removing the soft penalties changes almost nothing; without it, the D1
+penalty keeps violations small but not zero, and the policy without constraints exceeds the inverter rating on most steps.</p></li>
+</ul>
+</section>
+<section id="site-v1-decisions-s1-s8-options-proposed-and-chosen-2026-11-07">
+<h2>Site v1 (decisions S1-S8, options proposed and chosen, 2026-11-07)<a class="headerlink" href="#site-v1-decisions-s1-s8-options-proposed-and-chosen-2026-11-07" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Site v1 is built ONLY from existing validation results, labelled PRELIMINARY, with the test part stated as sealed.</p></li>
+<li><p>S1. The public repository is a new repository with one initial commit; the private working history stays private.</p></li>
+<li><p>S2. The working notes are not published; this file is their public version.</p></li>
+<li><p>S3. Jupyter Book; the landing page follows the order of the reference site; notebooks 01-07 read committed results only.</p></li>
+<li><p>S4. Licences: MIT for code, CC BY 4.0 for text and figures; the datasets keep their CC BY 4.0 licences and are cited.</p></li>
+<li><p>S5. No headline numbers in the page header until the test run.</p></li>
+<li><p>S6. Ablations are included if finished (they are).</p></li>
+<li><p>S7. Before publishing, two diagnostics are rerun at a clean commit.</p></li>
+<li><p>Done on 2026-11-07: the descriptive P and SoC diagnostics and the MPC overlap diagnostic were rerun at a clean commit
+(results/m3_exp2_diagnostics_rerun.json and results/m4_mpc_overlap_diagnostic_rerun.json). The first is numerically
+identical to the earlier run; the second differs by at most 1.2e-10 (solver rounding). The earlier files were made while
+the code differed from its commit; they are superseded and not published.</p></li>
+<li><p>S8. The repository and site go under the project’s own GitHub account.</p></li>
+</ul>
+</section>
+<section id="related-work">
+<h2>Related work<a class="headerlink" href="#related-work" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Safarzadeh Ravajiri, Drgoňa, Mehrtash, Hobbs (2026), “End-to-End Battery Dispatch with Exact Rainflow Degradation via
+Mixed-Integer DPC”, arXiv 2609.12968. Their work is single-battery price arbitrage with no network or voltage; this
+project is network-level voltage regulation with P and Q control. Degradation is a secondary term here, and no novelty is
+claimed there.</p></li>
+</ul>
+</section>
+<section id="open-questions">
+<h2>Open questions<a class="headerlink" href="#open-questions" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Degradation model (start simple: SoC / C-rate polynomial; rainflow as an extension).</p></li>
+<li><p>Deep reinforcement learning baseline.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="notebooks/07_ablations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">07 Ablations (degradation off)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="reproduce.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How to reproduce</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions-fixed-from-the-start">Conventions (fixed from the start)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-scenarios-chosen-before-any-data-or-controller-result">Load scenarios (chosen, before any data or controller result)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-data-decisions-chosen-after-seeing-option-tables">M2 data decisions (chosen, after seeing option tables)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rq2-wording-chosen-2026-11-04">RQ2 wording (chosen, 2026-11-04)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rq2-metrics-2026-11-04-before-any-controller-existed-definitions-option-proposed">RQ2 metrics (2026-11-04, before any controller existed; definitions: option proposed)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-assumptions-option-proposed-unless-marked-chosen">Data assumptions (option proposed unless marked “chosen”)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-design-2026-11-05-24-options-proposed-and-chosen">M3 design (2026-11-05; 24 options proposed and chosen)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#soc-penalty-selection-rule-written-2026-11-05-before-the-check-rule-chosen">SoC-penalty selection rule (written 2026-11-05, BEFORE the check; rule chosen)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documented-change-soc-physically-bounded-2026-11-05">Documented change: SoC physically bounded (2026-11-05)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-1-result-h-24-2026-11-05-as-it-is">Experiment 1 result (H = 24, 2026-11-05), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-2-pre-specified-2026-11-05-added-after-seeing-experiment-1">Experiment 2 (pre-specified 2026-11-05, ADDED AFTER seeing Experiment 1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-2-result-2026-11-06-as-it-is">Experiment 2 result (2026-11-06), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seed-reporting-rule-written-2026-11-06-before-seeds-1-and-2">Seed reporting rule (written 2026-11-06, BEFORE seeds 1 and 2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seed-result-2026-11-06-as-it-is">Seed result (2026-11-06), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-from-proposal-eq-16">Difference from proposal eq. (16)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volt-var-droop-tuning-protocol-written-2026-11-06-before-the-run-confirmed">Volt-VAR droop tuning (protocol written 2026-11-06, BEFORE the run; confirmed)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seeds-in-later-comparisons-chosen-2026-11-06-before-any-m4-result">Seeds in later comparisons (chosen, 2026-11-06, BEFORE any M4 result)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-plan-online-mpc-baseline-all-options-proposed-and-chosen-2026-11-06-before-any-m4-code">M4 plan: online MPC baseline (all options proposed and chosen, 2026-11-06, before any M4 code)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-pilots-and-the-change-of-item-7-2026-11-06">MPC pilots and the change of item 7 (2026-11-06)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-result-2026-11-06-07-one-commit-no-resume-as-it-is">M4 result (2026-11-06/07, one commit, no resume), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-ablations-protocol-written-2026-11-07-before-any-ablation-run">M3 ablations (protocol written 2026-11-07, BEFORE any ablation run)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ablation-result-2026-11-07-one-commit-no-resume-as-it-is">Ablation result (2026-11-07, one commit, no resume), as it is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#site-v1-decisions-s1-s8-options-proposed-and-chosen-2026-11-07">Site v1 (decisions S1-S8, options proposed and chosen, 2026-11-07)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-work">Related work</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-questions">Open questions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javid Alizade
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,699 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid &#8212; DPC for battery voltage regulation (preliminary)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/tables.css?v=a1794d84" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="01 Network and differentiable solver" href="notebooks/01_network_and_solver.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DPC for battery voltage regulation (preliminary)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Results on the validation part (preliminary)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_network_and_solver.html">01 Network and differentiable solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_data_pipeline.html">02 Data pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_dpc_training_and_selection.html">03 DPC training and the pre-specified selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_seeds_and_droop.html">04 Seeds of the selected policy, and the tuned Volt-VAR droop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_mpc_baseline.html">05 Online MPC baseline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/06_oracle_subset.html">06 Oracle subset: all controllers on the same 28 days</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/07_ablations.html">07 Ablations (degradation off)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project record</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="decisions.html">Decisions and protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproduce.html">How to reproduce</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method">Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-validation-part-preliminary">Results (validation part, preliminary)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citation-and-license">Citation and license</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="differentiable-predictive-control-of-battery-storage-for-voltage-regulation-in-a-distribution-grid">
+<h1>Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid<a class="headerlink" href="#differentiable-predictive-control-of-battery-storage-for-voltage-regulation-in-a-distribution-grid" title="Link to this heading">#</a></h1>
+<p><strong>Javid Alizade</strong> (M.Sc. student, Istanbul Gedik University)</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Preliminary, validation part only. Test part sealed, not yet evaluated.</strong></p>
+</div>
+<p><a class="reference internal" href="#results">Results</a> · <a class="reference internal" href="decisions.html"><span class="std std-doc">Decisions and protocols</span></a> · <a class="reference internal" href="reproduce.html"><span class="std std-doc">How to reproduce</span></a> ·
+Code repository: <em>not published yet</em></p>
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">#</a></h2>
+<p>Rooftop solar can change its output within minutes. In a distribution feeder, fast changes in solar power move bus
+voltages towards or beyond the ±5% limits. Battery inverters can help, through both active power (P) and reactive power
+(Q), but deciding their set-points every few minutes with an online optimiser can be slow on large feeders.
+This project studies <strong>Differentiable Predictive Control (DPC)</strong>: a small neural-network policy is trained offline by
+backpropagating through a differentiable model of the grid (DistFlow power flow), the batteries and a safety layer. Once
+trained, the policy needs only one forward pass per control step.
+The project is an open, reproducible implementation on the IEEE 33-bus feeder with two batteries and four PV plants, using
+real, openly licensed solar and load measurements. It compares DPC with no battery action, a local Volt-VAR droop rule
+and an online model predictive controller (MPC). The results shown here are <strong>preliminary</strong>: they come from the
+validation part of the data, and the test part has not been opened.</p>
+</section>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Grid.</strong> IEEE 33-bus radial feeder (Baran and Wu, 1989), per-unit system, bus 0 is the substation. Two load levels are
+always reported: a base scenario with the load scaled by 0.7 and a stress scenario at the standard load (×1.0).</p></li>
+<li><p><strong>Disturbances.</strong> 3.9 MW of PV at buses 14, 17, 29 and 32 and time-varying load at every bus, at 5-minute resolution.</p></li>
+<li><p><strong>Actuators.</strong> Two batteries at buses 17 and 32, 0.5 MW / 1 MWh each, which can set both P and Q (inverter rating
+0.5 MVA). A positive P means discharge, so the net consumption at a bus is load − solar − P.</p></li>
+<li><p><strong>Goal.</strong> Keep all bus voltages inside 0.95-1.05 pu, and close to 1 pu, with low network losses and modest battery use,
+in particular around extreme solar ramps.</p></li>
+<li><p><strong>Research questions</strong> (from the proposal; RQ2 reworded, see the caveats):</p>
+<ul>
+<li><p>RQ1. How can nonlinear DistFlow power flow, inverter constraints and battery dynamics be represented as
+differentiable computation graphs, and how do gradients propagate through the closed loop over a finite horizon?</p></li>
+<li><p>RQ2. To what extent can physics-informed penalties combined with a differentiable feasibility projection <strong>improve
+voltage margin and reduce voltage violations</strong> during extreme solar-ramp events, compared with black-box deep
+reinforcement learning and online MPC?</p></li>
+<li><p>RQ3. How effectively can DPC include battery stress and degradation costs in policy training while keeping voltage
+regulation? <em>(Not started; see <a class="reference internal" href="#next-steps">Next steps</a>.)</em></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="method">
+<h2>Method<a class="headerlink" href="#method" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Differentiable plant.</strong> Branch-flow DistFlow solved by a fixed number of backward/forward sweeps, written in PyTorch
+so that gradients pass through it (8 sweeps in training, 15 in evaluation). It is checked against pandapower.</p></li>
+<li><p><strong>Policy.</strong> A multilayer perceptron (2 hidden layers of 128, Tanh) maps the current state to P and Q of both batteries.
+Inputs: state of charge (SoC), voltages at the battery buses on the previous step, total load, PV at the four PV buses,
+the latest solar ramp rate, the previous action and the time of day. <strong>No forecast</strong> of future load or solar is given.</p></li>
+<li><p><strong>Safety layer.</strong> The raw action is limited in three steps: P is limited so that SoC stays in 10-90% within the step,
+then P and Q are clipped to their limits, then (P, Q) is scaled radially onto the 0.5 MVA circle if needed. The layer is
+differentiable. It enforces battery and inverter limits only; <strong>it does not guarantee voltage limits</strong>, which are
+penalised in the loss and measured afterwards.</p></li>
+<li><p><strong>Training loss.</strong> The terms of the proposal’s eq. (16): network losses, voltage deviation from 1 pu, control effort, a
+soft SoC penalty and a soft voltage-limit penalty, plus a terminal SoC term with a 30-70% dead zone. Degradation and
+C-rate terms are off. The policy is rolled out over a horizon of 144 steps (12 h) and trained by backpropagation
+through time.</p></li>
+<li><p><strong>Selection and evaluation.</strong> Candidates were compared by pre-specified rules on the validation part only, in a
+continuous closed loop over all validation steps. Every rule was written down, with its date, before the run it judged
+(<a class="reference internal" href="decisions.html"><span class="std std-doc">Decisions</span></a>).</p></li>
+<li><p><strong>References.</strong> No battery action; a Volt-VAR droop rule (original setting, and a setting tuned on the training part);
+an online MPC with a convex LinDistFlow model and a persistence forecast; and an oracle MPC with exact future data, as an
+upper bound.</p></li>
+</ol>
+</section>
+<section id="data">
+<h2>Data<a class="headerlink" href="#data" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Solar.</strong> Visser et al. (2022), rooftop PV measurements from Utrecht, the Netherlands, Zenodo,
+<a class="reference external" href="https://doi.org/10.5281/zenodo.10953360">doi:10.5281/zenodo.10953360</a>, CC BY 4.0.</p></li>
+<li><p><strong>Load.</strong> Trindade (2015), ElectricityLoadDiagrams20112014, UCI Machine Learning Repository,
+<a class="reference external" href="https://doi.org/10.24432/C58C86">doi:10.24432/C58C86</a>, CC BY 4.0.</p></li>
+<li><p><strong>Split by time, no overlap.</strong> Training: 18 months, validation: 6 months, test: 12 months. Solar and load years are paired
+by calendar, so they <strong>share no real weather</strong>. Gaps in the solar data are never filled; windows with missing data are
+skipped.</p></li>
+<li><p><strong>Extreme ramp.</strong> A step whose absolute change of total PV is in the top 1% of the training part.</p></li>
+</ul>
+<p>Details: <a class="reference internal" href="notebooks/02_data_pipeline.html"><span class="std std-doc">notebook 02</span></a>.</p>
+</section>
+<section id="results-validation-part-preliminary">
+<span id="results"></span><h2>Results (validation part, preliminary)<a class="headerlink" href="#results-validation-part-preliminary" title="Link to this heading">#</a></h2>
+<div class="warning admonition">
+<p class="admonition-title">Read these results with the following caveats</p>
+<ul class="simple">
+<li><p><strong>Preliminary, validation part only.</strong> The test part is sealed and has not been evaluated. Every number comes from one
+network (IEEE 33-bus) and from the validation part, which was also used to select the DPC policy, so the DPC numbers are
+optimistically biased.</p></li>
+<li><p><strong>Data.</strong> Solar (Utrecht, 2014-2017) and load (Portugal, 2012-2014) are real measurements, but they come from different
+places and years and share no real weather. The PV size of 3.9 MW was chosen after a no-control check on the training part
+only (at 2.6 MW no training step exceeded 1.05 pu).</p></li>
+<li><p><strong>RQ2 was reworded</strong> on 2026-11-04, before any controller existed, because extreme ramps and voltage violations rarely
+coincide in this data (see <a class="reference internal" href="decisions.html"><span class="doc">Decisions</span></a>).</p></li>
+<li><p><strong>Training bias.</strong> 30% of the training windows contain an extreme solar ramp.</p></li>
+<li><p><strong>Differences from the proposal’s eq. (16).</strong> Degradation and C-rate terms are off in every variant (“degradation off”).
+A terminal SoC term with a 30-70% dead zone is added and is not in eq. (16).</p></li>
+<li><p><strong>The safety layer goes beyond the proposal</strong>: it also limits P by the stored energy (SoC kept within 10-90%), not only by
+the inverter limits of eqs. (4)-(7). It does not guarantee voltage feasibility.</p></li>
+<li><p><strong>Active power use is marginal and not seed-robust.</strong> Voltage is regulated mostly with reactive power Q; the selected
+policy passes the pre-specified “P is used” threshold on 1 of 3 seeds.</p></li>
+<li><p><strong>The MPC baseline</strong> is a convex LinDistFlow MPC with soft voltage limits and a lossless SoC model, not the AC-OPF MPC
+named in the proposal, and it was not tuned. Speed comparisons are therefore against a convex MPC. The oracle MPC uses
+exact future data and is an upper bound, not a real controller.</p></li>
+<li><p><strong>Ablations.</strong> “penalty-only” includes a soft inverter-limit penalty that was added on purpose (decision D1). Variants
+without the safety layer can break the inverter limits; such steps are physically impossible operation and are reported
+as shares, not as achievable performance.</p></li>
+<li><p><strong>Corrections to the proposal</strong>: a discharging battery enters the net load with a minus sign, and the left side of
+eq. (9) is P, not 2P. Results computed before the SoC energy limit was added (2026-11-05) are superseded and not shown.</p></li>
+</ul>
+</div>
+<p>The results are in seven notebooks. Each one only reads saved result files from the repository and draws tables and
+figures from them. Nothing is trained or optimised while the site is built.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Notebook</p></th>
+<th class="head"><p>What it shows</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="notebooks/01_network_and_solver.html"><span class="std std-doc">01 Network and solver</span></a></p></td>
+<td><p>The 33-bus model and the check of the differentiable solver against pandapower</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="notebooks/02_data_pipeline.html"><span class="std std-doc">02 Data pipeline</span></a></p></td>
+<td><p>Solar and load data, the split, ramp rates, extreme events, voltages without control</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="notebooks/03_dpc_training_and_selection.html"><span class="std std-doc">03 DPC training and selection</span></a></p></td>
+<td><p>Experiments 1 and 2, the pre-specified selection rule and its outcome</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="notebooks/04_seeds_and_droop.html"><span class="std std-doc">04 Seeds and droop</span></a></p></td>
+<td><p>Seeds 0, 1 and 2 of the selected policy, and the Volt-VAR droop tuned on training data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="notebooks/05_mpc_baseline.html"><span class="std std-doc">05 MPC baseline</span></a></p></td>
+<td><p>Pilots, the overlap diagnostic, and the full persistence MPC on validation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="notebooks/06_oracle_subset.html"><span class="std std-doc">06 Oracle subset</span></a></p></td>
+<td><p>All controllers on 28 validation days, including the oracle upper bound</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="notebooks/07_ablations.html"><span class="std std-doc">07 Ablations</span></a></p></td>
+<td><p>Removing the soft penalties, the safety layer, or both (degradation off)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="next-steps">
+<span id="id1"></span><h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Sealed test run.</strong> One run on the test part, with a protocol written down before it, reporting both load scenarios
+and all seeds. It has not been done.</p></li>
+<li><p><strong>RQ2 metrics</strong> (worst voltage margin, maximum deviation and time to the safe band around extreme ramps) are defined and
+implemented, but have not yet been computed for any controller.</p></li>
+<li><p><strong>Open:</strong> a deep reinforcement learning baseline and the degradation extension (RQ3). Neither has been started.</p></li>
+</ul>
+</section>
+<section id="reproducibility">
+<h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Link to this heading">#</a></h2>
+<p>All code, configurations and result files are versioned. Every run records its configuration, random seed and git commit,
+and whether the code differed from that commit. The data are downloaded from their original sources with checksums.
+See <a class="reference internal" href="reproduce.html"><span class="std std-doc">How to reproduce</span></a>.</p>
+</section>
+<section id="citation-and-license">
+<h2>Citation and license<a class="headerlink" href="#citation-and-license" title="Link to this heading">#</a></h2>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">alizade2026dpcbess</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Alizade, Javid}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Differentiable Predictive Control of Battery Storage</span>
+<span class="s">            for Voltage Regulation in a Distribution Grid</span>
+<span class="s">            (preliminary)}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">note</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{Preliminary results on the validation part;</span>
+<span class="s">            test part not yet evaluated}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code: MIT License. Text and figures: CC BY 4.0. The datasets keep their own licences (CC BY 4.0) and are cited above.</p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="notebooks/01_network_and_solver.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">01 Network and differentiable solver</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract">Abstract</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem">Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method">Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-validation-part-preliminary">Results (validation part, preliminary)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citation-and-license">Citation and license</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javid Alizade
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

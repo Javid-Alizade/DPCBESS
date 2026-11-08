@@ -1,0 +1,1048 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>02 Data pipeline &#8212; DPC for battery voltage regulation (preliminary)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tables.css?v=a1794d84" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/02_data_pipeline';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="03 DPC training and the pre-specified selection" href="03_dpc_training_and_selection.html" />
+    <link rel="prev" title="01 Network and differentiable solver" href="01_network_and_solver.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DPC for battery voltage regulation (preliminary)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Results on the validation part (preliminary)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_network_and_solver.html">01 Network and differentiable solver</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">02 Data pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_dpc_training_and_selection.html">03 DPC training and the pre-specified selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_seeds_and_droop.html">04 Seeds of the selected policy, and the tuned Volt-VAR droop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mpc_baseline.html">05 Online MPC baseline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_oracle_subset.html">06 Oracle subset: all controllers on the same 28 days</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_ablations.html">07 Ablations (degradation off)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project record</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../decisions.html">Decisions and protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/02_data_pipeline.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>02 Data pipeline</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split">Split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-solar-processing">Load and solar processing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ramp-rate-and-extreme-events">Ramp rate and extreme events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#voltages-without-control-training-part">Voltages without control (training part)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-extreme-ramps-and-violations-coincide-training-part-no-control">Do extreme ramps and violations coincide? (training part, no control)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rq2-metrics-without-a-controller-training-part">RQ2 metrics without a controller (training part)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-pipeline">
+<h1>02 Data pipeline<a class="headerlink" href="#data-pipeline" title="Link to this heading">#</a></h1>
+<p>Solar and load are real, openly licensed measurements at 5-minute resolution:</p>
+<ul class="simple">
+<li><p><strong>Solar:</strong> rooftop PV in Utrecht, the Netherlands (Visser et al., 2022, doi:10.5281/zenodo.10953360, CC BY 4.0).</p></li>
+<li><p><strong>Load:</strong> ElectricityLoadDiagrams20112014 (Trindade, 2015, UCI, doi:10.24432/C58C86, CC BY 4.0).</p></li>
+</ul>
+<p>The two sources come from different places and years, so <strong>solar and load share no real weather</strong>. Gaps are never filled; a window that touches missing data is skipped. The time split has no overlap.
+Only the training and validation parts are shown here; the test part is sealed.</p>
+<div class="warning admonition">
+<p class="admonition-title">Read these results with the following caveats</p>
+<ul class="simple">
+<li><p><strong>Preliminary, validation part only.</strong> The test part is sealed and has not been evaluated. Every number comes from one
+network (IEEE 33-bus) and from the validation part, which was also used to select the DPC policy, so the DPC numbers are
+optimistically biased.</p></li>
+<li><p><strong>Data.</strong> Solar (Utrecht, 2014-2017) and load (Portugal, 2012-2014) are real measurements, but they come from different
+places and years and share no real weather. The PV size of 3.9 MW was chosen after a no-control check on the training part
+only (at 2.6 MW no training step exceeded 1.05 pu).</p></li>
+<li><p><strong>RQ2 was reworded</strong> on 2026-11-04, before any controller existed, because extreme ramps and voltage violations rarely
+coincide in this data (see <a class="reference internal" href="../decisions.html"><span class="doc">Decisions</span></a>).</p></li>
+<li><p><strong>Training bias.</strong> 30% of the training windows contain an extreme solar ramp.</p></li>
+<li><p><strong>Differences from the proposal’s eq. (16).</strong> Degradation and C-rate terms are off in every variant (“degradation off”).
+A terminal SoC term with a 30-70% dead zone is added and is not in eq. (16).</p></li>
+<li><p><strong>The safety layer goes beyond the proposal</strong>: it also limits P by the stored energy (SoC kept within 10-90%), not only by
+the inverter limits of eqs. (4)-(7). It does not guarantee voltage feasibility.</p></li>
+<li><p><strong>Active power use is marginal and not seed-robust.</strong> Voltage is regulated mostly with reactive power Q; the selected
+policy passes the pre-specified “P is used” threshold on 1 of 3 seeds.</p></li>
+<li><p><strong>The MPC baseline</strong> is a convex LinDistFlow MPC with soft voltage limits and a lossless SoC model, not the AC-OPF MPC
+named in the proposal, and it was not tuned. Speed comparisons are therefore against a convex MPC. The oracle MPC uses
+exact future data and is an upper bound, not a real controller.</p></li>
+<li><p><strong>Ablations.</strong> “penalty-only” includes a soft inverter-limit penalty that was added on purpose (decision D1). Variants
+without the safety layer can break the inverter limits; such steps are physically impossible operation and are reported
+as shares, not as achievable performance.</p></li>
+<li><p><strong>Corrections to the proposal</strong>: a discharging battery enters the net load with a minus sign, and the left side of
+eq. (9) is P, not 2P. Results computed before the SoC energy limit was added (2026-11-05) are superseded and not shown.</p></li>
+</ul>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m2_summary.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">"m2_summary.json"</span><span class="p">)))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"&gt; "</span> <span class="o">+</span> <span class="n">m2</span><span class="p">[</span><span class="s2">"note"</span><span class="p">]))</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="s2">"config"</span><span class="p">][</span><span class="s2">"time"</span><span class="p">]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">span</span><span class="p">(</span><span class="n">split</span><span class="p">):</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">split</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">split</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">off</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="n">t</span><span class="p">[</span><span class="s2">"solar_year_offset"</span><span class="p">][</span><span class="n">split</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"load from </span><span class="si">{</span><span class="n">start</span><span class="si">:</span><span class="s2">%Y-%m-%d</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">end</span><span class="si">:</span><span class="s2">%Y-%m-%d</span><span class="si">}</span><span class="s2"> and solar from </span><span class="si">{</span><span class="n">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">off</span><span class="si">:</span><span class="s2">%Y-%m-%d</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">off</span><span class="si">:</span><span class="s2">%Y-%m-%d</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"Solar and load are paired by month and day, while the years differ: training uses "</span> <span class="o">+</span> <span class="n">span</span><span class="p">(</span><span class="s2">"train"</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="s2">"; validation uses "</span> <span class="o">+</span> <span class="n">span</span><span class="p">(</span><span class="s2">"val"</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m2_summary.json</span></code></p>
+<blockquote>
+<div><p>Solar and load come from different countries and years and share no real weather.</p>
+</div></blockquote>
+<p>Solar and load are paired by month and day, while the years differ: training uses load from 2012-01-01 to 2013-06-30 and solar from 2014-01-01 to 2015-06-30; validation uses load from 2013-07-01 to 2013-12-31 and solar from 2016-07-01 to 2016-12-31.</p>
+</div>
+</div>
+<section id="split">
+<h2>Split<a class="headerlink" href="#split" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">split</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"train"</span><span class="p">,</span> <span class="s2">"training"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"val"</span><span class="p">,</span> <span class="s2">"validation"</span><span class="p">)]:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="s2">"per_split"</span><span class="p">][</span><span class="n">split</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"part"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"scenario clock"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'first_step'</span><span class="p">]</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'last_step'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                 <span class="s2">"solar data"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'solar_first'</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'solar_last'</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'steps'</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                 <span class="s2">"valid share"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s2">"valid_share"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">"full windows"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'full_windows'</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                 <span class="s2">"feeder load peak at ×1.0 (MW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s2">"feeder_load_peak_mw_at_x1"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+                 <span class="s2">"mean (MW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s2">"feeder_load_mean_mw_at_x1"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">"extreme-ramp steps"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'extreme_steps'</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"part"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>part</th>
+      <th>scenario clock</th>
+      <th>solar data</th>
+      <th>steps</th>
+      <th>valid share</th>
+      <th>full windows</th>
+      <th>feeder load peak at ×1.0 (MW)</th>
+      <th>mean (MW)</th>
+      <th>extreme-ramp steps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>training</th>
+      <td>2012-01-01 00:05:00 → 2013-07-01 00:00:00</td>
+      <td>2013-12-31 → 2015-06-30</td>
+      <td>157,248</td>
+      <td>99.6%</td>
+      <td>155,414</td>
+      <td>3.715</td>
+      <td>2.096</td>
+      <td>1,567</td>
+    </tr>
+    <tr>
+      <th>validation</th>
+      <td>2013-07-01 00:05:00 → 2014-01-01 00:00:00</td>
+      <td>2016-06-30 → 2016-12-31</td>
+      <td>52,992</td>
+      <td>91.0%</td>
+      <td>44,937</td>
+      <td>3.815</td>
+      <td>2.199</td>
+      <td>362</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="load-and-solar-processing">
+<h2>Load and solar processing<a class="headerlink" href="#load-and-solar-processing" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="s2">"load"</span><span class="p">],</span> <span class="n">m2</span><span class="p">[</span><span class="s2">"solar"</span><span class="p">]</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"load clients kept / total"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="s1">'clients_used'</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="s1">'clients_total'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"bus peak / case33bw peak on training (min-max)"</span><span class="p">,</span>
+     <span class="s2">"value"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="s1">'train_bus_peak_over_case33bw_min'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="s1">'train_bus_peak_over_case33bw_max'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"largest client share within a bus (median, max)"</span><span class="p">,</span>
+     <span class="s2">"value"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="s1">'largest_client_share_within_a_bus_median'</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="s1">'largest_client_share_within_a_bus_max'</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"PV systems kept / total"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">S</span><span class="p">[</span><span class="s1">'systems_usable'</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">S</span><span class="p">[</span><span class="s1">'systems_total'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"PV systems per PV bus"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">S</span><span class="p">[</span><span class="s2">"systems_per_bus"</span><span class="p">]))},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"training total PV max / mean (MW)"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="s1">'train_max_total_mw'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="s1">'train_mean_total_mw'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+<span class="p">]</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"item"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>item</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>load clients kept / total</th>
+      <td>313 / 370</td>
+    </tr>
+    <tr>
+      <th>bus peak / case33bw peak on training (min-max)</th>
+      <td>0.85 - 1.87</td>
+    </tr>
+    <tr>
+      <th>largest client share within a bus (median, max)</th>
+      <td>39%, 82%</td>
+    </tr>
+    <tr>
+      <th>PV systems kept / total</th>
+      <td>121 / 175</td>
+    </tr>
+    <tr>
+      <th>PV systems per PV bus</th>
+      <td>31, 30, 30, 30</td>
+    </tr>
+    <tr>
+      <th>training total PV max / mean (MW)</th>
+      <td>3.335 / 0.470</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="ramp-rate-and-extreme-events">
+<h2>Ramp rate and extreme events<a class="headerlink" href="#ramp-rate-and-extreme-events" title="Link to this heading">#</a></h2>
+<p>r_t is the change of total feeder PV per minute. A step is “extreme” if |r_t| is at least the 99th percentile of all valid
+training steps (night included), so about 2% of daytime steps are extreme.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="s2">"ramp"</span><span class="p">]</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m2_ramp_check.json"</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"threshold (MW per minute), training part"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="s2">"threshold_mw_per_min_from_train"</span><span class="p">],</span> <span class="mi">4</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"same threshold as </span><span class="si">% o</span><span class="s2">f PV capacity per 5 min"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="s1">'threshold_in_percent_of_pv_capacity_per_5_min'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">%"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"largest |r_t| on training (MW per minute)"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="s2">"train_max_abs_ramp_mw_per_min"</span><span class="p">],</span> <span class="mi">3</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"extreme share of daytime steps (training)"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">rc</span><span class="p">[</span><span class="s2">"extreme_share_of_daytime_steps"</span><span class="p">])},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"falling ramps among extreme steps"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">rc</span><span class="p">[</span><span class="s2">"falling_share_of_extreme_steps"</span><span class="p">],</span> <span class="mi">1</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"extreme steps where the set of reporting PV systems changed"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">rc</span><span class="p">[</span><span class="s2">"reporting_set_changes_share_extreme_steps"</span><span class="p">],</span> <span class="mi">1</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s2">"item"</span><span class="p">:</span> <span class="s2">"of these, still extreme with the same set of systems"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">rc</span><span class="p">[</span><span class="s2">"extreme_steps_also_extreme_with_same_set"</span><span class="p">],</span> <span class="mi">1</span><span class="p">)},</span>
+<span class="p">]</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"item"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>item</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>threshold (MW per minute), training part</th>
+      <td>0.0467</td>
+    </tr>
+    <tr>
+      <th>same threshold as % of PV capacity per 5 min</th>
+      <td>5.99%</td>
+    </tr>
+    <tr>
+      <th>largest |r_t| on training (MW per minute)</th>
+      <td>0.170</td>
+    </tr>
+    <tr>
+      <th>extreme share of daytime steps (training)</th>
+      <td>1.97%</td>
+    </tr>
+    <tr>
+      <th>falling ramps among extreme steps</th>
+      <td>50.5%</td>
+    </tr>
+    <tr>
+      <th>extreme steps where the set of reporting PV systems changed</th>
+      <td>60.9%</td>
+    </tr>
+    <tr>
+      <th>of these, still extreme with the same set of systems</th>
+      <td>96.2%</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="voltages-without-control-training-part">
+<h2>Voltages without control (training part)<a class="headerlink" href="#voltages-without-control-training-part" title="Link to this heading">#</a></h2>
+<p>The PV size of 3.9 MW was chosen with this kind of no-control check on the training part only, before any controller
+existed: at 2.6 MW no training step exceeded 1.05 pu.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">m2</span><span class="p">[</span><span class="s2">"train_no_control_check"</span><span class="p">]:</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"load scale"</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">"load_scale"</span><span class="p">],</span> <span class="s2">"steps"</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">"steps_checked"</span><span class="p">],</span> <span class="s2">"V min (pu)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"v_min"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
+                 <span class="s2">"V max (pu)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"v_max"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">"steps with a bus &lt; 0.95"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"share_of_steps_with_any_bus_below_0.95"</span><span class="p">]),</span>
+                 <span class="s2">"steps with a bus &gt; 1.05"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"share_of_steps_with_any_bus_above_1.05"</span><span class="p">])})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"load scale"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>load scale</th>
+      <th>steps</th>
+      <th>V min (pu)</th>
+      <th>V max (pu)</th>
+      <th>steps with a bus &lt; 0.95</th>
+      <th>steps with a bus &gt; 1.05</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0.7</th>
+      <td>26116</td>
+      <td>0.9416</td>
+      <td>1.0768</td>
+      <td>0.41%</td>
+      <td>2.84%</td>
+    </tr>
+    <tr>
+      <th>1.0</th>
+      <td>26116</td>
+      <td>0.9144</td>
+      <td>1.0627</td>
+      <td>23.29%</td>
+      <td>0.56%</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="do-extreme-ramps-and-violations-coincide-training-part-no-control">
+<h2>Do extreme ramps and violations coincide? (training part, no control)<a class="headerlink" href="#do-extreme-ramps-and-violations-coincide-training-part-no-control" title="Link to this heading">#</a></h2>
+<p>This check is why RQ2 was reworded on 2026-11-04 to “improve voltage margin and reduce voltage violations”.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rq</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m2_rq2_check.json"</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">rq</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">"requested"</span><span class="p">][</span><span class="s2">"violation_among_extreme_steps"</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">"for_comparison"</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">"events"</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"regime"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"extreme steps with a violation"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="s1">'count'</span><span class="p">]</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="s1">'of'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s1">'share'</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
+                 <span class="s2">"daytime steps with a violation"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"violation_among_daytime_steps"</span><span class="p">][</span><span class="s2">"share"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"days with an extreme step"</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s2">"days_with_extreme_step"</span><span class="p">],</span>
+                 <span class="s2">"of which with a violation at it"</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s2">"days_with_extreme_step_and_violation_at_it"</span><span class="p">]})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"regime"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>regime</th>
+      <th>extreme steps with a violation</th>
+      <th>daytime steps with a violation</th>
+      <th>days with an extreme step</th>
+      <th>of which with a violation at it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>base (load ×0.7)</th>
+      <td>90 of 1567 (5.7%)</td>
+      <td>6.0%</td>
+      <td>287</td>
+      <td>43</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>25 of 1567 (1.6%)</td>
+      <td>20.4%</td>
+      <td>287</td>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="rq2-metrics-without-a-controller-training-part">
+<h2>RQ2 metrics without a controller (training part)<a class="headerlink" href="#rq2-metrics-without-a-controller-training-part" title="Link to this heading">#</a></h2>
+<p>The RQ2 metrics (defined on 2026-11-04, before any controller existed) are shown here only for the no-control case on the
+training part, as context. They have not been computed for any controller.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m2_margin_baseline.json"</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">mb</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"primary_over_ramp_windows"</span><span class="p">]</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="n">mb</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"secondary_violations_at_extreme_step"</span><span class="p">]</span>
+    <span class="n">ci</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'mean'</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'mean_ci'</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'mean_ci'</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2">]"</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"regime"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"windows used (excluded)"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'windows_used'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">'windows_excluded_incomplete'</span><span class="p">]</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
+                 <span class="s2">"worst margin, mean [95% CI] (pu)"</span><span class="p">:</span> <span class="n">ci</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s2">"worst_margin_pu"</span><span class="p">]),</span>
+                 <span class="s2">"max deviation, mean [95% CI] (pu)"</span><span class="p">:</span> <span class="n">ci</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s2">"max_deviation_pu"</span><span class="p">]),</span>
+                 <span class="s2">"minutes to safe band, mean [95% CI]"</span><span class="p">:</span> <span class="n">ci</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s2">"minutes_to_safe_band"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"censored share"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s2">"censored_share_never_inside_in_window"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"violations at the extreme step"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sec</span><span class="p">[</span><span class="s1">'steps'</span><span class="p">]</span><span class="si">}</span><span class="s2"> steps, </span><span class="si">{</span><span class="n">sec</span><span class="p">[</span><span class="s1">'distinct_days_with_violation'</span><span class="p">]</span><span class="si">}</span><span class="s2"> days"</span><span class="p">})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"regime"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>regime</th>
+      <th>windows used (excluded)</th>
+      <th>worst margin, mean [95% CI] (pu)</th>
+      <th>max deviation, mean [95% CI] (pu)</th>
+      <th>minutes to safe band, mean [95% CI]</th>
+      <th>censored share</th>
+      <th>violations at the extreme step</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>base (load ×0.7)</th>
+      <td>1562 (5)</td>
+      <td>0.0141 [0.0126, 0.0157]</td>
+      <td>0.0359 [0.0343, 0.0374]</td>
+      <td>5.0 [3.8, 6.4]</td>
+      <td>5.1%</td>
+      <td>90 steps, 43 days</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>1562 (5)</td>
+      <td>0.0152 [0.0141, 0.0164]</td>
+      <td>0.0348 [0.0336, 0.0359]</td>
+      <td>2.2 [1.6, 2.8]</td>
+      <td>2.2%</td>
+      <td>25 steps, 19 days</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_network_and_solver.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">01 Network and differentiable solver</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_dpc_training_and_selection.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">03 DPC training and the pre-specified selection</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split">Split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-solar-processing">Load and solar processing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ramp-rate-and-extreme-events">Ramp rate and extreme events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#voltages-without-control-training-part">Voltages without control (training part)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-extreme-ramps-and-violations-coincide-training-part-no-control">Do extreme ramps and violations coincide? (training part, no control)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rq2-metrics-without-a-controller-training-part">RQ2 metrics without a controller (training part)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javid Alizade
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

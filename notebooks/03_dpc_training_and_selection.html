@@ -1,0 +1,1134 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>03 DPC training and the pre-specified selection &#8212; DPC for battery voltage regulation (preliminary)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tables.css?v=a1794d84" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/03_dpc_training_and_selection';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="04 Seeds of the selected policy, and the tuned Volt-VAR droop" href="04_seeds_and_droop.html" />
+    <link rel="prev" title="02 Data pipeline" href="02_data_pipeline.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DPC for battery voltage regulation (preliminary)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Results on the validation part (preliminary)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_network_and_solver.html">01 Network and differentiable solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data_pipeline.html">02 Data pipeline</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">03 DPC training and the pre-specified selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_seeds_and_droop.html">04 Seeds of the selected policy, and the tuned Volt-VAR droop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mpc_baseline.html">05 Online MPC baseline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_oracle_subset.html">06 Oracle subset: all controllers on the same 28 days</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_ablations.html">07 Ablations (degradation off)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project record</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../decisions.html">Decisions and protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/03_dpc_training_and_selection.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>03 DPC training and the pre-specified selection</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-1-horizon-24-steps-2-h">Experiment 1: horizon 24 steps (2 h)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-2-horizons-72-and-144-steps-6-h-and-12-h">Experiment 2: horizons 72 and 144 steps (6 h and 12 h)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-stability">Training stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-curve-of-the-selected-candidate-seed-0">Training curve of the selected candidate (seed 0)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-the-selected-policy-uses-the-battery-descriptive-only">How the selected policy uses the battery (descriptive only)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dpc-training-and-the-pre-specified-selection">
+<h1>03 DPC training and the pre-specified selection<a class="headerlink" href="#dpc-training-and-the-pre-specified-selection" title="Link to this heading">#</a></h1>
+<p>The policy is a small MLP that maps the current state (SoC, previous voltages at the battery buses, total load, PV at the
+four PV buses, latest ramp rate, previous action, time of day; <strong>no forecast</strong>) to P and Q of both batteries. It is
+trained by backpropagation through a rollout of the differentiable grid model, with the safety layer in the loop.</p>
+<p>Candidates differ in the terminal SoC term (weight 10, 0, 0.1, or a 30-70% dead zone). They were judged by a rule written
+before the check: a candidate must (a) use active power, mean |P| ≥ 0.025 MW for each battery in each regime, and (b) keep
+every end-of-day SoC inside 20-80%; among those, the lowest validation objective wins. The objective is the mean over
+valid steps of the proposal’s eq. (16) terms (losses, voltage deviation, effort, soft SoC and voltage penalties), averaged
+over both regimes. Evaluation is a continuous closed loop over all validation steps with 15 solver sweeps.</p>
+<div class="warning admonition">
+<p class="admonition-title">Read these results with the following caveats</p>
+<ul class="simple">
+<li><p><strong>Preliminary, validation part only.</strong> The test part is sealed and has not been evaluated. Every number comes from one
+network (IEEE 33-bus) and from the validation part, which was also used to select the DPC policy, so the DPC numbers are
+optimistically biased.</p></li>
+<li><p><strong>Data.</strong> Solar (Utrecht, 2014-2017) and load (Portugal, 2012-2014) are real measurements, but they come from different
+places and years and share no real weather. The PV size of 3.9 MW was chosen after a no-control check on the training part
+only (at 2.6 MW no training step exceeded 1.05 pu).</p></li>
+<li><p><strong>RQ2 was reworded</strong> on 2026-11-04, before any controller existed, because extreme ramps and voltage violations rarely
+coincide in this data (see <a class="reference internal" href="../decisions.html"><span class="doc">Decisions</span></a>).</p></li>
+<li><p><strong>Training bias.</strong> 30% of the training windows contain an extreme solar ramp.</p></li>
+<li><p><strong>Differences from the proposal’s eq. (16).</strong> Degradation and C-rate terms are off in every variant (“degradation off”).
+A terminal SoC term with a 30-70% dead zone is added and is not in eq. (16).</p></li>
+<li><p><strong>The safety layer goes beyond the proposal</strong>: it also limits P by the stored energy (SoC kept within 10-90%), not only by
+the inverter limits of eqs. (4)-(7). It does not guarantee voltage feasibility.</p></li>
+<li><p><strong>Active power use is marginal and not seed-robust.</strong> Voltage is regulated mostly with reactive power Q; the selected
+policy passes the pre-specified “P is used” threshold on 1 of 3 seeds.</p></li>
+<li><p><strong>The MPC baseline</strong> is a convex LinDistFlow MPC with soft voltage limits and a lossless SoC model, not the AC-OPF MPC
+named in the proposal, and it was not tuned. Speed comparisons are therefore against a convex MPC. The oracle MPC uses
+exact future data and is an upper bound, not a real controller.</p></li>
+<li><p><strong>Ablations.</strong> “penalty-only” includes a soft inverter-limit penalty that was added on purpose (decision D1). Variants
+without the safety layer can break the inverter limits; such steps are physically impossible operation and are reported
+as shares, not as achievable performance.</p></li>
+<li><p><strong>Corrections to the proposal</strong>: a discharging battery enters the net load with a minus sign, and the left side of
+eq. (9) is P, not 2P. Results computed before the SoC energy limit was added (2026-11-05) are superseded and not shown.</p></li>
+</ul>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">candidate_rows</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">record</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s2">"checks"</span><span class="p">][</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">min_p</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="s2">"mean_abs_p_mw"</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">)</span>
+        <span class="n">eod</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">REGIMES</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"end_of_day_soc_min"</span><span class="p">,</span> <span class="s2">"end_of_day_soc_max"</span><span class="p">)]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"candidate"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+                     <span class="s2">"objective ×0.7"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="s2">"base_x0.7"</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">]),</span>
+                     <span class="s2">"objective ×1.0"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="s2">"stress_x1.0"</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">]),</span>
+                     <span class="s2">"min mean |P| (MW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">min_p</span><span class="p">),</span> <span class="s2">"(a) P used"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">ch</span><span class="p">[</span><span class="s2">"uses_active_power"</span><span class="p">]),</span>
+                     <span class="s2">"end-of-day SoC range"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">eod</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">eod</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                     <span class="s2">"(b) no drift"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">ch</span><span class="p">[</span><span class="s2">"soc_stays_in_range"</span><span class="p">]),</span> <span class="s2">"passes"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">ch</span><span class="p">[</span><span class="s2">"passes"</span><span class="p">])})</span>
+    <span class="k">return</span> <span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"candidate"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reference_rows</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"volt_var_droop"</span><span class="p">:</span> <span class="s2">"volt_var_droop (original, untuned)"</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">table</span><span class="p">([{</span><span class="s2">"reference"</span><span class="p">:</span> <span class="n">names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+                   <span class="s2">"objective ×0.7"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="s2">"base_x0.7"</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">]),</span>
+                   <span class="s2">"objective ×1.0"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="s2">"stress_x1.0"</span><span class="p">][</span><span class="s2">"objective"</span><span class="p">])}</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">record</span><span class="p">[</span><span class="s2">"references"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
+                 <span class="n">index</span><span class="o">=</span><span class="s2">"reference"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="experiment-1-horizon-24-steps-2-h">
+<h2>Experiment 1: horizon 24 steps (2 h)<a class="headerlink" href="#experiment-1-horizon-24-steps-2-h" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e1</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_soc_variants_1000.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="s2">"m3_soc_variants_1000.json"</span><span class="p">)))</span>
+<span class="n">n_pass</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ch</span><span class="p">[</span><span class="s2">"passes"</span><span class="p">]</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">e1</span><span class="p">[</span><span class="s2">"checks"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="k">if</span> <span class="n">n_pass</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No candidate passed the pre-specified rule (0 of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">e1</span><span class="p">[</span><span class="s1">'checks'</span><span class="p">])</span><span class="si">}</span><span class="s2">), which is why Experiment 2 was added."</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">candidate_rows</span><span class="p">(</span><span class="n">e1</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">reference_rows</span><span class="p">(</span><span class="n">e1</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Selected by the rule: **</span><span class="si">{</span><span class="n">e1</span><span class="p">[</span><span class="s1">'selected_by_rule'</span><span class="p">]</span><span class="si">}</span><span class="s2">**."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m3_soc_variants_1000.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">608c098</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<p>No candidate passed the pre-specified rule (0 of 4), which is why Experiment 2 was added.</p>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>objective</th>
+      <th>objective ×0.7</th>
+      <th>objective ×1.0</th>
+      <th>min mean |P| (MW)</th>
+      <th>(a) P used</th>
+      <th>end-of-day SoC range</th>
+      <th>(b) no drift</th>
+      <th>passes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>weight_10</th>
+      <td>0.00935</td>
+      <td>0.00549</td>
+      <td>0.01322</td>
+      <td>0.00121</td>
+      <td>no</td>
+      <td>0.50 - 0.50</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>weight_0</th>
+      <td>0.00847</td>
+      <td>0.00468</td>
+      <td>0.01226</td>
+      <td>0.03122</td>
+      <td>yes</td>
+      <td>0.10 - 0.10</td>
+      <td>no</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>weight_0.1</th>
+      <td>0.00895</td>
+      <td>0.00525</td>
+      <td>0.01265</td>
+      <td>0.01566</td>
+      <td>no</td>
+      <td>0.28 - 0.46</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>dead_zone_30_70</th>
+      <td>0.00888</td>
+      <td>0.00511</td>
+      <td>0.01264</td>
+      <td>0.02284</td>
+      <td>no</td>
+      <td>0.28 - 0.32</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>reference</th>
+      <th>objective</th>
+      <th>objective ×0.7</th>
+      <th>objective ×1.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>no_battery_action</th>
+      <td>0.12354</td>
+      <td>0.01526</td>
+      <td>0.23183</td>
+    </tr>
+    <tr>
+      <th>volt_var_droop (original, untuned)</th>
+      <td>0.01507</td>
+      <td>0.01022</td>
+      <td>0.01993</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><p>Selected by the rule: <strong>None</strong>.</p>
+</div>
+</div>
+</section>
+<section id="experiment-2-horizons-72-and-144-steps-6-h-and-12-h">
+<h2>Experiment 2: horizons 72 and 144 steps (6 h and 12 h)<a class="headerlink" href="#experiment-2-horizons-72-and-144-steps-6-h-and-12-h" title="Link to this heading">#</a></h2>
+<p>Experiment 2 was added <strong>after</strong> seeing Experiment 1, in which the policy used almost no active power. Its protocol,
+including the same rule and thresholds, was written before any of its runs. Experiment 1 stays reported above.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e2</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_exp2_soc_variants.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="s2">"m3_exp2_soc_variants.json"</span><span class="p">)))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">candidate_rows</span><span class="p">(</span><span class="n">e2</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Selected by the rule: **</span><span class="si">{</span><span class="n">e2</span><span class="p">[</span><span class="s1">'selected_by_rule'</span><span class="p">]</span><span class="si">}</span><span class="s2">**."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m3_exp2_soc_variants.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">a334306</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>objective</th>
+      <th>objective ×0.7</th>
+      <th>objective ×1.0</th>
+      <th>min mean |P| (MW)</th>
+      <th>(a) P used</th>
+      <th>end-of-day SoC range</th>
+      <th>(b) no drift</th>
+      <th>passes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>H72_weight_10</th>
+      <td>0.00936</td>
+      <td>0.00549</td>
+      <td>0.01322</td>
+      <td>0.00056</td>
+      <td>no</td>
+      <td>0.50 - 0.50</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>H72_weight_0</th>
+      <td>0.00817</td>
+      <td>0.00446</td>
+      <td>0.01189</td>
+      <td>0.03356</td>
+      <td>yes</td>
+      <td>0.10 - 0.21</td>
+      <td>no</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>H72_weight_0.1</th>
+      <td>0.00906</td>
+      <td>0.00530</td>
+      <td>0.01282</td>
+      <td>0.00965</td>
+      <td>no</td>
+      <td>0.40 - 0.50</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>H72_dead_zone_30_70</th>
+      <td>0.00876</td>
+      <td>0.00502</td>
+      <td>0.01250</td>
+      <td>0.02252</td>
+      <td>no</td>
+      <td>0.29 - 0.32</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>H144_weight_10</th>
+      <td>0.00936</td>
+      <td>0.00549</td>
+      <td>0.01322</td>
+      <td>0.00060</td>
+      <td>no</td>
+      <td>0.50 - 0.50</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>H144_weight_0</th>
+      <td>0.00808</td>
+      <td>0.00439</td>
+      <td>0.01177</td>
+      <td>0.03449</td>
+      <td>yes</td>
+      <td>0.10 - 0.19</td>
+      <td>no</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>H144_weight_0.1</th>
+      <td>0.00906</td>
+      <td>0.00530</td>
+      <td>0.01283</td>
+      <td>0.00794</td>
+      <td>no</td>
+      <td>0.41 - 0.51</td>
+      <td>yes</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>H144_dead_zone_30_70</th>
+      <td>0.00870</td>
+      <td>0.00497</td>
+      <td>0.01242</td>
+      <td>0.02504</td>
+      <td>yes</td>
+      <td>0.30 - 0.34</td>
+      <td>yes</td>
+      <td>yes</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><p>Selected by the rule: <strong>H144_dead_zone_30_70</strong>.</p>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel</span> <span class="o">=</span> <span class="n">e2</span><span class="p">[</span><span class="s2">"selected_by_rule"</span><span class="p">]</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">e2</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">][</span><span class="n">sel</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">]</span>
+<span class="n">min_p</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"mean_abs_p_mw"</span><span class="p">])</span> <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The selected candidate passes condition (a) narrowly: its minimum mean |P| over both batteries and both "</span>
+                 <span class="sa">f</span><span class="s2">"regimes is </span><span class="si">{</span><span class="n">min_p</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> MW against the 0.025 MW threshold. The threshold was not changed."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>The selected candidate passes condition (a) narrowly: its minimum mean |P| over both batteries and both regimes is 0.02504 MW against the 0.025 MW threshold. The threshold was not changed.</p>
+</div>
+</div>
+<section id="training-stability">
+<h3>Training stability<a class="headerlink" href="#training-stability" title="Link to this heading">#</a></h3>
+<p>Pre-specified rule: a run is unstable if a loss or gradient is not finite, or if the gradient norm before clipping is
+above 10 on more than 5% of the steps after step 100.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">st</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_exp2_stability.json"</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"candidate"</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">"unstable"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"unstable"</span><span class="p">]),</span> <span class="s2">"max grad norm"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"max_grad_norm"</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
+         <span class="s2">"share after step 100 above 10"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"share_of_steps_after_100_with_grad_norm_above_10"</span><span class="p">]),</span>
+         <span class="s2">"truncated rerun"</span><span class="p">:</span> <span class="s2">"no"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"minutes"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"seconds"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"candidate"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>unstable</th>
+      <th>max grad norm</th>
+      <th>share after step 100 above 10</th>
+      <th>truncated rerun</th>
+      <th>minutes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>H72_weight_10</th>
+      <td>no</td>
+      <td>9.28</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>21.6</td>
+    </tr>
+    <tr>
+      <th>H72_weight_0</th>
+      <td>no</td>
+      <td>1.57</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>17.9</td>
+    </tr>
+    <tr>
+      <th>H72_weight_0.1</th>
+      <td>no</td>
+      <td>1.57</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>11.9</td>
+    </tr>
+    <tr>
+      <th>H72_dead_zone_30_70</th>
+      <td>no</td>
+      <td>2.91</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>11.9</td>
+    </tr>
+    <tr>
+      <th>H144_weight_10</th>
+      <td>no</td>
+      <td>15.52</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>H144_weight_0</th>
+      <td>no</td>
+      <td>2.33</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>24.1</td>
+    </tr>
+    <tr>
+      <th>H144_weight_0.1</th>
+      <td>no</td>
+      <td>2.30</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>24.1</td>
+    </tr>
+    <tr>
+      <th>H144_dead_zone_30_70</th>
+      <td>no</td>
+      <td>3.87</td>
+      <td>0.00%</td>
+      <td>no</td>
+      <td>24.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="training-curve-of-the-selected-candidate-seed-0">
+<h3>Training curve of the selected candidate (seed 0)<a class="headerlink" href="#training-curve-of-the-selected-candidate-seed-0" title="Link to this heading">#</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">e2</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">][</span><span class="n">e2</span><span class="p">[</span><span class="s2">"selected_by_rule"</span><span class="p">]][</span><span class="s2">"run_id"</span><span class="p">]</span>
+<span class="n">curves</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">RESULTS</span> <span class="o">/</span> <span class="s2">"runs"</span> <span class="o">/</span> <span class="n">run</span> <span class="o">/</span> <span class="s2">"curves.csv"</span><span class="p">)</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">curves</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">"val_objective"</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">curves</span><span class="p">[</span><span class="s2">"step"</span><span class="p">],</span> <span class="n">curves</span><span class="p">[</span><span class="s2">"train_objective"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">SERIES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"training batch"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="s2">"step"</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="s2">"val_objective"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">SERIES</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"256 validation windows"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"training step"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"training objective (own terms)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Objective"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">curves</span><span class="p">[</span><span class="s2">"step"</span><span class="p">],</span> <span class="n">curves</span><span class="p">[</span><span class="s2">"grad_norm"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">SERIES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK_2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"training step"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"gradient norm before clipping"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Gradient norm"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Run `</span><span class="si">{</span><span class="n">run</span><span class="si">}</span><span class="s2">`. The training objective here includes the terminal SoC term, so it is not the same number "</span>
+                 <span class="s2">"as the selection objective above."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/5e241d7f5e1247466c7e73de758c758275c81b6b92e80ce183156970b6f0ee08.png" src="../_images/5e241d7f5e1247466c7e73de758c758275c81b6b92e80ce183156970b6f0ee08.png" />
+<p>Run <code class="docutils literal notranslate"><span class="pre">20261106-124919_candidate_no-deg_seed0</span></code>. The training objective here includes the terminal SoC term, so it is not the same number as the selection objective above.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="how-the-selected-policy-uses-the-battery-descriptive-only">
+<h2>How the selected policy uses the battery (descriptive only)<a class="headerlink" href="#how-the-selected-policy-uses-the-battery-descriptive-only" title="Link to this heading">#</a></h2>
+<p>These diagnostics were made after the selection and cannot change it. Validation part, seed 0.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dg</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_exp2_diagnostics_rerun.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">dg</span><span class="p">,</span> <span class="s2">"m3_exp2_diagnostics_rerun.json"</span><span class="p">)))</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">dg</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">][</span><span class="s2">"H144_dead_zone_30_70"</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">hp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"hourly_mean_p_mw"</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">),</span> <span class="n">hp</span><span class="p">[:,</span> <span class="n">b</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">SERIES</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="n">b</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"battery </span><span class="si">{</span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">soc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"soc_curve_mean"</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"soc_curve_mean"</span><span class="p">]),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">soc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">soc</span><span class="p">))</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">soc</span><span class="p">),</span> <span class="n">soc</span><span class="p">[:,</span> <span class="n">b</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">SERIES</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="n">b</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"battery </span><span class="si">{</span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">INK_2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"hour of day"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"mean P (MW), &gt; 0 = discharge"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Mean active power by hour"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"hour of day"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"mean SoC"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Mean SoC over the day"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"regime"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"full days"</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"full_days"</span><span class="p">],</span>
+         <span class="s2">"throughput (MWh/day per battery)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"throughput_mwh_per_day_mean"</span><span class="p">])),</span> <span class="mi">3</span><span class="p">),</span>
+         <span class="s2">"equivalent full cycles per day"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"equivalent_full_cycles_per_day_mean"</span><span class="p">])),</span> <span class="mi">3</span><span class="p">),</span>
+         <span class="s2">"mean daily SoC swing"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"daily_soc_swing_mean"</span><span class="p">])),</span> <span class="mi">3</span><span class="p">)}</span> <span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"regime"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m3_exp2_diagnostics_rerun.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">152586a</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<img alt="../_images/7ccd4efa629479a7b3e123194251fd4c21f43700c35ce2a1af10eb1610b8f77b.png" src="../_images/7ccd4efa629479a7b3e123194251fd4c21f43700c35ce2a1af10eb1610b8f77b.png" />
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>regime</th>
+      <th>full days</th>
+      <th>throughput (MWh/day per battery)</th>
+      <th>equivalent full cycles per day</th>
+      <th>mean daily SoC swing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>base (load ×0.7)</th>
+      <td>110</td>
+      <td>0.507</td>
+      <td>0.254</td>
+      <td>0.241</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>110</td>
+      <td>0.496</td>
+      <td>0.248</td>
+      <td>0.233</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_data_pipeline.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">02 Data pipeline</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_seeds_and_droop.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">04 Seeds of the selected policy, and the tuned Volt-VAR droop</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-1-horizon-24-steps-2-h">Experiment 1: horizon 24 steps (2 h)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-2-horizons-72-and-144-steps-6-h-and-12-h">Experiment 2: horizons 72 and 144 steps (6 h and 12 h)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-stability">Training stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-curve-of-the-selected-candidate-seed-0">Training curve of the selected candidate (seed 0)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-the-selected-policy-uses-the-battery-descriptive-only">How the selected policy uses the battery (descriptive only)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javid Alizade
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1008 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>04 Seeds of the selected policy, and the tuned Volt-VAR droop &#8212; DPC for battery voltage regulation (preliminary)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tables.css?v=a1794d84" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/04_seeds_and_droop';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="05 Online MPC baseline" href="05_mpc_baseline.html" />
+    <link rel="prev" title="03 DPC training and the pre-specified selection" href="03_dpc_training_and_selection.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DPC for battery voltage regulation (preliminary)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Results on the validation part (preliminary)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_network_and_solver.html">01 Network and differentiable solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data_pipeline.html">02 Data pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_dpc_training_and_selection.html">03 DPC training and the pre-specified selection</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">04 Seeds of the selected policy, and the tuned Volt-VAR droop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mpc_baseline.html">05 Online MPC baseline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_oracle_subset.html">06 Oracle subset: all controllers on the same 28 days</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_ablations.html">07 Ablations (degradation off)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project record</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../decisions.html">Decisions and protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/04_seeds_and_droop.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>04 Seeds of the selected policy, and the tuned Volt-VAR droop</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#droop-tuning-on-the-training-part-rounds-1-and-2">Droop tuning on the training part (rounds 1 and 2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-original-droop-tuned-droop-and-dpc-all-seeds">Validation: original droop, tuned droop and DPC (all seeds)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="seeds-of-the-selected-policy-and-the-tuned-volt-var-droop">
+<h1>04 Seeds of the selected policy, and the tuned Volt-VAR droop<a class="headerlink" href="#seeds-of-the-selected-policy-and-the-tuned-volt-var-droop" title="Link to this heading">#</a></h1>
+<p><strong>Seeds.</strong> The selected candidate (horizon 144, 30-70% dead zone) was trained again with seeds 1 and 2, with exactly the same
+settings. The reporting rule was written before these runs: every seed is shown, nothing is re-selected, and if a seed
+fails (a) or (b) the use of active power is reported as not robust across seeds.</p>
+<p><strong>Droop.</strong> The original Volt-VAR droop setting was never tuned, while DPC was trained. To make the comparison fairer, the
+droop was tuned once, on the <strong>training part only</strong>, over a pre-specified grid (round 1), and then over an extended grid
+(round 2, added after seeing that the round-1 optimum lay at a corner of the grid). No tuning was done after round 2.</p>
+<div class="warning admonition">
+<p class="admonition-title">Read these results with the following caveats</p>
+<ul class="simple">
+<li><p><strong>Preliminary, validation part only.</strong> The test part is sealed and has not been evaluated. Every number comes from one
+network (IEEE 33-bus) and from the validation part, which was also used to select the DPC policy, so the DPC numbers are
+optimistically biased.</p></li>
+<li><p><strong>Data.</strong> Solar (Utrecht, 2014-2017) and load (Portugal, 2012-2014) are real measurements, but they come from different
+places and years and share no real weather. The PV size of 3.9 MW was chosen after a no-control check on the training part
+only (at 2.6 MW no training step exceeded 1.05 pu).</p></li>
+<li><p><strong>RQ2 was reworded</strong> on 2026-11-04, before any controller existed, because extreme ramps and voltage violations rarely
+coincide in this data (see <a class="reference internal" href="../decisions.html"><span class="doc">Decisions</span></a>).</p></li>
+<li><p><strong>Training bias.</strong> 30% of the training windows contain an extreme solar ramp.</p></li>
+<li><p><strong>Differences from the proposal’s eq. (16).</strong> Degradation and C-rate terms are off in every variant (“degradation off”).
+A terminal SoC term with a 30-70% dead zone is added and is not in eq. (16).</p></li>
+<li><p><strong>The safety layer goes beyond the proposal</strong>: it also limits P by the stored energy (SoC kept within 10-90%), not only by
+the inverter limits of eqs. (4)-(7). It does not guarantee voltage feasibility.</p></li>
+<li><p><strong>Active power use is marginal and not seed-robust.</strong> Voltage is regulated mostly with reactive power Q; the selected
+policy passes the pre-specified “P is used” threshold on 1 of 3 seeds.</p></li>
+<li><p><strong>The MPC baseline</strong> is a convex LinDistFlow MPC with soft voltage limits and a lossless SoC model, not the AC-OPF MPC
+named in the proposal, and it was not tuned. Speed comparisons are therefore against a convex MPC. The oracle MPC uses
+exact future data and is an upper bound, not a real controller.</p></li>
+<li><p><strong>Ablations.</strong> “penalty-only” includes a soft inverter-limit penalty that was added on purpose (decision D1). Variants
+without the safety layer can break the inverter limits; such steps are physically impossible operation and are reported
+as shares, not as achievable performance.</p></li>
+<li><p><strong>Corrections to the proposal</strong>: a discharging battery enters the net load with a minus sign, and the left side of
+eq. (9) is P, not 2P. Results computed before the SoC energy limit was added (2026-11-05) are superseded and not shown.</p></li>
+</ul>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_exp2_seeds.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="s2">"m3_exp2_seeds.json"</span><span class="p">)))</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">seed</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"seed"</span><span class="p">:</span> <span class="n">seed</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"seed_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span> <span class="s2">"regime"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+                     <span class="s2">"mean |P| per battery (MW)"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">"mean_abs_p_mw"</span><span class="p">]),</span>
+                     <span class="s2">"mean |Q| per battery (Mvar)"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">"mean_abs_q_mvar"</span><span class="p">]),</span>
+                     <span class="s2">"at S limit"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"share_at_s_limit"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">"VVR"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">][</span><span class="s2">"vvr_share_of_steps_with_any_violation"</span><span class="p">]),</span>
+                     <span class="s2">"end-of-day SoC"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'end_of_day_soc_min'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'end_of_day_soc_max'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"seed"</span><span class="p">,</span> <span class="s2">"regime"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m3_exp2_seeds.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">1906fcb</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>objective</th>
+      <th>mean |P| per battery (MW)</th>
+      <th>mean |Q| per battery (Mvar)</th>
+      <th>at S limit</th>
+      <th>VVR</th>
+      <th>end-of-day SoC</th>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <th>regime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">0</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00497</td>
+      <td>0.02520, 0.02525</td>
+      <td>0.350, 0.458</td>
+      <td>53.2%</td>
+      <td>0.00%</td>
+      <td>0.32 - 0.34</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01242</td>
+      <td>0.02505, 0.02504</td>
+      <td>0.431, 0.492</td>
+      <td>77.0%</td>
+      <td>0.00%</td>
+      <td>0.30 - 0.33</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">1</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00498</td>
+      <td>0.02681, 0.02309</td>
+      <td>0.348, 0.452</td>
+      <td>48.1%</td>
+      <td>0.00%</td>
+      <td>0.32 - 0.35</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01241</td>
+      <td>0.02758, 0.02300</td>
+      <td>0.432, 0.493</td>
+      <td>77.3%</td>
+      <td>0.00%</td>
+      <td>0.30 - 0.33</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00497</td>
+      <td>0.02526, 0.02499</td>
+      <td>0.347, 0.453</td>
+      <td>48.1%</td>
+      <td>0.00%</td>
+      <td>0.30 - 0.33</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01241</td>
+      <td>0.02549, 0.02564</td>
+      <td>0.433, 0.492</td>
+      <td>77.5%</td>
+      <td>0.00%</td>
+      <td>0.29 - 0.31</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><em>Table: every seed of the selected candidate, both regimes. VVR = share of steps with any voltage violation.
+“at S limit” = share of battery steps at the inverter apparent-power limit (apparent power at least 98% of the limit).</em></p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"over_seeds"</span><span class="p">]</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"seed"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"seed_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span> <span class="s2">"(a) P used"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">sd</span><span class="p">[</span><span class="s2">"checks"</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s2">"uses_active_power"</span><span class="p">]),</span>
+         <span class="s2">"(b) no drift"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">sd</span><span class="p">[</span><span class="s2">"checks"</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s2">"soc_stays_in_range"</span><span class="p">]),</span> <span class="s2">"both"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">sd</span><span class="p">[</span><span class="s2">"checks"</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s2">"passes"</span><span class="p">]),</span>
+         <span class="s2">"min mean |P| (MW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s2">"condition_a_minimum_per_seed"</span><span class="p">][</span><span class="n">s</span><span class="p">])}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">]]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"seed"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Seeds passing (a): **</span><span class="si">{</span><span class="n">o</span><span class="p">[</span><span class="s1">'n_pass_a'</span><span class="p">]</span><span class="si">}</span><span class="s2"> of 3**, (b): **</span><span class="si">{</span><span class="n">o</span><span class="p">[</span><span class="s1">'n_pass_b'</span><span class="p">]</span><span class="si">}</span><span class="s2"> of 3**, both: **</span><span class="si">{</span><span class="n">o</span><span class="p">[</span><span class="s1">'n_pass_both'</span><span class="p">]</span><span class="si">}</span><span class="s2"> of 3**. "</span>
+                 <span class="sa">f</span><span class="s2">"The minimum mean |P| has median </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s1">'condition_a_minimum_median'</span><span class="p">])</span><span class="si">}</span><span class="s2"> MW and range "</span>
+                 <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s1">'condition_a_minimum_range'</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s1">'condition_a_minimum_range'</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2"> MW against the 0.025 MW "</span>
+                 <span class="s2">"threshold, so **the use of active power is not robust across seeds**."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>seed</th>
+      <th>(a) P used</th>
+      <th>(b) no drift</th>
+      <th>both</th>
+      <th>min mean |P| (MW)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>0.02504</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>no</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>0.02300</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>no</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>0.02499</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><p>Seeds passing (a): <strong>1 of 3</strong>, (b): <strong>3 of 3</strong>, both: <strong>1 of 3</strong>. The minimum mean |P| has median 0.02499 MW and range 0.02300-0.02504 MW against the 0.025 MW threshold, so <strong>the use of active power is not robust across seeds</strong>.</p>
+</div>
+</div>
+<section id="droop-tuning-on-the-training-part-rounds-1-and-2">
+<h2>Droop tuning on the training part (rounds 1 and 2)<a class="headerlink" href="#droop-tuning-on-the-training-part-rounds-1-and-2" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_droop_tuning.json"</span><span class="p">),</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_droop_tuning_round2.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="s2">"m3_droop_tuning.json"</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"  </span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">provenance</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="s2">"m3_droop_tuning_round2.json"</span><span class="p">)))</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">d1</span><span class="p">[</span><span class="s2">"training_part"</span><span class="p">]</span> <span class="o">+</span> <span class="n">d2</span><span class="p">[</span><span class="s2">"training_part_round2"</span><span class="p">]</span>
+<span class="n">bands</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">s</span><span class="p">[</span><span class="s2">"dead_band_pu"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">});</span> <span class="n">fulls</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">s</span><span class="p">[</span><span class="s2">"full_at_pu"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">})</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">bands</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">fulls</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">:</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">bands</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"dead_band_pu"</span><span class="p">]),</span> <span class="n">fulls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"full_at_pu"</span><span class="p">])]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">))</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"Blues_r"</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fulls</span><span class="p">)),</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fulls</span><span class="p">]);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bands</span><span class="p">)),</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"deviation from 1 pu at which Q is at its limit (pu)"</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"dead band (pu)"</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bands</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fulls</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">"white"</span> <span class="k">if</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="k">else</span> <span class="n">INK</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Training objective of each droop setting (lower is better; blank = not in either grid)"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.8</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">d2</span><span class="p">[</span><span class="s2">"final_tuned"</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Final tuned droop: dead band **</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">'dead_band_pu'</span><span class="p">]</span><span class="si">}</span><span class="s2"> pu**, full Q at **</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">'full_at_pu'</span><span class="p">]</span><span class="si">}</span><span class="s2"> pu** (round </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">'round'</span><span class="p">]</span><span class="si">}</span><span class="s2">, "</span>
+                 <span class="sa">f</span><span class="s2">"training objective </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">'training_objective'</span><span class="p">])</span><span class="si">}</span><span class="s2">). Original: dead band </span><span class="si">{</span><span class="n">d2</span><span class="p">[</span><span class="s1">'original'</span><span class="p">][</span><span class="s1">'dead_band_pu'</span><span class="p">]</span><span class="si">}</span><span class="s2"> pu, "</span>
+                 <span class="sa">f</span><span class="s2">"full Q at </span><span class="si">{</span><span class="n">d2</span><span class="p">[</span><span class="s1">'original'</span><span class="p">][</span><span class="s1">'full_at_pu'</span><span class="p">]</span><span class="si">}</span><span class="s2"> pu."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m3_droop_tuning.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">1906fcb</span></code> (private development history), code differed from that commit: <strong>False</strong><br />
+Source: <code class="docutils literal notranslate"><span class="pre">results/m3_droop_tuning_round2.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">2e0ecc5</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<img alt="../_images/536b93e5a7d72d7ba2f77d03c95fcfa025bf5874768f3ed3ef580e999724bb8e.png" src="../_images/536b93e5a7d72d7ba2f77d03c95fcfa025bf5874768f3ed3ef580e999724bb8e.png" />
+<p>Final tuned droop: dead band <strong>0.0 pu</strong>, full Q at <strong>0.03 pu</strong> (round 1, training objective 0.01158). Original: dead band 0.01 pu, full Q at 0.05 pu.</p>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_r1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d1</span><span class="p">[</span><span class="s2">"training_part"</span><span class="p">])</span>
+<span class="n">best_r2</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d2</span><span class="p">[</span><span class="s2">"training_part_round2"</span><span class="p">])</span>
+<span class="n">low_band</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"dead_band_pu"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Round 2 did not find a better setting than round 1 "</span> <span class="k">if</span> <span class="n">best_r2</span> <span class="o">&gt;</span> <span class="n">best_r1</span> <span class="k">else</span> <span class="s2">"Round 2 found a better setting than round 1 "</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">+=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"(best training objective </span><span class="si">{</span><span class="n">best_r2</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> in round 2 against </span><span class="si">{</span><span class="n">best_r1</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> in round 1). "</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="s2">"dead_band_pu"</span><span class="p">]</span> <span class="o">==</span> <span class="n">low_band</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">"A dead band cannot be below 0, so the optimum at dead band 0 lies at a true boundary of that parameter. "</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">+=</span> <span class="s2">"No tuning was done after round 2."</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"*Note: the droop tuning objective above is computed on the training part, and the objectives below are "</span>
+                 <span class="s2">"computed on the validation part. They come from different data and must not be compared with each other.*"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Round 2 did not find a better setting than round 1 (best training objective 0.01362 in round 2 against 0.01158 in round 1). A dead band cannot be below 0, so the optimum at dead band 0 lies at a true boundary of that parameter. No tuning was done after round 2.</p>
+<p><em>Note: the droop tuning objective above is computed on the training part, and the objectives below are computed on the validation part. They come from different data and must not be compared with each other.</em></p>
+</div>
+</div>
+</section>
+<section id="validation-original-droop-tuned-droop-and-dpc-all-seeds">
+<h2>Validation: original droop, tuned droop and DPC (all seeds)<a class="headerlink" href="#validation-original-droop-tuned-droop-and-dpc-all-seeds" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"droop_original"</span><span class="p">:</span> <span class="s2">"droop, original"</span><span class="p">,</span> <span class="s2">"droop_final_tuned"</span><span class="p">:</span> <span class="s2">"droop, tuned (final)"</span><span class="p">,</span>
+         <span class="s2">"dpc_H144_dead_zone_30_70_seed_0"</span><span class="p">:</span> <span class="s2">"DPC seed 0"</span><span class="p">,</span> <span class="s2">"dpc_H144_dead_zone_30_70_seed_1"</span><span class="p">:</span> <span class="s2">"DPC seed 1"</span><span class="p">,</span>
+         <span class="s2">"dpc_H144_dead_zone_30_70_seed_2"</span><span class="p">:</span> <span class="s2">"DPC seed 2"</span><span class="p">}</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">names</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">d2</span><span class="p">[</span><span class="s2">"validation"</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">rl</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"controller"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"regime"</span><span class="p">:</span> <span class="n">rl</span><span class="p">,</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+                     <span class="s2">"VVR"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"vvr_share_of_steps_with_any_violation"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">"losses (kW)"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"mean_network_loss_kw"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                     <span class="s2">"mean |Q| (Mvar)"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">"mean_abs_q_mvar"</span><span class="p">]),</span>
+                     <span class="s2">"Q sign changes"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"share_q_sign_changes"</span><span class="p">],</span> <span class="mi">1</span><span class="p">)})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"controller"</span><span class="p">,</span> <span class="s2">"regime"</span><span class="p">]))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"The tuned droop oscillates: its reactive power changes sign much more often than the original setting."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>objective</th>
+      <th>VVR</th>
+      <th>losses (kW)</th>
+      <th>mean |Q| (Mvar)</th>
+      <th>Q sign changes</th>
+    </tr>
+    <tr>
+      <th>controller</th>
+      <th>regime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">droop, original</th>
+      <th>base (load ×0.7)</th>
+      <td>0.01022</td>
+      <td>0.000%</td>
+      <td>25.5</td>
+      <td>0.113, 0.119</td>
+      <td>0.0%</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01993</td>
+      <td>0.384%</td>
+      <td>44.0</td>
+      <td>0.183, 0.215</td>
+      <td>0.0%</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">droop, tuned (final)</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00808</td>
+      <td>0.000%</td>
+      <td>27.1</td>
+      <td>0.224, 0.240</td>
+      <td>10.8%</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01619</td>
+      <td>0.056%</td>
+      <td>44.3</td>
+      <td>0.303, 0.347</td>
+      <td>8.7%</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">DPC seed 0</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00497</td>
+      <td>0.000%</td>
+      <td>28.1</td>
+      <td>0.350, 0.458</td>
+      <td>1.0%</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01242</td>
+      <td>0.000%</td>
+      <td>43.1</td>
+      <td>0.431, 0.492</td>
+      <td>0.5%</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">DPC seed 1</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00498</td>
+      <td>0.000%</td>
+      <td>27.8</td>
+      <td>0.348, 0.452</td>
+      <td>0.9%</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01241</td>
+      <td>0.000%</td>
+      <td>43.1</td>
+      <td>0.432, 0.493</td>
+      <td>0.4%</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">DPC seed 2</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00497</td>
+      <td>0.000%</td>
+      <td>27.8</td>
+      <td>0.347, 0.453</td>
+      <td>0.9%</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01241</td>
+      <td>0.000%</td>
+      <td>43.2</td>
+      <td>0.433, 0.492</td>
+      <td>0.4%</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><p>The tuned droop oscillates: its reactive power changes sign much more often than the original setting.</p>
+</div>
+</div>
+<p><em>Table: validation part, both regimes. VVR = share of steps with any voltage violation.</em></p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s_lim</span> <span class="o">=</span> <span class="p">{</span><span class="n">reg</span><span class="p">:</span> <span class="p">[</span><span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"share_at_s_limit"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sd</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">]]</span> <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">}</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"The selected DPC seeds are at the inverter apparent-power limit on "</span> <span class="o">+</span>
+                 <span class="s2">" and "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2"> of battery steps in the </span><span class="si">{</span><span class="n">REGIMES</span><span class="p">[</span><span class="n">reg</span><span class="p">]</span><span class="si">}</span><span class="s2"> regime"</span> <span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">s_lim</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span>
+                 <span class="s2">", so they use most of the inverter rating, mainly for reactive power."</span><span class="p">))</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">{</span><span class="n">reg</span><span class="p">:</span> <span class="p">([</span><span class="n">d2</span><span class="p">[</span><span class="s2">"validation"</span><span class="p">][</span><span class="sa">f</span><span class="s2">"dpc_H144_dead_zone_30_70_seed_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"mean_network_loss_kw"</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span>
+              <span class="n">d2</span><span class="p">[</span><span class="s2">"validation"</span><span class="p">][</span><span class="s2">"droop_final_tuned"</span><span class="p">][</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"mean_network_loss_kw"</span><span class="p">])</span> <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">}</span>
+<span class="n">dpc_b</span><span class="p">,</span> <span class="n">droop_b</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s2">"base_x0.7"</span><span class="p">]</span>
+<span class="n">dpc_s</span><span class="p">,</span> <span class="n">droop_s</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s2">"stress_x1.0"</span><span class="p">]</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Network losses: in the base regime DPC has </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">dpc_b</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">dpc_b</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kW against </span><span class="si">{</span><span class="n">droop_b</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kW for the "</span>
+        <span class="sa">f</span><span class="s2">"tuned droop"</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">dpc_b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">droop_b</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">+=</span> <span class="s2">", slightly higher, so there the objective advantage of DPC does not come from lower losses"</span>
+<span class="n">text</span> <span class="o">+=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">". In the stress regime DPC has </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">dpc_s</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">dpc_s</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kW against </span><span class="si">{</span><span class="n">droop_s</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kW for the tuned droop."</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>The selected DPC seeds are at the inverter apparent-power limit on 48.1%-53.2% of battery steps in the base (load ×0.7) regime and 77.0%-77.5% of battery steps in the stress (load ×1.0) regime, so they use most of the inverter rating, mainly for reactive power.</p>
+<p>Network losses: in the base regime DPC has 27.8-28.1 kW against 27.1 kW for the tuned droop, slightly higher, so there the objective advantage of DPC does not come from lower losses. In the stress regime DPC has 43.1-43.2 kW against 44.3 kW for the tuned droop.</p>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_dpc_training_and_selection.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">03 DPC training and the pre-specified selection</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_mpc_baseline.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">05 Online MPC baseline</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#droop-tuning-on-the-training-part-rounds-1-and-2">Droop tuning on the training part (rounds 1 and 2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-original-droop-tuned-droop-and-dpc-all-seeds">Validation: original droop, tuned droop and DPC (all seeds)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javid Alizade
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

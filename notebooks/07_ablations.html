@@ -1,0 +1,1206 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>07 Ablations (degradation off) &#8212; DPC for battery voltage regulation (preliminary)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tables.css?v=a1794d84" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07_ablations';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Decisions and protocols" href="../decisions.html" />
+    <link rel="prev" title="06 Oracle subset: all controllers on the same 28 days" href="06_oracle_subset.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DPC for battery voltage regulation (preliminary)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Differentiable Predictive Control of Battery Storage for Voltage Regulation in a Distribution Grid
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Results on the validation part (preliminary)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_network_and_solver.html">01 Network and differentiable solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_data_pipeline.html">02 Data pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_dpc_training_and_selection.html">03 DPC training and the pre-specified selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_seeds_and_droop.html">04 Seeds of the selected policy, and the tuned Volt-VAR droop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mpc_baseline.html">05 Online MPC baseline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_oracle_subset.html">06 Oracle subset: all controllers on the same 28 days</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">07 Ablations (degradation off)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project record</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../decisions.html">Decisions and protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/07_ablations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>07 Ablations (degradation off)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#over-seeds-median-min-max">Over seeds: median [min-max]</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#every-seed">Every seed</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ablations-degradation-off">
+<h1>07 Ablations (degradation off)<a class="headerlink" href="#ablations-degradation-off" title="Link to this heading">#</a></h1>
+<p>Which parts of the DPC design matter? Three variants were trained exactly like the selected candidate (horizon 144, 30-70%
+dead zone, 1000 steps, seeds 0, 1 and 2), each with one part removed. The protocol was written before any ablation run.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variant</p></th>
+<th class="head"><p>Soft SoC and voltage penalties in the loss</p></th>
+<th class="head"><p>Safety layer (energy limit, P/Q box, S scaling)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>selected (reference)</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>projection-only</p></td>
+<td><p><strong>no</strong></p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>penalty-only</p></td>
+<td><p>yes, <strong>plus a soft inverter-limit penalty (decision D1)</strong></p></td>
+<td><p><strong>no</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>no-constraints</p></td>
+<td><p><strong>no</strong></p></td>
+<td><p><strong>no</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Degradation and C-rate terms are off in every variant. The policy’s output layer is linear, so without the safety layer
+nothing bounds P, Q or SoC; nothing is clipped. <strong>Steps that break an inverter or SoC limit are physically impossible
+operation</strong>; they are reported as shares, and the objective of such a variant is not achievable performance. The
+comparison objective is the same for all variants (eq. (16) terms only), so penalty terms are counted even for variants
+that did not train on them, and the D1 term is not part of it.</p>
+<p>D1 is a change from the original code: without it, “penalty-only” would not penalise the limits that the safety layer
+enforces, and the ablation would mostly measure unlimited reactive power.</p>
+<div class="warning admonition">
+<p class="admonition-title">Read these results with the following caveats</p>
+<ul class="simple">
+<li><p><strong>Preliminary, validation part only.</strong> The test part is sealed and has not been evaluated. Every number comes from one
+network (IEEE 33-bus) and from the validation part, which was also used to select the DPC policy, so the DPC numbers are
+optimistically biased.</p></li>
+<li><p><strong>Data.</strong> Solar (Utrecht, 2014-2017) and load (Portugal, 2012-2014) are real measurements, but they come from different
+places and years and share no real weather. The PV size of 3.9 MW was chosen after a no-control check on the training part
+only (at 2.6 MW no training step exceeded 1.05 pu).</p></li>
+<li><p><strong>RQ2 was reworded</strong> on 2026-11-04, before any controller existed, because extreme ramps and voltage violations rarely
+coincide in this data (see <a class="reference internal" href="../decisions.html"><span class="doc">Decisions</span></a>).</p></li>
+<li><p><strong>Training bias.</strong> 30% of the training windows contain an extreme solar ramp.</p></li>
+<li><p><strong>Differences from the proposal’s eq. (16).</strong> Degradation and C-rate terms are off in every variant (“degradation off”).
+A terminal SoC term with a 30-70% dead zone is added and is not in eq. (16).</p></li>
+<li><p><strong>The safety layer goes beyond the proposal</strong>: it also limits P by the stored energy (SoC kept within 10-90%), not only by
+the inverter limits of eqs. (4)-(7). It does not guarantee voltage feasibility.</p></li>
+<li><p><strong>Active power use is marginal and not seed-robust.</strong> Voltage is regulated mostly with reactive power Q; the selected
+policy passes the pre-specified “P is used” threshold on 1 of 3 seeds.</p></li>
+<li><p><strong>The MPC baseline</strong> is a convex LinDistFlow MPC with soft voltage limits and a lossless SoC model, not the AC-OPF MPC
+named in the proposal, and it was not tuned. Speed comparisons are therefore against a convex MPC. The oracle MPC uses
+exact future data and is an upper bound, not a real controller.</p></li>
+<li><p><strong>Ablations.</strong> “penalty-only” includes a soft inverter-limit penalty that was added on purpose (decision D1). Variants
+without the safety layer can break the inverter limits; such steps are physically impossible operation and are reported
+as shares, not as achievable performance.</p></li>
+<li><p><strong>Corrections to the proposal</strong>: a discharging battery enters the net load with a minus sign, and the left side of
+eq. (9) is P, not 2P. Results computed before the SoC energy limit was added (2026-11-05) are superseded and not shown.</p></li>
+</ul>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">ab</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"m3_ablations.json"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">provenance</span><span class="p">(</span><span class="n">ab</span><span class="p">,</span> <span class="s2">"m3_ablations.json"</span><span class="p">)))</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">[</span><span class="s2">"training"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s2">"records"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"run"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"unstable"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"unstable"</span><span class="p">]),</span> <span class="s2">"max grad norm"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"max_grad_norm"</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="s2">"truncated rerun"</span><span class="p">:</span> <span class="s2">"no"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">"records"</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"minutes"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"seconds"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"**Training stability** (same pre-specified rule as Experiment 2)"</span><span class="p">))</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"run"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>Source: <code class="docutils literal notranslate"><span class="pre">results/m3_ablations.json</span></code>, commit <code class="docutils literal notranslate"><span class="pre">c780152</span></code> (private development history), code differed from that commit: <strong>False</strong></p>
+<p><strong>Training stability</strong> (same pre-specified rule as Experiment 2)</p>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>run</th>
+      <th>unstable</th>
+      <th>max grad norm</th>
+      <th>truncated rerun</th>
+      <th>minutes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>penalty-only-no-deg_seed0</th>
+      <td>no</td>
+      <td>114.3</td>
+      <td>no</td>
+      <td>22.6</td>
+    </tr>
+    <tr>
+      <th>penalty-only-no-deg_seed1</th>
+      <td>no</td>
+      <td>365.7</td>
+      <td>no</td>
+      <td>23.4</td>
+    </tr>
+    <tr>
+      <th>penalty-only-no-deg_seed2</th>
+      <td>no</td>
+      <td>671.1</td>
+      <td>no</td>
+      <td>23.5</td>
+    </tr>
+    <tr>
+      <th>projection-only_seed0</th>
+      <td>no</td>
+      <td>3.5</td>
+      <td>no</td>
+      <td>23.9</td>
+    </tr>
+    <tr>
+      <th>projection-only_seed1</th>
+      <td>no</td>
+      <td>4.4</td>
+      <td>no</td>
+      <td>34.6</td>
+    </tr>
+    <tr>
+      <th>projection-only_seed2</th>
+      <td>no</td>
+      <td>4.0</td>
+      <td>no</td>
+      <td>28.4</td>
+    </tr>
+    <tr>
+      <th>no-constraints-no-deg_seed0</th>
+      <td>no</td>
+      <td>27.4</td>
+      <td>no</td>
+      <td>19.6</td>
+    </tr>
+    <tr>
+      <th>no-constraints-no-deg_seed1</th>
+      <td>no</td>
+      <td>91.4</td>
+      <td>no</td>
+      <td>19.7</td>
+    </tr>
+    <tr>
+      <th>no-constraints-no-deg_seed2</th>
+      <td>no</td>
+      <td>155.3</td>
+      <td>no</td>
+      <td>19.7</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="over-seeds-median-min-max">
+<h2>Over seeds: median [min-max]<a class="headerlink" href="#over-seeds-median-min-max" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variants</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"selected (penalties + safety layer)"</span><span class="p">:</span> <span class="n">ab</span><span class="p">[</span><span class="s2">"selected_candidate_reference"</span><span class="p">][</span><span class="s2">"over_seeds"</span><span class="p">],</span>
+            <span class="s2">"projection-only"</span><span class="p">:</span> <span class="n">ab</span><span class="p">[</span><span class="s2">"variants"</span><span class="p">][</span><span class="s2">"projection-only"</span><span class="p">][</span><span class="s2">"over_seeds"</span><span class="p">],</span>
+            <span class="s2">"penalty-only (with D1)"</span><span class="p">:</span> <span class="n">ab</span><span class="p">[</span><span class="s2">"variants"</span><span class="p">][</span><span class="s2">"penalty-only-no-deg"</span><span class="p">][</span><span class="s2">"over_seeds"</span><span class="p">],</span>
+            <span class="s2">"no-constraints"</span><span class="p">:</span> <span class="n">ab</span><span class="p">[</span><span class="s2">"variants"</span><span class="p">][</span><span class="s2">"no-constraints-no-deg"</span><span class="p">][</span><span class="s2">"over_seeds"</span><span class="p">]}</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"objective"</span><span class="p">,</span> <span class="s2">"objective"</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">"vvr_share_of_steps"</span><span class="p">,</span> <span class="s2">"VVR"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+           <span class="p">(</span><span class="s2">"share_battery_steps_breaking_inverter_limits"</span><span class="p">,</span> <span class="s2">"steps breaking an inverter limit"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+           <span class="p">(</span><span class="s2">"share_battery_steps_outside_soc_limits"</span><span class="p">,</span> <span class="s2">"steps outside SoC 10-90%"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+           <span class="p">(</span><span class="s2">"mean_network_loss_kw"</span><span class="p">,</span> <span class="s2">"losses (kW)"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">"mean_abs_p_mw"</span><span class="p">,</span> <span class="s2">"mean |P| (MW)"</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+           <span class="p">(</span><span class="s2">"mean_abs_q_mvar"</span><span class="p">,</span> <span class="s2">"mean |Q| (Mvar)"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">"soc_min"</span><span class="p">,</span> <span class="s2">"SoC min"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">"soc_max"</span><span class="p">,</span> <span class="s2">"SoC max"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">digits</span><span class="p">,</span> <span class="n">as_pct</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"—"</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">digits</span><span class="p">))</span> <span class="k">if</span> <span class="n">as_pct</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">digits</span><span class="p">))</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">'median'</span><span class="p">])</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">'min'</span><span class="p">])</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">'max'</span><span class="p">])</span><span class="si">}</span><span class="s2">]"</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">rl</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">variants</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"regime"</span><span class="p">:</span> <span class="n">rl</span><span class="p">,</span> <span class="s2">"variant"</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">digits</span><span class="p">,</span> <span class="n">as_pct</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+            <span class="n">row</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">mr</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="n">reg</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">digits</span><span class="p">,</span> <span class="n">as_pct</span><span class="p">)</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"regime"</span><span class="p">,</span> <span class="s2">"variant"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>objective</th>
+      <th>VVR</th>
+      <th>steps breaking an inverter limit</th>
+      <th>steps outside SoC 10-90%</th>
+      <th>losses (kW)</th>
+      <th>mean |P| (MW)</th>
+      <th>mean |Q| (Mvar)</th>
+      <th>SoC min</th>
+      <th>SoC max</th>
+    </tr>
+    <tr>
+      <th>regime</th>
+      <th>variant</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">base (load ×0.7)</th>
+      <th>selected (penalties + safety layer)</th>
+      <td>0.00497 [0.00497-0.00498]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>0.0% [0.0%-0.0%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>27.8 [27.8-28.1]</td>
+      <td>0.0251 [0.0250-0.0252]</td>
+      <td>0.400 [0.400-0.404]</td>
+      <td>0.31 [0.30-0.31]</td>
+      <td>0.73 [0.72-0.74]</td>
+    </tr>
+    <tr>
+      <th>projection-only</th>
+      <td>0.00498 [0.00498-0.00500]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>0.0% [0.0%-0.0%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>28.0 [27.9-28.1]</td>
+      <td>0.0242 [0.0232-0.0246]</td>
+      <td>0.401 [0.401-0.402]</td>
+      <td>0.31 [0.30-0.31]</td>
+      <td>0.71 [0.71-0.72]</td>
+    </tr>
+    <tr>
+      <th>penalty-only (with D1)</th>
+      <td>0.00507 [0.00503-0.00508]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>1.5% [0.1%-3.5%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>27.5 [27.5-27.7]</td>
+      <td>0.0230 [0.0224-0.0240]</td>
+      <td>0.390 [0.388-0.393]</td>
+      <td>0.31 [0.30-0.31]</td>
+      <td>0.71 [0.71-0.72]</td>
+    </tr>
+    <tr>
+      <th>no-constraints</th>
+      <td>0.00458 [0.00458-0.00460]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>40.6% [40.5%-41.2%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>32.2 [32.1-32.4]</td>
+      <td>0.0240 [0.0230-0.0250]</td>
+      <td>0.468 [0.466-0.471]</td>
+      <td>0.30 [0.30-0.30]</td>
+      <td>0.71 [0.70-0.72]</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">stress (load ×1.0)</th>
+      <th>selected (penalties + safety layer)</th>
+      <td>0.01241 [0.01241-0.01242]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>0.0% [0.0%-0.0%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>43.1 [43.1-43.2]</td>
+      <td>0.0253 [0.0250-0.0256]</td>
+      <td>0.462 [0.461-0.463]</td>
+      <td>0.29 [0.29-0.29]</td>
+      <td>0.74 [0.72-0.74]</td>
+    </tr>
+    <tr>
+      <th>projection-only</th>
+      <td>0.01243 [0.01242-0.01243]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>0.0% [0.0%-0.0%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>43.3 [43.2-43.4]</td>
+      <td>0.0247 [0.0242-0.0251]</td>
+      <td>0.463 [0.463-0.464]</td>
+      <td>0.29 [0.28-0.29]</td>
+      <td>0.71 [0.71-0.74]</td>
+    </tr>
+    <tr>
+      <th>penalty-only (with D1)</th>
+      <td>0.01260 [0.01254-0.01262]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>14.3% [7.9%-15.9%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>42.9 [42.8-43.0]</td>
+      <td>0.0235 [0.0231-0.0241]</td>
+      <td>0.444 [0.444-0.450]</td>
+      <td>0.29 [0.29-0.29]</td>
+      <td>0.72 [0.72-0.72]</td>
+    </tr>
+    <tr>
+      <th>no-constraints</th>
+      <td>0.00908 [0.00907-0.00910]</td>
+      <td>0.000% [0.000%-0.000%]</td>
+      <td>72.3% [71.2%-72.4%]</td>
+      <td>0.00% [0.00%-0.00%]</td>
+      <td>59.3 [59.2-59.7]</td>
+      <td>0.0241 [0.0233-0.0250]</td>
+      <td>0.696 [0.692-0.700]</td>
+      <td>0.29 [0.29-0.29]</td>
+      <td>0.72 [0.72-0.74]</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">))</span>
+<span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">variants</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">REGIMES</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">variants</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">reg</span><span class="p">][</span><span class="s2">"share_battery_steps_breaking_inverter_limits"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">"median"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">SERIES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">100</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">"min"</span><span class="p">],</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">INK</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">"max"</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">[</span><span class="s1">'median'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)),</span> <span class="n">names</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">();</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"battery steps breaking an inverter limit (%)</span><span class="se">\n</span><span class="s2">bar: median, line: min-max over seeds"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">REGIMES</span><span class="p">[</span><span class="n">reg</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/f8d922f36d64079f3abdef9758764396f40d39c6686d3eab6cd8d01c8f57e163.png" src="../_images/f8d922f36d64079f3abdef9758764396f40d39c6686d3eab6cd8d01c8f57e163.png" />
+</div>
+</div>
+</section>
+<section id="every-seed">
+<h2>Every seed<a class="headerlink" href="#every-seed" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"projection-only"</span><span class="p">:</span> <span class="s2">"projection-only"</span><span class="p">,</span> <span class="s2">"penalty-only-no-deg"</span><span class="p">:</span> <span class="s2">"penalty-only (with D1)"</span><span class="p">,</span> <span class="s2">"no-constraints-no-deg"</span><span class="p">:</span> <span class="s2">"no-constraints"</span><span class="p">}</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">seed</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">[</span><span class="s2">"variants"</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">"per_seed"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">rl</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s2">"regimes"</span><span class="p">][</span><span class="n">reg</span><span class="p">];</span> <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">]</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"variant"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">"seed"</span><span class="p">:</span> <span class="n">seed</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"seed_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span> <span class="s2">"regime"</span><span class="p">:</span> <span class="n">rl</span><span class="p">,</span> <span class="s2">"objective"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"objective"</span><span class="p">]),</span>
+                         <span class="s2">"mean |P| per battery (MW)"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">"mean_abs_p_mw"</span><span class="p">]),</span>
+                         <span class="s2">"mean |Q| per battery (Mvar)"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">"mean_abs_q_mvar"</span><span class="p">]),</span>
+                         <span class="s2">"inverter-limit breaks"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"share_of_battery_steps_breaking_inverter_limits"</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
+                         <span class="s2">"SoC outside limits"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"share_of_battery_steps_outside_soc_limits"</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
+                         <span class="s2">"VVR"</span><span class="p">:</span> <span class="n">pct</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"vvr_share_of_steps_with_any_violation"</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+                         <span class="s2">"end-of-day SoC"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'end_of_day_soc_min'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">fmt</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'end_of_day_soc_max'</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
+<span class="n">table</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"variant"</span><span class="p">,</span> <span class="s2">"seed"</span><span class="p">,</span> <span class="s2">"regime"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>objective</th>
+      <th>mean |P| per battery (MW)</th>
+      <th>mean |Q| per battery (Mvar)</th>
+      <th>inverter-limit breaks</th>
+      <th>SoC outside limits</th>
+      <th>VVR</th>
+      <th>end-of-day SoC</th>
+    </tr>
+    <tr>
+      <th>variant</th>
+      <th>seed</th>
+      <th>regime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="6" valign="top">projection-only</th>
+      <th rowspan="2" valign="top">0</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00498</td>
+      <td>0.0237, 0.0246</td>
+      <td>0.348, 0.455</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.31 - 0.34</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01242</td>
+      <td>0.0246, 0.0248</td>
+      <td>0.434, 0.493</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.29 - 0.32</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">1</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00500</td>
+      <td>0.0248, 0.0216</td>
+      <td>0.352, 0.452</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.32 - 0.36</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01243</td>
+      <td>0.0256, 0.0227</td>
+      <td>0.434, 0.493</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.29 - 0.33</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00498</td>
+      <td>0.0245, 0.0247</td>
+      <td>0.348, 0.453</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.30 - 0.33</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01243</td>
+      <td>0.0245, 0.0258</td>
+      <td>0.434, 0.492</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.29 - 0.32</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">penalty-only (with D1)</th>
+      <th rowspan="2" valign="top">0</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00503</td>
+      <td>0.0247, 0.0213</td>
+      <td>0.355, 0.431</td>
+      <td>3.52%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.32 - 0.35</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01254</td>
+      <td>0.0254, 0.0215</td>
+      <td>0.426, 0.473</td>
+      <td>15.91%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.30 - 0.34</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">1</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00508</td>
+      <td>0.0228, 0.0221</td>
+      <td>0.355, 0.425</td>
+      <td>1.45%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.32 - 0.34</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01260</td>
+      <td>0.0238, 0.0223</td>
+      <td>0.419, 0.469</td>
+      <td>14.34%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.29 - 0.33</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00507</td>
+      <td>0.0246, 0.0234</td>
+      <td>0.358, 0.418</td>
+      <td>0.10%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.31 - 0.33</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.01262</td>
+      <td>0.0250, 0.0232</td>
+      <td>0.421, 0.466</td>
+      <td>7.85%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.29 - 0.32</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">no-constraints</th>
+      <th rowspan="2" valign="top">0</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00460</td>
+      <td>0.0243, 0.0218</td>
+      <td>0.345, 0.587</td>
+      <td>40.47%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.32 - 0.36</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.00910</td>
+      <td>0.0242, 0.0224</td>
+      <td>0.508, 0.875</td>
+      <td>71.19%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.30 - 0.34</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">1</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00458</td>
+      <td>0.0248, 0.0232</td>
+      <td>0.345, 0.590</td>
+      <td>40.64%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.32 - 0.35</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.00907</td>
+      <td>0.0253, 0.0230</td>
+      <td>0.512, 0.881</td>
+      <td>72.25%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.30 - 0.34</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>base (load ×0.7)</th>
+      <td>0.00458</td>
+      <td>0.0252, 0.0247</td>
+      <td>0.347, 0.595</td>
+      <td>41.24%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.32 - 0.34</td>
+    </tr>
+    <tr>
+      <th>stress (load ×1.0)</th>
+      <td>0.00908</td>
+      <td>0.0254, 0.0246</td>
+      <td>0.514, 0.886</td>
+      <td>72.39%</td>
+      <td>0.00%</td>
+      <td>0.000%</td>
+      <td>0.30 - 0.33</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Reading (descriptive only):</strong> with the safety layer, removing the soft penalties changes the objective very little,
+because on validation the voltages and SoC stay away from their limits. Without the safety layer, the D1 penalty keeps
+limit violations small but not zero, and the variant without any constraint has the lowest objective only because it
+exceeds the inverter rating on most steps, which a real inverter cannot do. Validation part, one network; not test results.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="n">outside</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="n">reg</span><span class="p">][</span><span class="s2">"share_battery_steps_outside_soc_limits"</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">variants</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">REGIMES</span><span class="p">]</span>
+<span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">m</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">outside</span><span class="p">):</span>
+    <span class="n">bat</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">ROOT</span> <span class="o">/</span> <span class="s2">"configs"</span> <span class="o">/</span> <span class="s2">"m3.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">"battery"</span><span class="p">]</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No variant left the SoC range </span><span class="si">{</span><span class="n">bat</span><span class="p">[</span><span class="s1">'soc_min'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">bat</span><span class="p">[</span><span class="s1">'soc_max'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> (0.00% of battery steps in all variants, seeds and regimes), so these "</span>
+                     <span class="s2">"runs do not test the energy-limit part of the safety layer; they test its inverter-limit part."</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"Scope: the ablations cover constraint handling only (the safety layer and the soft penalties). The "</span>
+                 <span class="s2">"differentiable solver, the horizon, the terminal term, the forecast (none) and degradation (off) are not ablated."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<p>No variant left the SoC range 10%-90% (0.00% of battery steps in all variants, seeds and regimes), so these runs do not test the energy-limit part of the safety layer; they test its inverter-limit part.</p>
+<p>Scope: the ablations cover constraint handling only (the safety layer and the soft penalties). The differentiable solver, the horizon, the terminal term, the forecast (none) and degradation (off) are not ablated.</p>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_oracle_subset.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">06 Oracle subset: all controllers on the same 28 days</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../decisions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Decisions and protocols</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#over-seeds-median-min-max">Over seeds: median [min-max]</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#every-seed">Every seed</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javid Alizade
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
