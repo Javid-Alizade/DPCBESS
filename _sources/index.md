@@ -7,7 +7,7 @@
 :::
 
 [Results](#results) · [Decisions and protocols](decisions.md) · [How to reproduce](reproduce.md) ·
-Code repository: *not published yet*
+Code repository: [github.com/Javid-Alizade/DPCBESS](https://github.com/Javid-Alizade/DPCBESS)
 
 ## Abstract
 
@@ -118,6 +118,7 @@ See [How to reproduce](reproduce.md).
             for Voltage Regulation in a Distribution Grid
             (preliminary)},
   year   = {2026},
+  url    = {https://javid-alizade.github.io/DPCBESS/},
   note   = {Preliminary results on the validation part;
             test part not yet evaluated}
 }
