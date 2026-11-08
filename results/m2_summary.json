@@ -1,0 +1,246 @@
+{
+  "note": "Solar and load come from different countries and years and share no real weather.",
+  "per_split": {
+    "train": {
+      "first_step": "2012-01-01 00:05:00",
+      "last_step": "2013-07-01 00:00:00",
+      "solar_first": "2013-12-31 23:05:00",
+      "solar_last": "2015-06-30 23:00:00",
+      "steps": 157248,
+      "valid_steps": 156696,
+      "valid_share": 0.9964896214896215,
+      "full_windows": 155414,
+      "feeder_load_peak_mw_at_x1": 3.714999999999998,
+      "feeder_load_mean_mw_at_x1": 2.095606716013012,
+      "steps_with_known_ramp": 156636,
+      "extreme_steps": 1567,
+      "extreme_share_of_known": 0.010004085906177379
+    },
+    "val": {
+      "first_step": "2013-07-01 00:05:00",
+      "last_step": "2014-01-01 00:00:00",
+      "solar_first": "2016-06-30 23:05:00",
+      "solar_last": "2016-12-31 23:00:00",
+      "steps": 52992,
+      "valid_steps": 48217,
+      "valid_share": 0.9098920591787439,
+      "full_windows": 44937,
+      "feeder_load_peak_mw_at_x1": 3.8153586499456713,
+      "feeder_load_mean_mw_at_x1": 2.1986304219867385,
+      "steps_with_known_ramp": 47943,
+      "extreme_steps": 362,
+      "extreme_share_of_known": 0.007550633043405711
+    },
+    "test": {
+      "first_step": "2014-01-01 00:05:00",
+      "last_step": "2015-01-01 00:00:00",
+      "solar_first": "2016-12-31 23:05:00",
+      "solar_last": "2017-12-31 23:00:00",
+      "steps": 105120,
+      "valid_steps": 98955,
+      "valid_share": 0.9413527397260274,
+      "full_windows": 96712,
+      "feeder_load_peak_mw_at_x1": 3.3613931821333347,
+      "feeder_load_mean_mw_at_x1": 2.0576274934906675,
+      "steps_with_known_ramp": 98843,
+      "extreme_steps": 1006,
+      "extreme_share_of_known": 0.010177756644375424
+    }
+  },
+  "load": {
+    "clients_used": 313,
+    "clients_total": 370,
+    "clients_per_bus": [
+      9,
+      10
+    ],
+    "train_bus_peak_over_case33bw_min": 0.8522693284695739,
+    "train_bus_peak_over_case33bw_max": 1.8657741079102268,
+    "largest_client_share_within_a_bus_median": 0.38727395366434614,
+    "largest_client_share_within_a_bus_max": 0.8239858711877746
+  },
+  "solar": {
+    "systems_usable": 121,
+    "systems_total": 175,
+    "systems_per_bus": [
+      31,
+      30,
+      30,
+      30
+    ],
+    "train_max_total_mw": 3.335132550269167,
+    "train_mean_total_mw": 0.47047451211902264,
+    "train_share_of_valid_steps_with_output": 0.5064166157916158
+  },
+  "ramp": {
+    "unit": "MW per minute, total feeder PV",
+    "definition": {
+      "signal": "total feeder PV",
+      "use_absolute_value": true,
+      "extreme_top_percent": 1.0
+    },
+    "threshold_mw_per_min_from_train": 0.04669529688382838,
+    "threshold_in_percent_of_pv_capacity_per_5_min": 5.9865765235677415,
+    "train_max_abs_ramp_mw_per_min": 0.1700483354195971,
+    "train_extreme_share_when_reporting_systems_changed": 0.597319719208679,
+    "train_all_steps_share_when_reporting_systems_changed": 0.2726076007326007
+  },
+  "train_no_control_check": [
+    {
+      "load_scale": 0.7,
+      "steps_checked": 26116,
+      "v_min": 0.9416494965553284,
+      "v_max": 1.07683527469635,
+      "share_of_steps_with_any_bus_below_0.95": 0.004135395925869199,
+      "share_of_steps_with_any_bus_above_1.05": 0.028449992341859395,
+      "share_of_bus_steps_outside_band": 0.0029785525650129724
+    },
+    {
+      "load_scale": 1.0,
+      "steps_checked": 26116,
+      "v_min": 0.9144327044487,
+      "v_max": 1.0627185106277466,
+      "share_of_steps_with_any_bus_below_0.95": 0.2329223464542809,
+      "share_of_steps_with_any_bus_above_1.05": 0.0055521519375095725,
+      "share_of_bus_steps_outside_band": 0.0686378256450243
+    }
+  ],
+  "config": {
+    "seed": 0,
+    "sources": {
+      "solar": {
+        "name": "Visser et al. 2022, 175 rooftop PV systems, Utrecht",
+        "doi": "10.5281/zenodo.10953360",
+        "license": "CC BY 4.0",
+        "files": {
+          "filtered_pv_power_measurements_ac.csv": {
+            "url": "https://zenodo.org/api/records/10953360/files/filtered_pv_power_measurements_ac.csv/content",
+            "md5": "13896fef43016d4f08cf671f7f37af4b"
+          },
+          "metadata.csv": {
+            "url": "https://zenodo.org/api/records/10953360/files/metadata.csv/content",
+            "md5": "df6b38f4ca7c0ca5191c33acd2dc5b7b"
+          },
+          "metadata_units.csv": {
+            "url": "https://zenodo.org/api/records/10953360/files/metadata_units.csv/content",
+            "md5": "fa21b348c1dd0b8ad772b6139788a5dd"
+          }
+        }
+      },
+      "load": {
+        "name": "Trindade 2015, ElectricityLoadDiagrams20112014, UCI",
+        "doi": "10.24432/C58C86",
+        "license": "CC BY 4.0",
+        "files": {
+          "electricityloaddiagrams20112014.zip": {
+            "url": "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip",
+            "md5": null
+          }
+        }
+      }
+    },
+    "time": {
+      "dt_min": 5,
+      "horizon_steps": 24,
+      "load_years": [
+        2012,
+        2013,
+        2014
+      ],
+      "solar_year_offset": {
+        "train": 2,
+        "val": 3,
+        "test": 3
+      },
+      "train": [
+        "2012-01-01",
+        "2013-07-01"
+      ],
+      "val": [
+        "2013-07-01",
+        "2014-01-01"
+      ],
+      "test": [
+        "2014-01-01",
+        "2015-01-01"
+      ]
+    },
+    "selection": {
+      "load_max_zero_share_in_train": 0.01,
+      "pv_min_availability_in_train": 0.9,
+      "pv_min_systems_per_bus": 5,
+      "pv_min_valid_minutes_per_step": 3
+    },
+    "scenarios": {
+      "base_load_scale": 0.7,
+      "stress_load_scale": 1.0
+    },
+    "placement": {
+      "pv_buses": [
+        14,
+        17,
+        29,
+        32
+      ],
+      "pv_total_mw": 3.9,
+      "bess_buses": [
+        17,
+        32
+      ],
+      "bess_total_mw": 1.0,
+      "bess_duration_h": 2.0
+    },
+    "ramp": {
+      "signal": "total feeder PV",
+      "use_absolute_value": true,
+      "extreme_top_percent": 1.0
+    },
+    "s_base_mva": 10.0
+  },
+  "downloads": {
+    "filtered_pv_power_measurements_ac.csv": {
+      "dataset": "solar",
+      "url": "https://zenodo.org/api/records/10953360/files/filtered_pv_power_measurements_ac.csv/content",
+      "bytes": 2985408767,
+      "md5": "13896fef43016d4f08cf671f7f37af4b",
+      "sha256": "b9f699de17f0d0ca73be181f4895aa3d94da7a325331d32914ca5f425e8b47bb",
+      "md5_checked_against_source": true
+    },
+    "metadata.csv": {
+      "dataset": "solar",
+      "url": "https://zenodo.org/api/records/10953360/files/metadata.csv/content",
+      "bytes": 22902,
+      "md5": "df6b38f4ca7c0ca5191c33acd2dc5b7b",
+      "sha256": "c13bc26674125d93a7416fc0cc92196125eb1af3ff91292ba761a93dba1fa563",
+      "md5_checked_against_source": true
+    },
+    "metadata_units.csv": {
+      "dataset": "solar",
+      "url": "https://zenodo.org/api/records/10953360/files/metadata_units.csv/content",
+      "bytes": 22221,
+      "md5": "fa21b348c1dd0b8ad772b6139788a5dd",
+      "sha256": "0a1f05725bd678aa5449df2220df9f4bfd2d29b87fdeed9a3a36e5ecb80ebaa0",
+      "md5_checked_against_source": true
+    },
+    "electricityloaddiagrams20112014.zip": {
+      "dataset": "load",
+      "url": "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip",
+      "bytes": 261335609,
+      "md5": "0f0fd085f742acd4f36687e7c071e521",
+      "sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
+      "md5_checked_against_source": false,
+      "zip_members": {
+        "LD2011_2014.txt": 710998915,
+        "__MACOSX/": 0,
+        "__MACOSX/._LD2011_2014.txt": 1080
+      }
+    }
+  },
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "torch": "2.15.0+cpu",
+    "pandapower": "3.5.6"
+  }
+}

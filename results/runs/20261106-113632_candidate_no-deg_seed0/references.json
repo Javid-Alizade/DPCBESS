@@ -1,0 +1,44 @@
+{
+  "terms": {
+    "idle": {
+      "base_x0.7": {
+        "loss": 0.002731605898588896,
+        "voltage": 0.01206875964999199,
+        "effort": 0.0,
+        "soc_penalty": 0.0,
+        "voltage_penalty": 6.492564352811314e-08,
+        "terminal_soc": 0.0
+      },
+      "stress_x1.0": {
+        "loss": 0.005316504277288914,
+        "voltage": 0.02619057148694992,
+        "effort": 0.0,
+        "soc_penalty": 0.0,
+        "voltage_penalty": 0.00018935046682599932,
+        "terminal_soc": 0.0
+      }
+    },
+    "droop": {
+      "base_x0.7": {
+        "loss": 0.0023315325379371643,
+        "voltage": 0.007636578753590584,
+        "effort": 0.000379236473236233,
+        "soc_penalty": 0.0,
+        "voltage_penalty": 0.0,
+        "terminal_soc": 0.0
+      },
+      "stress_x1.0": {
+        "loss": 0.00415909755975008,
+        "voltage": 0.015301836654543877,
+        "effort": 0.001039064722135663,
+        "soc_penalty": 0.0,
+        "voltage_penalty": 2.5492825628248283e-09,
+        "terminal_soc": 0.0
+      }
+    }
+  },
+  "objective": {
+    "idle": 0.11786141851916909,
+    "droop": 0.01472288928925991
+  }
+}

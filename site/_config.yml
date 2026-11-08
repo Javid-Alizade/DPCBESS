@@ -1,0 +1,19 @@
+# Jupyter Book configuration for site v1 (built locally only; nothing is published).
+title: "DPC for battery voltage regulation (preliminary)"
+author: Javid Alizade
+copyright: "2026"
+only_build_toc_files: true
+
+execute:
+  # Notebooks read saved results only. They are executed at build time so every number on the site comes from running code.
+  execute_notebooks: force
+  timeout: 300
+
+parse:
+  myst_enable_extensions:
+    - colon_fence
+    - dollarmath
+
+html:
+  use_repository_button: false   # the repository does not exist yet (S1, S8)
+  use_issues_button: false

@@ -1,0 +1,9 @@
+{
+  "best_val_objective": 0.008231553249061108,
+  "seconds": 391.7287453999743,
+  "steps": 1000,
+  "references_val_objective": {
+    "idle": 0.10846178699284792,
+    "droop": 0.014793292619287968
+  }
+}

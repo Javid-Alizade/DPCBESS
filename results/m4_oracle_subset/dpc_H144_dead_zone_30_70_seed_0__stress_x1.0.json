@@ -1,0 +1,53 @@
+{
+  "objective": 0.01252766529098153,
+  "terms": {
+    "loss": 0.004201539792120457,
+    "voltage": 0.008281448855996132,
+    "effort": 0.004467664286494255,
+    "soc_penalty": 0.0,
+    "voltage_penalty": 0.0
+  },
+  "wall_seconds": 42.62754729995504,
+  "mean_abs_p_mw": [
+    0.028429880738258362,
+    0.027654806151986122
+  ],
+  "mean_p_mw": [
+    0.006478893104940653,
+    0.006227137986570597
+  ],
+  "mean_abs_q_mvar": [
+    0.430867463350296,
+    0.4939064681529999
+  ],
+  "share_at_s_limit": 0.781312003968254,
+  "share_soc_clip_active": 0.0,
+  "days_at_end_of_day": 28,
+  "end_of_day_soc_min": 0.29746365547180176,
+  "end_of_day_soc_max": 0.3224320113658905,
+  "summary": {
+    "steps": 8064,
+    "vvr_share_of_steps_with_any_violation": 0.0,
+    "vvr_share_of_bus_steps": 0.0,
+    "v_rmse_pu": 0.015841495245695114,
+    "v_min": 0.955672025680542,
+    "v_max": 1.019720196723938,
+    "mean_network_loss_kw": 42.01539611816406,
+    "mean_abs_p_mw": 0.028042348101735115,
+    "mean_abs_q_mvar": 0.4623812139034271,
+    "battery_stress_mean_p2_q2_pu": 0.004467664286494255,
+    "soc_min": 0.29514145851135254,
+    "soc_max": 0.7008472681045532,
+    "share_of_battery_steps_outside_soc_limits": 0.0,
+    "share_of_battery_steps_breaking_inverter_limits": 0.0
+  },
+  "controller": "dpc_H144_dead_zone_30_70_seed_0",
+  "regime": "stress_x1.0",
+  "commit": "2c70d3f71f25f6f98c4cfb8de478ae53fcfbd67c",
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  }
+}

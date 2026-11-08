@@ -1,0 +1,13 @@
+{
+  "best_val_objective": 0.00902970158495009,
+  "seconds": 1438.2218362998683,
+  "steps": 1000,
+  "steps_done": 1000,
+  "stopped_on_nonfinite_at_step": null,
+  "horizon_steps": 144,
+  "truncate": null,
+  "references_val_objective": {
+    "idle": 0.11786141851916909,
+    "droop": 0.01472288928925991
+  }
+}

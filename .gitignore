@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+*.pdf
+
+# Trained weights can be re-created from the logged config, seed and commit
+*.pt
+
+# Raw and processed datasets are large and can be re-created with scripts/download_m2.py and scripts/prepare_m2.py
+data/
+
+# Resume files of the M4 full MPC run; the finished results are in <regime>.json, _trajectory.npz and _solver_log.json
+results/m4_mpc_full/*_checkpoint.npz
+results/m4_mpc_full/base_x0.7_log.json
+results/m4_mpc_full/stress_x1.0_log.json
+
+# Local Jupyter Book build output
+site/_build/

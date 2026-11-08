@@ -1,0 +1,19 @@
+# Table of contents (Jupyter Book). The landing page follows the order of the reference site:
+# header -> problem -> method -> data -> results -> next steps -> reproducibility -> citation and license.
+# Every notebook only reads committed results/*.json files; nothing is trained or solved while the book is built.
+format: jb-book
+root: index
+parts:
+  - caption: Results on the validation part (preliminary)
+    chapters:
+      - file: notebooks/01_network_and_solver
+      - file: notebooks/02_data_pipeline
+      - file: notebooks/03_dpc_training_and_selection
+      - file: notebooks/04_seeds_and_droop
+      - file: notebooks/05_mpc_baseline
+      - file: notebooks/06_oracle_subset
+      - file: notebooks/07_ablations
+  - caption: Project record
+    chapters:
+      - file: decisions
+      - file: reproduce

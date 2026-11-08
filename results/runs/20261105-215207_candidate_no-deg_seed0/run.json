@@ -1,0 +1,204 @@
+{
+  "run_id": "20261105-215207_candidate_no-deg_seed0",
+  "kind": "candidate",
+  "variant": "no-deg",
+  "seed": 0,
+  "started": "20261105-215207",
+  "commit": "608c098f1e02cba395a3fa8035a12c51041cab63",
+  "code_differs_from_commit": false,
+  "command": [
+    "scripts/train_m3.py",
+    "--candidate",
+    "--seed",
+    "0",
+    "--terminal-soc-weight",
+    "10",
+    "--terminal-soc-dead-band",
+    "0.2"
+  ],
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu"
+  },
+  "config": {
+    "m2": {
+      "seed": 0,
+      "sources": {
+        "solar": {
+          "name": "Visser et al. 2022, 175 rooftop PV systems, Utrecht",
+          "doi": "10.5281/zenodo.10953360",
+          "license": "CC BY 4.0",
+          "files": {
+            "filtered_pv_power_measurements_ac.csv": {
+              "url": "https://zenodo.org/api/records/10953360/files/filtered_pv_power_measurements_ac.csv/content",
+              "md5": "13896fef43016d4f08cf671f7f37af4b"
+            },
+            "metadata.csv": {
+              "url": "https://zenodo.org/api/records/10953360/files/metadata.csv/content",
+              "md5": "df6b38f4ca7c0ca5191c33acd2dc5b7b"
+            },
+            "metadata_units.csv": {
+              "url": "https://zenodo.org/api/records/10953360/files/metadata_units.csv/content",
+              "md5": "fa21b348c1dd0b8ad772b6139788a5dd"
+            }
+          }
+        },
+        "load": {
+          "name": "Trindade 2015, ElectricityLoadDiagrams20112014, UCI",
+          "doi": "10.24432/C58C86",
+          "license": "CC BY 4.0",
+          "files": {
+            "electricityloaddiagrams20112014.zip": {
+              "url": "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip",
+              "md5": null
+            }
+          }
+        }
+      },
+      "time": {
+        "dt_min": 5,
+        "horizon_steps": 24,
+        "load_years": [
+          2012,
+          2013,
+          2014
+        ],
+        "solar_year_offset": {
+          "train": 2,
+          "val": 3,
+          "test": 3
+        },
+        "train": [
+          "2012-01-01",
+          "2013-07-01"
+        ],
+        "val": [
+          "2013-07-01",
+          "2014-01-01"
+        ],
+        "test": [
+          "2014-01-01",
+          "2015-01-01"
+        ]
+      },
+      "selection": {
+        "load_max_zero_share_in_train": 0.01,
+        "pv_min_availability_in_train": 0.9,
+        "pv_min_systems_per_bus": 5,
+        "pv_min_valid_minutes_per_step": 3
+      },
+      "scenarios": {
+        "base_load_scale": 0.7,
+        "stress_load_scale": 1.0
+      },
+      "placement": {
+        "pv_buses": [
+          14,
+          17,
+          29,
+          32
+        ],
+        "pv_total_mw": 3.9,
+        "bess_buses": [
+          17,
+          32
+        ],
+        "bess_total_mw": 1.0,
+        "bess_duration_h": 2.0
+      },
+      "ramp": {
+        "signal": "total feeder PV",
+        "use_absolute_value": true,
+        "extreme_top_percent": 1.0
+      },
+      "rq2_metrics": {
+        "limits_pu": [
+          0.95,
+          1.05
+        ],
+        "safe_band_pu": [
+          0.96,
+          1.04
+        ],
+        "window_steps": 12,
+        "bootstrap_samples": 2000,
+        "confidence": 0.95
+      }
+    },
+    "m3": {
+      "horizon_steps": 24,
+      "policy": {
+        "hidden": 128
+      },
+      "battery": {
+        "p_max_mw": 0.5,
+        "q_max_mvar": 0.5,
+        "s_max_mva": 0.5,
+        "energy_mwh": 1.0,
+        "eta_ch": 0.95,
+        "eta_dis": 0.95,
+        "soc_min": 0.1,
+        "soc_max": 0.9,
+        "soc_start_range": [
+          0.3,
+          0.7
+        ],
+        "soc_after_gap": 0.5,
+        "terminal_soc_dead_band": 0.2
+      },
+      "weights": {
+        "loss": 1.0,
+        "voltage": 1.0,
+        "effort": 0.01,
+        "soc_penalty": 100.0,
+        "voltage_penalty": 1000.0,
+        "c_rate_penalty": 0.0,
+        "degradation": 0.0,
+        "terminal_soc": 10.0
+      },
+      "train": {
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "grad_clip": 1.0,
+        "batch": 64,
+        "steps": 1000,
+        "val_every": 100,
+        "extreme_window_share": 0.3,
+        "n_iter": 8
+      },
+      "pilot": {
+        "steps": 200,
+        "val_every": 20
+      },
+      "evaluation": {
+        "n_iter": 15,
+        "val_windows": 256
+      },
+      "droop": {
+        "dead_band_pu": 0.01,
+        "full_at_pu": 0.05
+      },
+      "variants": {
+        "no-deg": {
+          "penalties": true,
+          "projection": true
+        },
+        "penalty-only-no-deg": {
+          "penalties": true,
+          "projection": false
+        },
+        "projection-only": {
+          "penalties": false,
+          "projection": true
+        },
+        "no-constraints-no-deg": {
+          "penalties": false,
+          "projection": false
+        }
+      }
+    },
+    "steps": 1000,
+    "val_every": 100
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "part": "validation only, 2-day pilot, re-run with the overlap penalty",
+  "commit": "36decdd5f5cdea6e70a356ed1a74f6ac97727672",
+  "code_differs_from_commit": false,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  },
+  "overlap_penalty": 1e-05,
+  "horizon": 144,
+  "terminal_soc_dead_band": 0.2,
+  "pilot_days": [
+    "2013-07-27",
+    "2013-08-16"
+  ],
+  "regimes": {
+    "base_x0.7": {
+      "steps": 576,
+      "wall_seconds": 164.77548509999178,
+      "wall_seconds_per_step": 0.2860685505208191,
+      "solve_seconds": {
+        "mean": 0.2832541477404852,
+        "median": 0.27259165002033114,
+        "p95": 0.29243585001677275,
+        "max": 5.526394099928439
+      },
+      "estimated_hours_for_all_validation_steps": 3.831490916795093,
+      "solver_statuses": {
+        "optimal": 576
+      },
+      "share_battery_steps_safety_layer_changes_action": 0.0,
+      "share_battery_steps_soc_clip_active": 0.0,
+      "share_battery_steps_simultaneous_charge_discharge": 0.3003472222222222,
+      "overlap_mw": {
+        "n": 1152,
+        "mean": 0.13071562654073168,
+        "p95": 0.45718398965313234,
+        "max": 0.4651771587625714
+      },
+      "overlap_mean_share_of_limit": 0.26143125308146337,
+      "soc_gap_1_step": {
+        "n": 1152,
+        "mean": 0.0011179700939595498,
+        "p95": 0.003910135419824984,
+        "max": 0.003978461688806445
+      },
+      "soc_gap_12_steps": {
+        "n": 1108,
+        "mean": 0.014519608357309758,
+        "p95": 0.04547644307802468,
+        "max": 0.06269857431282588
+      },
+      "mean_abs_p_mw": [
+        0.030039213597774506,
+        0.028583385050296783
+      ],
+      "mean_abs_q_mvar": [
+        0.3278158903121948,
+        0.39430490136146545
+      ],
+      "soc_min": 0.4038606882095337,
+      "soc_max": 0.8808783292770386
+    },
+    "stress_x1.0": {
+      "steps": 576,
+      "wall_seconds": 168.8287052998785,
+      "wall_seconds_per_step": 0.2931053911456224,
+      "solve_seconds": {
+        "mean": 0.2903333164952831,
+        "median": 0.2797513500554487,
+        "p95": 0.3060760000371374,
+        "max": 5.258076899917796
+      },
+      "estimated_hours_for_all_validation_steps": 3.9257396235745765,
+      "solver_statuses": {
+        "optimal": 576
+      },
+      "share_battery_steps_safety_layer_changes_action": 0.0,
+      "share_battery_steps_soc_clip_active": 0.0,
+      "share_battery_steps_simultaneous_charge_discharge": 0.2282986111111111,
+      "overlap_mw": {
+        "n": 1152,
+        "mean": 0.09769284465629388,
+        "p95": 0.4504631555548109,
+        "max": 0.4608112436423486
+      },
+      "overlap_mean_share_of_limit": 0.19538568931258776,
+      "soc_gap_1_step": {
+        "n": 1152,
+        "mean": 0.0008355380930765578,
+        "p95": 0.0038526487917129814,
+        "max": 0.003941139229343582
+      },
+      "soc_gap_12_steps": {
+        "n": 1108,
+        "mean": 0.011054086115223821,
+        "p95": 0.04450850999853066,
+        "max": 0.06859116481399324
+      },
+      "mean_abs_p_mw": [
+        0.027549346908926964,
+        0.023154688999056816
+      ],
+      "mean_abs_q_mvar": [
+        0.38025879859924316,
+        0.486020565032959
+      ],
+      "soc_min": 0.3819933831691742,
+      "soc_max": 0.8241088390350342
+    }
+  }
+}

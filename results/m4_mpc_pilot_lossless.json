@@ -1,0 +1,130 @@
+{
+  "part": "validation only, 2-day pilot, lossless SoC model in the MPC",
+  "commit": "2c70d3f71f25f6f98c4cfb8de478ae53fcfbd67c",
+  "code_differs_from_commit": false,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  },
+  "soc_model": "lossless",
+  "forecast": "persistence",
+  "horizon": 144,
+  "terminal_soc_dead_band": 0.2,
+  "pilot_days": [
+    "2013-07-27",
+    "2013-08-16"
+  ],
+  "criteria": {
+    "min_optimal_share": 0.999,
+    "mismatch_bound": 0.004276315789473684,
+    "mismatch_slack": 0.0001
+  },
+  "regimes": {
+    "base_x0.7": {
+      "steps": 576,
+      "wall_seconds": 500.5395483998582,
+      "wall_seconds_per_step": 0.8689922715275316,
+      "solve_seconds": {
+        "mean": 0.8563475364640504,
+        "median": 0.8166137000080198,
+        "p95": 0.9263582999701612,
+        "max": 11.978704700013623
+      },
+      "estimated_hours_for_all_validation_steps": 11.63894454340083,
+      "solver_statuses": {
+        "optimal": 576
+      },
+      "optimal_share": 1.0,
+      "no_simultaneous_by_construction": true,
+      "share_battery_steps_safety_layer_changes_action": 0.0,
+      "max_safety_change_pu": 9.866200596092556e-08,
+      "share_battery_steps_soc_clip_active": 0.0,
+      "soc_mismatch_1_step": {
+        "n": 1152,
+        "mean": 6.107877983671285e-05,
+        "p95": 9.408665107906445e-05,
+        "max": 0.00010404871624586365
+      },
+      "soc_gap_12_steps": {
+        "n": 1108,
+        "mean": 0.0019720754080275555,
+        "p95": 0.01327437154028982,
+        "max": 0.03097853599351097
+      },
+      "mean_abs_p_mw": [
+        0.014328833669424057,
+        0.0140758091583848
+      ],
+      "mean_p_mw": [
+        0.00302150403149426,
+        0.0032833272125571966
+      ],
+      "mean_abs_q_mvar": [
+        0.3365204334259033,
+        0.39160189032554626
+      ],
+      "soc_min": 0.3672081530094147,
+      "soc_max": 0.5650061368942261,
+      "pass": {
+        "optimal_share": true,
+        "no_simultaneous_by_construction": true,
+        "mismatch_within_bound": true
+      }
+    },
+    "stress_x1.0": {
+      "steps": 576,
+      "wall_seconds": 218.75621480005793,
+      "wall_seconds_per_step": 0.37978509513898945,
+      "solve_seconds": {
+        "mean": 0.37562889826302936,
+        "median": 0.2875497001223266,
+        "p95": 0.7325240500504151,
+        "max": 14.070419600000605
+      },
+      "estimated_hours_for_all_validation_steps": 5.086693870087959,
+      "solver_statuses": {
+        "optimal": 576
+      },
+      "optimal_share": 1.0,
+      "no_simultaneous_by_construction": true,
+      "share_battery_steps_safety_layer_changes_action": 0.0,
+      "max_safety_change_pu": 9.871896295560179e-08,
+      "share_battery_steps_soc_clip_active": 0.0,
+      "soc_mismatch_1_step": {
+        "n": 1152,
+        "mean": 5.675488986819577e-05,
+        "p95": 9.525678372675484e-05,
+        "max": 0.00010653457842474401
+      },
+      "soc_gap_12_steps": {
+        "n": 1108,
+        "mean": 0.0017779892194523526,
+        "p95": 0.01339599246505347,
+        "max": 0.030140882030675997
+      },
+      "mean_abs_p_mw": [
+        0.013790056109428406,
+        0.012547710910439491
+      ],
+      "mean_p_mw": [
+        0.0036730116698890924,
+        0.004380350932478905
+      ],
+      "mean_abs_q_mvar": [
+        0.3805496394634247,
+        0.4820510149002075
+      ],
+      "soc_min": 0.34782811999320984,
+      "soc_max": 0.5456380844116211,
+      "pass": {
+        "optimal_share": true,
+        "no_simultaneous_by_construction": true,
+        "mismatch_within_bound": true
+      }
+    }
+  },
+  "all_criteria_pass": true,
+  "failures": []
+}

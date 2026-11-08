@@ -1,0 +1,92 @@
+{
+  "part": "validation only, 2-day pilot",
+  "commit": "5ccb3fcb0c7979a52943a0cb31bf32441791bc3c",
+  "code_differs_from_commit": false,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  },
+  "horizon": 144,
+  "forecast": "persistence",
+  "terminal_soc_dead_band": 0.2,
+  "weights": {
+    "loss": 1.0,
+    "voltage": 1.0,
+    "effort": 0.01,
+    "soc_penalty": 100.0,
+    "voltage_penalty": 1000.0,
+    "c_rate_penalty": 0.0,
+    "degradation": 0.0,
+    "terminal_soc": 10.0
+  },
+  "pilot_days": [
+    "2013-07-27",
+    "2013-08-16"
+  ],
+  "pilot_steps": 576,
+  "validation_steps_per_regime": 48217,
+  "regimes": {
+    "base_x0.7": {
+      "build_seconds": 0.005909200059249997,
+      "steps": 576,
+      "wall_seconds": 193.16563259996474,
+      "wall_seconds_per_step": 0.33535700104160543,
+      "solve_seconds": {
+        "mean": 0.33249436892543194,
+        "median": 0.3176429499872029,
+        "p95": 0.3491050499724224,
+        "max": 6.850848500151187
+      },
+      "estimated_hours_for_all_validation_steps": 4.491641255339747,
+      "solver_statuses": {
+        "optimal": 576
+      },
+      "share_battery_steps_safety_layer_changes_action": 0.0,
+      "share_battery_steps_soc_clip_active": 0.0,
+      "share_battery_steps_simultaneous_charge_discharge": 0.3072916666666667,
+      "max_safety_change_pu": 9.871623393720164e-08,
+      "mean_abs_p_mw": [
+        0.030047336593270302,
+        0.02859090454876423
+      ],
+      "mean_abs_q_mvar": [
+        0.32782137393951416,
+        0.3943115472793579
+      ],
+      "soc_min": 0.4038606584072113,
+      "soc_max": 0.8809844255447388
+    },
+    "stress_x1.0": {
+      "build_seconds": 0.016349999932572246,
+      "steps": 576,
+      "wall_seconds": 198.6902240999043,
+      "wall_seconds_per_step": 0.34494830572900054,
+      "solve_seconds": {
+        "mean": 0.3418751420103945,
+        "median": 0.30979015002958477,
+        "p95": 0.42522047500824556,
+        "max": 5.7554116998799145
+      },
+      "estimated_hours_for_all_validation_steps": 4.620103460370895,
+      "solver_statuses": {
+        "optimal": 576
+      },
+      "share_battery_steps_safety_layer_changes_action": 0.0,
+      "share_battery_steps_soc_clip_active": 0.0,
+      "share_battery_steps_simultaneous_charge_discharge": 0.2387152777777778,
+      "max_safety_change_pu": 9.870927131228058e-08,
+      "mean_abs_p_mw": [
+        0.027561910450458527,
+        0.0231644120067358
+      ],
+      "mean_abs_q_mvar": [
+        0.38027065992355347,
+        0.48601898550987244
+      ],
+      "soc_min": 0.382063627243042,
+      "soc_max": 0.8242743015289307
+    }
+  }
+}

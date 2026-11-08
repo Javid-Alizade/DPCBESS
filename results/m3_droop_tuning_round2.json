@@ -1,0 +1,839 @@
+{
+  "protocol": "docs/decisions.md, Droop tuning round 2 (added after seeing round 1)",
+  "commit": "2e0ecc546a16c7e25ea171927138376171102ff0",
+  "code_differs_from_commit": false,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu"
+  },
+  "original": {
+    "dead_band_pu": 0.01,
+    "full_at_pu": 0.05
+  },
+  "round1_tuned": {
+    "dead_band_pu": 0.0,
+    "full_at_pu": 0.03,
+    "training_objective": 0.01157597519993243,
+    "n_tied": 1
+  },
+  "grid_round2": {
+    "dead_band_pu": [
+      0.0,
+      0.0025,
+      0.005
+    ],
+    "full_at_pu": [
+      0.01,
+      0.015,
+      0.02,
+      0.025
+    ]
+  },
+  "training_part_round2": [
+    {
+      "round": 2,
+      "dead_band_pu": 0.0,
+      "full_at_pu": 0.01,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.014512796548187908,
+          "terms": {
+            "loss": 0.00473160482943058,
+            "voltage": 0.008771189488470554,
+            "effort": 0.004028363153338432,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 9.697185987533885e-07
+          },
+          "mean_abs_q_mvar": [
+            0.4467495083808899,
+            0.4031853973865509
+          ],
+          "share_q_sign_changes": 0.573128144232488
+        },
+        "stress_x1.0": {
+          "objective": 0.01779257509548188,
+          "terms": {
+            "loss": 0.005417334847152233,
+            "voltage": 0.011706260964274406,
+            "effort": 0.004250853322446346,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 6.264707508307765e-07
+          },
+          "mean_abs_q_mvar": [
+            0.4312320947647095,
+            0.45956870913505554
+          ],
+          "share_q_sign_changes": 0.33462933169897086
+        }
+      },
+      "objective": 0.016152685821834895,
+      "mean_abs_q_mvar_overall": 0.43518392741680145
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.0,
+      "full_at_pu": 0.015,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.013010040892490906,
+          "terms": {
+            "loss": 0.004487724043428898,
+            "voltage": 0.00827963650226593,
+            "effort": 0.003640457522124052,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 2.0627577157483756e-07
+          },
+          "mean_abs_q_mvar": [
+            0.413470596075058,
+            0.3767247796058655
+          ],
+          "share_q_sign_changes": 0.5725184504200822
+        },
+        "stress_x1.0": {
+          "objective": 0.01718054884789126,
+          "terms": {
+            "loss": 0.005301239434629679,
+            "voltage": 0.011626173742115498,
+            "effort": 0.003949778154492378,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 2.1363788960115926e-07
+          },
+          "mean_abs_q_mvar": [
+            0.40689918398857117,
+            0.4350395202636719
+          ],
+          "share_q_sign_changes": 0.33434204142087387
+        }
+      },
+      "objective": 0.015095294870191085,
+      "mean_abs_q_mvar_overall": 0.4080335199832916
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.0,
+      "full_at_pu": 0.02,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.01212546100878285,
+          "terms": {
+            "loss": 0.004258780274540186,
+            "voltage": 0.007778547704219818,
+            "effort": 0.003275919472798705,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 5.537383529485851e-08
+          },
+          "mean_abs_q_mvar": [
+            0.3833186626434326,
+            0.35044780373573303
+          ],
+          "share_q_sign_changes": 0.5687932531474246
+        },
+        "stress_x1.0": {
+          "objective": 0.016963936884593522,
+          "terms": {
+            "loss": 0.00521044060587883,
+            "voltage": 0.011669388972222805,
+            "effort": 0.0036941724829375744,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 4.716558166251161e-08
+          },
+          "mean_abs_q_mvar": [
+            0.38805490732192993,
+            0.41214117407798767
+          ],
+          "share_q_sign_changes": 0.33112758242038864
+        }
+      },
+      "objective": 0.014544698946688186,
+      "mean_abs_q_mvar_overall": 0.3834906369447708
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.0,
+      "full_at_pu": 0.025,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.01104286806068643,
+          "terms": {
+            "loss": 0.003914485685527325,
+            "voltage": 0.007093122228980064,
+            "effort": 0.002692068461328745,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 8.339461565753936e-09
+          },
+          "mean_abs_q_mvar": [
+            0.3578427731990814,
+            0.2892845869064331
+          ],
+          "share_q_sign_changes": 0.46938443269746416
+        },
+        "stress_x1.0": {
+          "objective": 0.01667168577121316,
+          "terms": {
+            "loss": 0.005036797374486923,
+            "voltage": 0.011587154120206833,
+            "effort": 0.003294276539236307,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.4791511127043577e-08
+          },
+          "mean_abs_q_mvar": [
+            0.3686365485191345,
+            0.37349840998649597
+          ],
+          "share_q_sign_changes": 0.3184644653847136
+        }
+      },
+      "objective": 0.013857276915949797,
+      "mean_abs_q_mvar_overall": 0.34731557965278625
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.0025,
+      "full_at_pu": 0.01,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.014297997503927035,
+          "terms": {
+            "loss": 0.0046645053662359715,
+            "voltage": 0.008664795197546482,
+            "effort": 0.003924280870705843,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 9.294541314375238e-07
+          },
+          "mean_abs_q_mvar": [
+            0.4329533874988556,
+            0.38123875856399536
+          ],
+          "share_q_sign_changes": 0.4726850787813785
+        },
+        "stress_x1.0": {
+          "objective": 0.017650237378420572,
+          "terms": {
+            "loss": 0.005377017427235842,
+            "voltage": 0.011622785590589046,
+            "effort": 0.004146461840718985,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 6.089697421884921e-07
+          },
+          "mean_abs_q_mvar": [
+            0.4136893153190613,
+            0.4475928843021393
+          ],
+          "share_q_sign_changes": 0.2888607982839194
+        }
+      },
+      "objective": 0.015974117441173802,
+      "mean_abs_q_mvar_overall": 0.4188685864210129
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.0025,
+      "full_at_pu": 0.015,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.012801725718318266,
+          "terms": {
+            "loss": 0.0044210851192474365,
+            "voltage": 0.008163311518728733,
+            "effort": 0.0035412944853305817,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.8191613548879104e-07
+          },
+          "mean_abs_q_mvar": [
+            0.39850181341171265,
+            0.3582702577114105
+          ],
+          "share_q_sign_changes": 0.47279999489261726
+        },
+        "stress_x1.0": {
+          "objective": 0.01710041166144947,
+          "terms": {
+            "loss": 0.005272918380796909,
+            "voltage": 0.011593802832067013,
+            "effort": 0.0038645444437861443,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.95045004147687e-07
+          },
+          "mean_abs_q_mvar": [
+            0.3915295898914337,
+            0.42283207178115845
+          ],
+          "share_q_sign_changes": 0.28850008937919763
+        }
+      },
+      "objective": 0.014951068689883868,
+      "mean_abs_q_mvar_overall": 0.39278343319892883
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.0025,
+      "full_at_pu": 0.02,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.011898579639572518,
+          "terms": {
+            "loss": 0.004185554105788469,
+            "voltage": 0.0076405624859035015,
+            "effort": 0.0031625900883227587,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 4.0837146997318996e-08
+          },
+          "mean_abs_q_mvar": [
+            0.36791545152664185,
+            0.33024391531944275
+          ],
+          "share_q_sign_changes": 0.4659944074159197
+        },
+        "stress_x1.0": {
+          "objective": 0.01690641970058323,
+          "terms": {
+            "loss": 0.005177109502255917,
+            "voltage": 0.011651547625660896,
+            "effort": 0.0036018805112689734,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 4.1743767553725775e-08
+          },
+          "mean_abs_q_mvar": [
+            0.37406960129737854,
+            0.3971228003501892
+          ],
+          "share_q_sign_changes": 0.28268405730483415
+        }
+      },
+      "objective": 0.014402499670077874,
+      "mean_abs_q_mvar_overall": 0.3673379421234131
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.0025,
+      "full_at_pu": 0.025,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.010906739310650978,
+          "terms": {
+            "loss": 0.0038521946407854557,
+            "voltage": 0.007026802282780409,
+            "effort": 0.0025777060072869062,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.9653270122432787e-09
+          },
+          "mean_abs_q_mvar": [
+            0.3420902490615845,
+            0.2614906430244446
+          ],
+          "share_q_sign_changes": 0.37845067545136496
+        },
+        "stress_x1.0": {
+          "objective": 0.016672904091505247,
+          "terms": {
+            "loss": 0.005015186034142971,
+            "voltage": 0.011612987145781517,
+            "effort": 0.003226515604183078,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.246575553892626e-08
+          },
+          "mean_abs_q_mvar": [
+            0.3550485074520111,
+            0.35302382707595825
+          ],
+          "share_q_sign_changes": 0.2560586327536454
+        }
+      },
+      "objective": 0.013789821701078113,
+      "mean_abs_q_mvar_overall": 0.3279133066534996
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.005,
+      "full_at_pu": 0.01,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.014198044090699113,
+          "terms": {
+            "loss": 0.004616314545273781,
+            "voltage": 0.008650576695799828,
+            "effort": 0.003831656649708748,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 8.928362831284176e-07
+          },
+          "mean_abs_q_mvar": [
+            0.41787147521972656,
+            0.36661455035209656
+          ],
+          "share_q_sign_changes": 0.3893708981332516
+        },
+        "stress_x1.0": {
+          "objective": 0.017568402593551583,
+          "terms": {
+            "loss": 0.005342359188944101,
+            "voltage": 0.01155837532132864,
+            "effort": 0.004041817970573902,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 6.272499035731016e-07
+          },
+          "mean_abs_q_mvar": [
+            0.39608025550842285,
+            0.43243885040283203
+          ],
+          "share_q_sign_changes": 0.23002374932965602
+        }
+      },
+      "objective": 0.015883223342125347,
+      "mean_abs_q_mvar_overall": 0.4032512828707695
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.005,
+      "full_at_pu": 0.015,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.012620264467868765,
+          "terms": {
+            "loss": 0.0043617356568574905,
+            "voltage": 0.008080234751105309,
+            "effort": 0.003443044377490878,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.4386361613105692e-07
+          },
+          "mean_abs_q_mvar": [
+            0.3822852373123169,
+            0.34476467967033386
+          ],
+          "share_q_sign_changes": 0.388646288209607
+        },
+        "stress_x1.0": {
+          "objective": 0.01705396260452744,
+          "terms": {
+            "loss": 0.005249803885817528,
+            "voltage": 0.011589289642870426,
+            "effort": 0.003781889332458377,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.77050182514904e-07
+          },
+          "mean_abs_q_mvar": [
+            0.37706369161605835,
+            0.40834635496139526
+          ],
+          "share_q_sign_changes": 0.2286958298220077
+        }
+      },
+      "objective": 0.014837113536198102,
+      "mean_abs_q_mvar_overall": 0.3781149908900261
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.005,
+      "full_at_pu": 0.02,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.011544113129330071,
+          "terms": {
+            "loss": 0.0040693124756217,
+            "voltage": 0.007424802053719759,
+            "effort": 0.002985721454024315,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 2.0141385448368965e-08
+          },
+          "mean_abs_q_mvar": [
+            0.3508166968822479,
+            0.3015216290950775
+          ],
+          "share_q_sign_changes": 0.3569294415076994
+        },
+        "stress_x1.0": {
+          "objective": 0.016775766439633345,
+          "terms": {
+            "loss": 0.0051176114939153194,
+            "voltage": 0.011593995615839958,
+            "effort": 0.0034705724101513624,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 2.945360577655265e-08
+          },
+          "mean_abs_q_mvar": [
+            0.3604391813278198,
+            0.37276145815849304
+          ],
+          "share_q_sign_changes": 0.20644360172629536
+        }
+      },
+      "objective": 0.014159939784481709,
+      "mean_abs_q_mvar_overall": 0.3463847413659096
+    },
+    {
+      "round": 2,
+      "dead_band_pu": 0.005,
+      "full_at_pu": 0.025,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.010647755674573869,
+          "terms": {
+            "loss": 0.0037530323024839163,
+            "voltage": 0.006869674660265446,
+            "effort": 0.0024127240758389235,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 9.214710661176184e-10
+          },
+          "mean_abs_q_mvar": [
+            0.3162595331668854,
+            0.23996520042419434
+          ],
+          "share_q_sign_changes": 0.2845163308562527
+        },
+        "stress_x1.0": {
+          "objective": 0.016600783819168043,
+          "terms": {
+            "loss": 0.004967757035046816,
+            "voltage": 0.011593556962907314,
+            "effort": 0.003106382442638278,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 8.405996787530512e-09
+          },
+          "mean_abs_q_mvar": [
+            0.3340550363063812,
+            0.33605238795280457
+          ],
+          "share_q_sign_changes": 0.15276500932097348
+        }
+      },
+      "objective": 0.013624269746870955,
+      "mean_abs_q_mvar_overall": 0.3065830394625664
+    }
+  ],
+  "final_tuned": {
+    "round": 1,
+    "dead_band_pu": 0.0,
+    "full_at_pu": 0.03,
+    "training_objective": 0.01157597519993243,
+    "n_tied": 1
+  },
+  "validation": {
+    "droop_original": {
+      "objective": 0.015074088133622467,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.010216429659049026,
+          "terms": {
+            "loss": 0.0025546790566295385,
+            "voltage": 0.0076578957960009575,
+            "effort": 0.0003854806418530643,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 25.546791076660156,
+          "mean_abs_q_mvar": [
+            0.11290125548839569,
+            0.11874661594629288
+          ],
+          "share_q_sign_changes": 0.0
+        },
+        "stress_x1.0": {
+          "objective": 0.019931746608195907,
+          "terms": {
+            "loss": 0.0044016847386956215,
+            "voltage": 0.015499711968004704,
+            "effort": 0.0010487301042303443,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.986260045327981e-08
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0038368210382230335,
+          "vvr_share_of_bus_steps": 0.0004474720031473873,
+          "mean_network_loss_kw": 44.016845703125,
+          "mean_abs_q_mvar": [
+            0.18263070285320282,
+            0.2153630256652832
+          ],
+          "share_q_sign_changes": 0.0
+        }
+      }
+    },
+    "droop_round1_tuned": {
+      "objective": 0.01213356168397766,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.008081500637345015,
+          "terms": {
+            "loss": 0.0027054741512984037,
+            "voltage": 0.005362705793231726,
+            "effort": 0.001332069281488657,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 27.05474281311035,
+          "mean_abs_q_mvar": [
+            0.22417780756950378,
+            0.23992350697517395
+          ],
+          "share_q_sign_changes": 0.10842041591056045
+        },
+        "stress_x1.0": {
+          "objective": 0.016185622730610305,
+          "terms": {
+            "loss": 0.004429236054420471,
+            "voltage": 0.011729572899639606,
+            "effort": 0.0024618639145046473,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 2.195137405180958e-09
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0005599684758487671,
+          "vvr_share_of_bus_steps": 7.981593314567162e-05,
+          "mean_network_loss_kw": 44.292362213134766,
+          "mean_abs_q_mvar": [
+            0.30343097448349,
+            0.34683653712272644
+          ],
+          "share_q_sign_changes": 0.08658198277120747
+        }
+      }
+    },
+    "droop_final_tuned": {
+      "objective": 0.01213356168397766,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.008081500637345015,
+          "terms": {
+            "loss": 0.0027054741512984037,
+            "voltage": 0.005362705793231726,
+            "effort": 0.001332069281488657,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 27.05474281311035,
+          "mean_abs_q_mvar": [
+            0.22417780756950378,
+            0.23992350697517395
+          ],
+          "share_q_sign_changes": 0.10842041591056045
+        },
+        "stress_x1.0": {
+          "objective": 0.016185622730610305,
+          "terms": {
+            "loss": 0.004429236054420471,
+            "voltage": 0.011729572899639606,
+            "effort": 0.0024618639145046473,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 2.195137405180958e-09
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0005599684758487671,
+          "vvr_share_of_bus_steps": 7.981593314567162e-05,
+          "mean_network_loss_kw": 44.292362213134766,
+          "mean_abs_q_mvar": [
+            0.30343097448349,
+            0.34683653712272644
+          ],
+          "share_q_sign_changes": 0.08658198277120747
+        }
+      }
+    },
+    "dpc_H144_dead_zone_30_70_seed_0": {
+      "objective": 0.008695528090465815,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.004974568448960781,
+          "terms": {
+            "loss": 0.002808387391269207,
+            "voltage": 0.0021297174971550703,
+            "effort": 0.003646356053650379,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 28.083873748779297,
+          "mean_abs_q_mvar": [
+            0.34976205229759216,
+            0.4584253430366516
+          ],
+          "share_q_sign_changes": 0.00950086561124669
+        },
+        "stress_x1.0": {
+          "objective": 0.012416487731970847,
+          "terms": {
+            "loss": 0.004312504548579454,
+            "voltage": 0.008059397339820862,
+            "effort": 0.0044585843570530415,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 43.12504577636719,
+          "mean_abs_q_mvar": [
+            0.430946409702301,
+            0.4916873872280121
+          ],
+          "share_q_sign_changes": 0.004630498717226707
+        }
+      }
+    },
+    "dpc_H144_dead_zone_30_70_seed_1": {
+      "objective": 0.008698012367822229,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.004982964377850294,
+          "terms": {
+            "loss": 0.0027780591044574976,
+            "voltage": 0.002169177867472172,
+            "effort": 0.0035727405920624733,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 27.780590057373047,
+          "mean_abs_q_mvar": [
+            0.3479440212249756,
+            0.452162504196167
+          ],
+          "share_q_sign_changes": 0.008937696848340738
+        },
+        "stress_x1.0": {
+          "objective": 0.012413060357794166,
+          "terms": {
+            "loss": 0.004311888013035059,
+            "voltage": 0.008056418970227242,
+            "effort": 0.004475337453186512,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 43.11887741088867,
+          "mean_abs_q_mvar": [
+            0.4315503239631653,
+            0.49314960837364197
+          ],
+          "share_q_sign_changes": 0.004463633898587906
+        }
+      }
+    },
+    "dpc_H144_dead_zone_30_70_seed_2": {
+      "objective": 0.008689098741160705,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.0049684753478504715,
+          "terms": {
+            "loss": 0.0027752756141126156,
+            "voltage": 0.002157436916604638,
+            "effort": 0.003576281713321805,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 27.752758026123047,
+          "mean_abs_q_mvar": [
+            0.34718194603919983,
+            0.4532545506954193
+          ],
+          "share_q_sign_changes": 0.008645683415722838
+        },
+        "stress_x1.0": {
+          "objective": 0.01240972213447094,
+          "terms": {
+            "loss": 0.004320194479078054,
+            "voltage": 0.008044675923883915,
+            "effort": 0.004485173150897026,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "vvr_share_of_steps_with_any_violation": 0.0,
+          "vvr_share_of_bus_steps": 0.0,
+          "mean_network_loss_kw": 43.20194625854492,
+          "mean_abs_q_mvar": [
+            0.43341735005378723,
+            0.49236541986465454
+          ],
+          "share_q_sign_changes": 0.0042654819264543314
+        }
+      }
+    }
+  },
+  "dpc_over_seeds_median_min_max": {
+    "objective": [
+      0.008695528090465815,
+      0.008689098741160705,
+      0.008698012367822229
+    ],
+    "regimes": {
+      "base_x0.7": {
+        "objective": [
+          0.004974568448960781,
+          0.0049684753478504715,
+          0.004982964377850294
+        ],
+        "vvr_share_of_steps_with_any_violation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_network_loss_kw": [
+          27.780590057373047,
+          27.752758026123047,
+          28.083873748779297
+        ],
+        "share_q_sign_changes": [
+          0.008937696848340738,
+          0.008645683415722838,
+          0.00950086561124669
+        ],
+        "mean_abs_q_mvar": [
+          [
+            0.3479440212249756,
+            0.4532545506954193
+          ],
+          [
+            0.34718194603919983,
+            0.452162504196167
+          ],
+          [
+            0.34976205229759216,
+            0.4584253430366516
+          ]
+        ]
+      },
+      "stress_x1.0": {
+        "objective": [
+          0.012413060357794166,
+          0.01240972213447094,
+          0.012416487731970847
+        ],
+        "vvr_share_of_steps_with_any_violation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_network_loss_kw": [
+          43.12504577636719,
+          43.11887741088867,
+          43.20194625854492
+        ],
+        "share_q_sign_changes": [
+          0.004463633898587906,
+          0.0042654819264543314,
+          0.004630498717226707
+        ],
+        "mean_abs_q_mvar": [
+          [
+            0.4315503239631653,
+            0.49236541986465454
+          ],
+          [
+            0.430946409702301,
+            0.4916873872280121
+          ],
+          [
+            0.43341735005378723,
+            0.49314960837364197
+          ]
+        ]
+      }
+    }
+  }
+}

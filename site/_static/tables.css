@@ -1,0 +1,10 @@
+/* Wide result tables scroll horizontally inside their own box instead of being cut off at the right edge. */
+div.cell_output div.output,
+div.cell_output .output.text_html {
+  overflow-x: auto;
+  max-width: 100%;
+}
+div.cell_output table.dataframe {
+  font-size: 0.85em;
+  white-space: nowrap;
+}

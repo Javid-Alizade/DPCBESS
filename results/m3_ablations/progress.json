@@ -1,0 +1,142 @@
+{
+  "commit": "c7801520611aa972f071769ee5f98ffbc2b05e46",
+  "history": [
+    {
+      "event": "start",
+      "time": "2026-11-07 13:48:30"
+    },
+    {
+      "event": "finished",
+      "time": "2026-11-07 17:43:46"
+    }
+  ],
+  "training": {
+    "penalty-only-no-deg_seed0": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-134833_candidate_penalty-only-no-deg_seed0",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 114.27642822265624,
+          "seconds": 1358.925442100037
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-134833_candidate_penalty-only-no-deg_seed0"
+    },
+    "penalty-only-no-deg_seed1": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-141125_candidate_penalty-only-no-deg_seed1",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 365.715087890625,
+          "seconds": 1402.15757140005
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-141125_candidate_penalty-only-no-deg_seed1"
+    },
+    "penalty-only-no-deg_seed2": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-143501_candidate_penalty-only-no-deg_seed2",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 671.0801391601562,
+          "seconds": 1408.069627000019
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-143501_candidate_penalty-only-no-deg_seed2"
+    },
+    "projection-only_seed0": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-145852_candidate_projection-only_seed0",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 3.5352625846862797,
+          "seconds": 1433.6067346998025
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-145852_candidate_projection-only_seed0"
+    },
+    "projection-only_seed1": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-152311_candidate_projection-only_seed1",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 4.365466594696045,
+          "seconds": 2075.5870266000275
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-152311_candidate_projection-only_seed1"
+    },
+    "projection-only_seed2": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-155804_candidate_projection-only_seed2",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 3.975896120071411,
+          "seconds": 1706.0677890002262
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-155804_candidate_projection-only_seed2"
+    },
+    "no-constraints-no-deg_seed0": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-162653_candidate_no-constraints-no-deg_seed0",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 27.39077377319336,
+          "seconds": 1176.2466887999326
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-162653_candidate_no-constraints-no-deg_seed0"
+    },
+    "no-constraints-no-deg_seed1": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-164642_candidate_no-constraints-no-deg_seed1",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 91.35285186767578,
+          "seconds": 1180.081428400008
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-164642_candidate_no-constraints-no-deg_seed1"
+    },
+    "no-constraints-no-deg_seed2": {
+      "records": [
+        {
+          "run": "results\\runs\\20261107-170635_candidate_no-constraints-no-deg_seed2",
+          "truncate": null,
+          "unstable": false,
+          "stopped_on_nonfinite_at_step": null,
+          "max_grad_norm": 155.26739501953125,
+          "seconds": 1183.0239325999282
+        }
+      ],
+      "failed": false,
+      "used_run": "results\\runs\\20261107-170635_candidate_no-constraints-no-deg_seed2"
+    }
+  },
+  "interrupted_attempts": {}
+}

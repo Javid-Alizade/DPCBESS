@@ -1,0 +1,53 @@
+{
+  "objective": 0.010217140437453054,
+  "terms": {
+    "loss": 0.0023312645498663187,
+    "voltage": 0.007881928235292435,
+    "effort": 0.00039476522943004966,
+    "soc_penalty": 0.0,
+    "voltage_penalty": 0.0
+  },
+  "wall_seconds": 24.620004999917,
+  "mean_abs_p_mw": [
+    0.0,
+    0.0
+  ],
+  "mean_p_mw": [
+    0.0,
+    0.0
+  ],
+  "mean_abs_q_mvar": [
+    0.11393319070339203,
+    0.12420628219842911
+  ],
+  "share_at_s_limit": 0.0,
+  "share_soc_clip_active": 0.0,
+  "days_at_end_of_day": 28,
+  "end_of_day_soc_min": 0.5,
+  "end_of_day_soc_max": 0.5,
+  "summary": {
+    "steps": 8064,
+    "vvr_share_of_steps_with_any_violation": 0.0,
+    "vvr_share_of_bus_steps": 0.0,
+    "v_rmse_pu": 0.015454652719199657,
+    "v_min": 0.9643767476081848,
+    "v_max": 1.034541130065918,
+    "mean_network_loss_kw": 23.312644958496094,
+    "mean_abs_p_mw": 0.0,
+    "mean_abs_q_mvar": 0.11906974017620087,
+    "battery_stress_mean_p2_q2_pu": 0.00039476522943004966,
+    "soc_min": 0.5,
+    "soc_max": 0.5,
+    "share_of_battery_steps_outside_soc_limits": 0.0,
+    "share_of_battery_steps_breaking_inverter_limits": 0.0
+  },
+  "controller": "droop_original",
+  "regime": "base_x0.7",
+  "commit": "2c70d3f71f25f6f98c4cfb8de478ae53fcfbd67c",
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  }
+}

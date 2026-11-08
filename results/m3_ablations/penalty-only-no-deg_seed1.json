@@ -1,0 +1,128 @@
+{
+  "part": "validation only",
+  "rule": "docs/decisions.md, SoC-penalty selection rule",
+  "commit": "c7801520611aa972f071769ee5f98ffbc2b05e46",
+  "code_differs_from_commit": false,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu"
+  },
+  "candidates": {
+    "penalty-only-no-deg_seed1": {
+      "objective": 0.00884099135408178,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.005081872055307031,
+          "terms": {
+            "loss": 0.002752773929387331,
+            "voltage": 0.002295577898621559,
+            "effort": 0.0033520227298140526,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.022787848487496376,
+            0.022059638053178787
+          ],
+          "mean_p_mw": [
+            0.001368350931443274,
+            0.0011308767134323716
+          ],
+          "mean_abs_q_mvar": [
+            0.35518577694892883,
+            0.4254121780395508
+          ],
+          "share_at_s_limit": 0.18330671754775288,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.32130733132362366,
+          "end_of_day_soc_max": 0.3430754542350769,
+          "end_of_day_soc_mean": 0.32990625500679016,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "projection": false,
+          "share_of_steps_with_nonfinite_voltage": 0.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.00834044162184,
+            "v_min": 0.9725809097290039,
+            "v_max": 1.0306296348571777,
+            "mean_network_loss_kw": 27.527738571166992,
+            "mean_abs_p_mw": 0.022423703223466873,
+            "mean_abs_q_mvar": 0.39029914140701294,
+            "battery_stress_mean_p2_q2_pu": 0.0033520227298140526,
+            "soc_min": 0.3078727126121521,
+            "soc_max": 0.7089159488677979,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.014507331439118983
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.012600110652856529,
+          "terms": {
+            "loss": 0.00428682891651988,
+            "voltage": 0.008271870203316212,
+            "effort": 0.004141153302043676,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.02384074777364731,
+            0.02228928916156292
+          ],
+          "mean_p_mw": [
+            0.001926482655107975,
+            0.0013270704075694084
+          ],
+          "mean_abs_q_mvar": [
+            0.41944921016693115,
+            0.4686107635498047
+          ],
+          "share_at_s_limit": 0.4347325632038493,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.2949070334434509,
+          "end_of_day_soc_max": 0.3326512575149536,
+          "end_of_day_soc_mean": 0.3123469054698944,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "projection": false,
+          "share_of_steps_with_nonfinite_voltage": 0.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.015832331031560898,
+            "v_min": 0.9509561061859131,
+            "v_max": 1.025042176246643,
+            "mean_network_loss_kw": 42.868289947509766,
+            "mean_abs_p_mw": 0.023065105080604553,
+            "mean_abs_q_mvar": 0.4440295994281769,
+            "battery_stress_mean_p2_q2_pu": 0.004141153302043676,
+            "soc_min": 0.28695377707481384,
+            "soc_max": 0.7224112749099731,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.14338303917705372
+          }
+        }
+      },
+      "variant": "penalty-only-no-deg",
+      "run_id": "20261107-141125_candidate_penalty-only-no-deg_seed1",
+      "training_steps": 1000,
+      "horizon_steps": 144,
+      "truncate": null,
+      "terminal_soc_weight": 10.0,
+      "terminal_soc_dead_band": 0.2
+    }
+  },
+  "references": {},
+  "checks": {
+    "penalty-only-no-deg_seed1": {
+      "uses_active_power": false,
+      "soc_stays_in_range": true,
+      "passes": false
+    }
+  },
+  "selected_by_rule": "not applied: seed report, no re-selection (docs/decisions.md, seed reporting rule)"
+}

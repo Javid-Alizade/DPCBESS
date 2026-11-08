@@ -1,0 +1,1056 @@
+{
+  "part": "validation only",
+  "rule": "docs/decisions.md, SoC-penalty selection rule",
+  "commit": "a334306608ef26d4976097d29af0395918c75889",
+  "code_differs_from_commit": false,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu"
+  },
+  "candidates": {
+    "H72_weight_10": {
+      "objective": 0.00935561835359314,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.005493454111274332,
+          "terms": {
+            "loss": 0.0030174399726092815,
+            "voltage": 0.002440371550619602,
+            "effort": 0.0035642588045448065,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.000755556917283684,
+            0.0005646705976687372
+          ],
+          "mean_p_mw": [
+            -6.030121585354209e-05,
+            -2.0098490495001897e-05
+          ],
+          "mean_abs_q_mvar": [
+            0.35318121314048767,
+            0.44891947507858276
+          ],
+          "share_at_s_limit": 0.4877947611838148,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.49784743785858154,
+          "end_of_day_soc_max": 0.5009283423423767,
+          "end_of_day_soc_mean": 0.4997783899307251,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.008599456399679184,
+            "v_min": 0.9695460200309753,
+            "v_max": 1.0287833213806152,
+            "mean_network_loss_kw": 30.174400329589844,
+            "mean_abs_p_mw": 0.0006601111963391304,
+            "mean_abs_q_mvar": 0.40104958415031433,
+            "battery_stress_mean_p2_q2_pu": 0.0035642588045448065,
+            "soc_min": 0.49618422985076904,
+            "soc_max": 0.5047668218612671,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.013217782595911949,
+          "terms": {
+            "loss": 0.004544859752058983,
+            "voltage": 0.008626828901469707,
+            "effort": 0.00445760739967227,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.5178683865357812e-09
+          },
+          "mean_abs_p_mw": [
+            0.001021876814775169,
+            0.0007014681468717754
+          ],
+          "mean_p_mw": [
+            -3.0504919777740724e-05,
+            4.362001618574141e-06
+          ],
+          "mean_abs_q_mvar": [
+            0.43240413069725037,
+            0.4925689995288849
+          ],
+          "share_at_s_limit": 0.775473380757824,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.49812746047973633,
+          "end_of_day_soc_max": 0.500442385673523,
+          "end_of_day_soc_mean": 0.4994406998157501,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0005599684758487671,
+            "vvr_share_of_bus_steps": 7.038885442767891e-05,
+            "v_rmse_pu": 0.01616845838725567,
+            "v_min": 0.9482205510139465,
+            "v_max": 1.0270535945892334,
+            "mean_network_loss_kw": 45.4485969543457,
+            "mean_abs_p_mw": 0.0008616732666268945,
+            "mean_abs_q_mvar": 0.4624848961830139,
+            "battery_stress_mean_p2_q2_pu": 0.00445760739967227,
+            "soc_min": 0.48922109603881836,
+            "soc_max": 0.5038909316062927,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-103153_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 72,
+      "truncate": null,
+      "terminal_soc_weight": 10.0,
+      "terminal_soc_dead_band": 0.0
+    },
+    "H72_weight_0": {
+      "objective": 0.008174558619518373,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.004458752977661788,
+          "terms": {
+            "loss": 0.0024906741455197334,
+            "voltage": 0.0019319516140967607,
+            "effort": 0.0036127218045294285,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.04753898084163666,
+            0.04351288452744484
+          ],
+          "mean_p_mw": [
+            0.0010436002630740404,
+            0.0039032294880598783
+          ],
+          "mean_abs_q_mvar": [
+            0.3336212635040283,
+            0.45760422945022583
+          ],
+          "share_at_s_limit": 0.4799655723085219,
+          "share_soc_clip_active": 0.5797851380218595,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.10000000149011612,
+          "end_of_day_soc_max": 0.20700180530548096,
+          "end_of_day_soc_mean": 0.10243766754865646,
+          "share_of_end_of_day_values_inside_20_80": 0.0029585798816568047,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.007651404477655888,
+            "v_min": 0.9717684388160706,
+            "v_max": 1.030218243598938,
+            "mean_network_loss_kw": 24.906742095947266,
+            "mean_abs_p_mw": 0.04552599787712097,
+            "mean_abs_q_mvar": 0.39561039209365845,
+            "battery_stress_mean_p2_q2_pu": 0.0036127218045294285,
+            "soc_min": 0.10000000149011612,
+            "soc_max": 0.8999999761581421,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.011890364261374957,
+          "terms": {
+            "loss": 0.004107962362468243,
+            "voltage": 0.007737083826214075,
+            "effort": 0.00450481241568923,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 2.699485357471332e-10
+          },
+          "mean_abs_p_mw": [
+            0.04069490730762482,
+            0.03355914354324341
+          ],
+          "mean_p_mw": [
+            0.004302866756916046,
+            0.007533348631113768
+          ],
+          "mean_abs_q_mvar": [
+            0.42801645398139954,
+            0.49284684658050537
+          ],
+          "share_at_s_limit": 0.7743845531658958,
+          "share_soc_clip_active": 0.68842939212311,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.10000000149011612,
+          "end_of_day_soc_max": 0.10000000149011612,
+          "end_of_day_soc_mean": 0.10000002384185791,
+          "share_of_end_of_day_values_inside_20_80": 0.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.00020739573179583964,
+            "vvr_share_of_bus_steps": 2.0739573179583965e-05,
+            "v_rmse_pu": 0.015311991795897484,
+            "v_min": 0.9487882852554321,
+            "v_max": 1.0294392108917236,
+            "mean_network_loss_kw": 41.07962417602539,
+            "mean_abs_p_mw": 0.03712696209549904,
+            "mean_abs_q_mvar": 0.4604291617870331,
+            "battery_stress_mean_p2_q2_pu": 0.00450481241568923,
+            "soc_min": 0.10000000149011612,
+            "soc_max": 0.8999999761581421,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-105406_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 72,
+      "truncate": null,
+      "terminal_soc_weight": 0.0,
+      "terminal_soc_dead_band": 0.0
+    },
+    "H72_weight_0.1": {
+      "objective": 0.0090597898082342,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.005298873281572014,
+          "terms": {
+            "loss": 0.002937244949862361,
+            "voltage": 0.0023258868604898453,
+            "effort": 0.0035741471219807863,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.013549260795116425,
+            0.00965048186480999
+          ],
+          "mean_p_mw": [
+            -0.0005483051063492894,
+            -0.000346555927535519
+          ],
+          "mean_abs_q_mvar": [
+            0.3521651327610016,
+            0.45037320256233215
+          ],
+          "share_at_s_limit": 0.49464919011966735,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.4582083523273468,
+          "end_of_day_soc_max": 0.4952825903892517,
+          "end_of_day_soc_mean": 0.4768478572368622,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.008395320735871792,
+            "v_min": 0.9713243246078491,
+            "v_max": 1.026411533355713,
+            "mean_network_loss_kw": 29.37244987487793,
+            "mean_abs_p_mw": 0.011599835008382797,
+            "mean_abs_q_mvar": 0.40124642848968506,
+            "battery_stress_mean_p2_q2_pu": 0.0035741471219807863,
+            "soc_min": 0.4231584370136261,
+            "soc_max": 0.6337582468986511,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.012820706334896386,
+          "terms": {
+            "loss": 0.004450046923011541,
+            "voltage": 0.008325805887579918,
+            "effort": 0.0044853524304926395,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.0188802108168602,
+            0.013410736806690693
+          ],
+          "mean_p_mw": [
+            0.0002981659781653434,
+            0.00038876201142556965
+          ],
+          "mean_abs_q_mvar": [
+            0.433902382850647,
+            0.4936816096305847
+          ],
+          "share_at_s_limit": 0.785044693780202,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.39617323875427246,
+          "end_of_day_soc_max": 0.4761030972003937,
+          "end_of_day_soc_mean": 0.43942469358444214,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.01588386483490467,
+            "v_min": 0.950410008430481,
+            "v_max": 1.0241105556488037,
+            "mean_network_loss_kw": 44.50046920776367,
+            "mean_abs_p_mw": 0.016145456582307816,
+            "mean_abs_q_mvar": 0.4637431502342224,
+            "battery_stress_mean_p2_q2_pu": 0.0044853524304926395,
+            "soc_min": 0.3397430181503296,
+            "soc_max": 0.6251190900802612,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-111223_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 72,
+      "truncate": null,
+      "terminal_soc_weight": 0.1,
+      "terminal_soc_dead_band": 0.0
+    },
+    "H72_dead_zone_30_70": {
+      "objective": 0.008762796225491911,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.005023756986483932,
+          "terms": {
+            "loss": 0.0028108679689466953,
+            "voltage": 0.002176435897126794,
+            "effort": 0.0036453120410442352,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.024056293070316315,
+            0.024639207869768143
+          ],
+          "mean_p_mw": [
+            0.0018010896164923906,
+            0.0017870250158011913
+          ],
+          "mean_abs_q_mvar": [
+            0.3464689552783966,
+            0.46133309602737427
+          ],
+          "share_at_s_limit": 0.5384615384615384,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.2978947162628174,
+          "end_of_day_soc_max": 0.3228526711463928,
+          "end_of_day_soc_mean": 0.3059762418270111,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.008121120743453503,
+            "v_min": 0.9717214107513428,
+            "v_max": 1.0264136791229248,
+            "mean_network_loss_kw": 28.108678817749023,
+            "mean_abs_p_mw": 0.024347752332687378,
+            "mean_abs_q_mvar": 0.40388423204421997,
+            "battery_stress_mean_p2_q2_pu": 0.0036453120410442352,
+            "soc_min": 0.2928093671798706,
+            "soc_max": 0.6951321363449097,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.012501835464499891,
+          "terms": {
+            "loss": 0.0043224007822573185,
+            "voltage": 0.008134813979268074,
+            "effort": 0.004462070297449827,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.022524753585457802,
+            0.02251708321273327
+          ],
+          "mean_p_mw": [
+            0.0028556755278259516,
+            0.002962206955999136
+          ],
+          "mean_abs_q_mvar": [
+            0.431020051240921,
+            0.492521196603775
+          ],
+          "share_at_s_limit": 0.767996764626584,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.2927030324935913,
+          "end_of_day_soc_max": 0.30650195479393005,
+          "end_of_day_soc_mean": 0.2988053858280182,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.015700621530413628,
+            "v_min": 0.9502764344215393,
+            "v_max": 1.0270495414733887,
+            "mean_network_loss_kw": 43.22400665283203,
+            "mean_abs_p_mw": 0.022520974278450012,
+            "mean_abs_q_mvar": 0.4617522656917572,
+            "battery_stress_mean_p2_q2_pu": 0.004462070297449827,
+            "soc_min": 0.2838740050792694,
+            "soc_max": 0.7068690657615662,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-112429_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 72,
+      "truncate": null,
+      "terminal_soc_weight": 10.0,
+      "terminal_soc_dead_band": 0.2
+    },
+    "H144_weight_10": {
+      "objective": 0.009357390386451527,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.0054945313022471964,
+          "terms": {
+            "loss": 0.003023326862603426,
+            "voltage": 0.002435568254441023,
+            "effort": 0.0035636185202747583,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.0009340629912912846,
+            0.0005991445505060256
+          ],
+          "mean_p_mw": [
+            -4.397872544359416e-05,
+            -3.423185262363404e-05
+          ],
+          "mean_abs_q_mvar": [
+            0.35371536016464233,
+            0.4480211138725281
+          ],
+          "share_at_s_limit": 0.48855175560486963,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.49843570590019226,
+          "end_of_day_soc_max": 0.500472903251648,
+          "end_of_day_soc_mean": 0.49949610233306885,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.008590989746153355,
+            "v_min": 0.9695276021957397,
+            "v_max": 1.02877676486969,
+            "mean_network_loss_kw": 30.233266830444336,
+            "mean_abs_p_mw": 0.0007666033343411982,
+            "mean_abs_q_mvar": 0.40086615085601807,
+            "battery_stress_mean_p2_q2_pu": 0.0035636185202747583,
+            "soc_min": 0.49525782465934753,
+            "soc_max": 0.5044748187065125,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.013220249470655858,
+          "terms": {
+            "loss": 0.004549677949398756,
+            "voltage": 0.008624265901744366,
+            "effort": 0.00445338012650609,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.7718182476755828e-09
+          },
+          "mean_abs_p_mw": [
+            0.0009240895160473883,
+            0.0006737998919561505
+          ],
+          "mean_p_mw": [
+            -1.3258028047857806e-05,
+            -1.1665505553537514e-05
+          ],
+          "mean_abs_q_mvar": [
+            0.4326483905315399,
+            0.4916718006134033
+          ],
+          "share_at_s_limit": 0.7737312566107389,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.4972918629646301,
+          "end_of_day_soc_max": 0.5005745887756348,
+          "end_of_day_soc_mean": 0.4994487762451172,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0005599684758487671,
+            "vvr_share_of_bus_steps": 7.604510165847453e-05,
+            "v_rmse_pu": 0.01616605557501316,
+            "v_min": 0.9481810927391052,
+            "v_max": 1.0267658233642578,
+            "mean_network_loss_kw": 45.49678039550781,
+            "mean_abs_p_mw": 0.00079894601367414,
+            "mean_abs_q_mvar": 0.4621569812297821,
+            "battery_stress_mean_p2_q2_pu": 0.00445338012650609,
+            "soc_min": 0.4881359338760376,
+            "soc_max": 0.504420280456543,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-113632_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 144,
+      "truncate": null,
+      "terminal_soc_weight": 10.0,
+      "terminal_soc_dead_band": 0.0
+    },
+    "H144_weight_0": {
+      "objective": 0.00807847581464807,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.00439189377008006,
+          "terms": {
+            "loss": 0.0024922876618802547,
+            "voltage": 0.0018633406143635511,
+            "effort": 0.003626549383625388,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.04873054474592209,
+            0.044848110526800156
+          ],
+          "mean_p_mw": [
+            0.0008435589261353016,
+            0.0021913768723607063
+          ],
+          "mean_abs_q_mvar": [
+            0.342570036649704,
+            0.4528658390045166
+          ],
+          "share_at_s_limit": 0.47822344816143686,
+          "share_soc_clip_active": 0.5303834747080906,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.10000000149011612,
+          "end_of_day_soc_max": 0.19228483736515045,
+          "end_of_day_soc_mean": 0.10108403861522675,
+          "share_of_end_of_day_values_inside_20_80": 0.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.007514311000704765,
+            "v_min": 0.9733464121818542,
+            "v_max": 1.0302525758743286,
+            "mean_network_loss_kw": 24.92287826538086,
+            "mean_abs_p_mw": 0.046789515763521194,
+            "mean_abs_q_mvar": 0.39771056175231934,
+            "battery_stress_mean_p2_q2_pu": 0.003626549383625388,
+            "soc_min": 0.10000000149011612,
+            "soc_max": 0.8999999761581421,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.01176505785921608,
+          "terms": {
+            "loss": 0.004103170707821846,
+            "voltage": 0.007616385351866484,
+            "effort": 0.004549827426671982,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 3.5252610292718645e-12
+          },
+          "mean_abs_p_mw": [
+            0.04206037521362305,
+            0.03448789194226265
+          ],
+          "mean_p_mw": [
+            0.0031242710538208485,
+            0.00498424656689167
+          ],
+          "mean_abs_q_mvar": [
+            0.431949645280838,
+            0.4932047128677368
+          ],
+          "share_at_s_limit": 0.788186739116909,
+          "share_soc_clip_active": 0.6425638260364601,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.10000000149011612,
+          "end_of_day_soc_max": 0.10000000149011612,
+          "end_of_day_soc_mean": 0.10000002384185791,
+          "share_of_end_of_day_values_inside_20_80": 0.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 4.147914635916793e-05,
+            "vvr_share_of_bus_steps": 2.5138876581313897e-06,
+            "v_rmse_pu": 0.015192089602351189,
+            "v_min": 0.9496893286705017,
+            "v_max": 1.0263433456420898,
+            "mean_network_loss_kw": 41.031707763671875,
+            "mean_abs_p_mw": 0.038274168968200684,
+            "mean_abs_q_mvar": 0.46257156133651733,
+            "battery_stress_mean_p2_q2_pu": 0.004549827426671982,
+            "soc_min": 0.10000000149011612,
+            "soc_max": 0.8999999761581421,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-120044_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 144,
+      "truncate": null,
+      "terminal_soc_weight": 0.0,
+      "terminal_soc_dead_band": 0.0
+    },
+    "H144_weight_0.1": {
+      "objective": 0.009063704477157444,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.005296608349308372,
+          "terms": {
+            "loss": 0.0029344407375901937,
+            "voltage": 0.0023267180658876896,
+            "effort": 0.0035449545830488205,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.013681162148714066,
+            0.007943804375827312
+          ],
+          "mean_p_mw": [
+            -0.0012234181631356478,
+            -0.00087687314953655
+          ],
+          "mean_abs_q_mvar": [
+            0.35058513283729553,
+            0.4478156566619873
+          ],
+          "share_at_s_limit": 0.48741107907999254,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.46968451142311096,
+          "end_of_day_soc_max": 0.5069897770881653,
+          "end_of_day_soc_mean": 0.49175989627838135,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.008396821096539497,
+            "v_min": 0.9703843593597412,
+            "v_max": 1.02686607837677,
+            "mean_network_loss_kw": 29.34440803527832,
+            "mean_abs_p_mw": 0.010812528431415558,
+            "mean_abs_q_mvar": 0.3991829752922058,
+            "battery_stress_mean_p2_q2_pu": 0.0035449545830488205,
+            "soc_min": 0.44164520502090454,
+            "soc_max": 0.6575671434402466,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.012830800605006515,
+          "terms": {
+            "loss": 0.004447178915143013,
+            "voltage": 0.008338944055140018,
+            "effort": 0.004467763472348452,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.018461348488926888,
+            0.010557257570326328
+          ],
+          "mean_p_mw": [
+            -0.0008289765100926161,
+            -0.0006487995851784945
+          ],
+          "mean_abs_q_mvar": [
+            0.43187132477760315,
+            0.49335190653800964
+          ],
+          "share_at_s_limit": 0.7797042536864591,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.4130322337150574,
+          "end_of_day_soc_max": 0.49437183141708374,
+          "end_of_day_soc_mean": 0.461101770401001,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.015896392986178398,
+            "v_min": 0.9503118991851807,
+            "v_max": 1.0239919424057007,
+            "mean_network_loss_kw": 44.4717903137207,
+            "mean_abs_p_mw": 0.01450924202799797,
+            "mean_abs_q_mvar": 0.4625721573829651,
+            "battery_stress_mean_p2_q2_pu": 0.004467763472348452,
+            "soc_min": 0.38347429037094116,
+            "soc_max": 0.6647763848304749,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-122501_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 144,
+      "truncate": null,
+      "terminal_soc_weight": 0.1,
+      "terminal_soc_dead_band": 0.0
+    },
+    "H144_dead_zone_30_70": {
+      "objective": 0.008695528090465815,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.004974568448960781,
+          "terms": {
+            "loss": 0.002808387391269207,
+            "voltage": 0.0021297174971550703,
+            "effort": 0.003646356053650379,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.025203289464116096,
+            0.025250565260648727
+          ],
+          "mean_p_mw": [
+            0.0008474593050777912,
+            0.0008037249790504575
+          ],
+          "mean_abs_q_mvar": [
+            0.34976205229759216,
+            0.4584253430366516
+          ],
+          "share_at_s_limit": 0.5323641039467408,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.321777880191803,
+          "end_of_day_soc_max": 0.34289440512657166,
+          "end_of_day_soc_mean": 0.33056217432022095,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.00803348608314991,
+            "v_min": 0.9729263782501221,
+            "v_max": 1.0266848802566528,
+            "mean_network_loss_kw": 28.083873748779297,
+            "mean_abs_p_mw": 0.025226883590221405,
+            "mean_abs_q_mvar": 0.40407413244247437,
+            "battery_stress_mean_p2_q2_pu": 0.003646356053650379,
+            "soc_min": 0.3063376843929291,
+            "soc_max": 0.7371987700462341,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.012416487731970847,
+          "terms": {
+            "loss": 0.004312504548579454,
+            "voltage": 0.008059397339820862,
+            "effort": 0.0044585843570530415,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.02504860609769821,
+            0.02504081465303898
+          ],
+          "mean_p_mw": [
+            0.0015036029508337379,
+            0.0016685762675479054
+          ],
+          "mean_abs_q_mvar": [
+            0.430946409702301,
+            0.4916873872280121
+          ],
+          "share_at_s_limit": 0.770143310450671,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.29746368527412415,
+          "end_of_day_soc_max": 0.3282327950000763,
+          "end_of_day_soc_mean": 0.3143455982208252,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.015627672895789146,
+            "v_min": 0.9517141580581665,
+            "v_max": 1.0253729820251465,
+            "mean_network_loss_kw": 43.12504577636719,
+            "mean_abs_p_mw": 0.02504473738372326,
+            "mean_abs_q_mvar": 0.46128973364830017,
+            "battery_stress_mean_p2_q2_pu": 0.0044585843570530415,
+            "soc_min": 0.29392197728157043,
+            "soc_max": 0.7367765307426453,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      },
+      "run_id": "20261106-124919_candidate_no-deg_seed0",
+      "training_steps": 1000,
+      "horizon_steps": 144,
+      "truncate": null,
+      "terminal_soc_weight": 10.0,
+      "terminal_soc_dead_band": 0.2
+    }
+  },
+  "references": {
+    "no_battery_action": {
+      "objective": 0.12354196997051758,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.015257199507573205,
+          "terms": {
+            "loss": 0.0029321119654923677,
+            "voltage": 0.012137699872255325,
+            "effort": 0.0,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.873876698255117e-07
+          },
+          "mean_abs_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_abs_q_mvar": [
+            0.0,
+            0.0
+          ],
+          "share_at_s_limit": 0.0,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.5,
+          "end_of_day_soc_max": 0.5,
+          "end_of_day_soc_mean": 0.5,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.013418503847190824,
+            "vvr_share_of_bus_steps": 0.0008654058263117308,
+            "v_rmse_pu": 0.019178349524736404,
+            "v_min": 0.9449483752250671,
+            "v_max": 1.0595887899398804,
+            "mean_network_loss_kw": 29.32111930847168,
+            "mean_abs_p_mw": 0.0,
+            "mean_abs_q_mvar": 0.0,
+            "battery_stress_mean_p2_q2_pu": 0.0,
+            "soc_min": 0.5,
+            "soc_max": 0.5,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.23182674043346196,
+          "terms": {
+            "loss": 0.005591854453086853,
+            "voltage": 0.026510009542107582,
+            "effort": 0.0,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.00019972487643826753
+          },
+          "mean_abs_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_abs_q_mvar": [
+            0.0,
+            0.0
+          ],
+          "share_at_s_limit": 0.0,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.5,
+          "end_of_day_soc_max": 0.5,
+          "end_of_day_soc_mean": 0.5,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.26312296492938175,
+            "vvr_share_of_bus_steps": 0.08210734174605838,
+            "v_rmse_pu": 0.028343141078948975,
+            "v_min": 0.9193987846374512,
+            "v_max": 1.0419892072677612,
+            "mean_network_loss_kw": 55.91854476928711,
+            "mean_abs_p_mw": 0.0,
+            "mean_abs_q_mvar": 0.0,
+            "battery_stress_mean_p2_q2_pu": 0.0,
+            "soc_min": 0.5,
+            "soc_max": 0.5,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      }
+    },
+    "volt_var_droop": {
+      "objective": 0.015074088133622467,
+      "regimes": {
+        "base_x0.7": {
+          "objective": 0.010216429659049026,
+          "terms": {
+            "loss": 0.0025546790566295385,
+            "voltage": 0.0076578957960009575,
+            "effort": 0.0003854806418530643,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 0.0
+          },
+          "mean_abs_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_abs_q_mvar": [
+            0.11290125548839569,
+            0.11874661594629288
+          ],
+          "share_at_s_limit": 0.0001244374390775038,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.5,
+          "end_of_day_soc_max": 0.5,
+          "end_of_day_soc_mean": 0.5,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0,
+            "vvr_share_of_bus_steps": 0.0,
+            "v_rmse_pu": 0.015233431942760944,
+            "v_min": 0.9555240273475647,
+            "v_max": 1.045737862586975,
+            "mean_network_loss_kw": 25.546791076660156,
+            "mean_abs_p_mw": 0.0,
+            "mean_abs_q_mvar": 0.1158238872885704,
+            "battery_stress_mean_p2_q2_pu": 0.0003854806418530643,
+            "soc_min": 0.5,
+            "soc_max": 0.5,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        },
+        "stress_x1.0": {
+          "objective": 0.019931746608195907,
+          "terms": {
+            "loss": 0.0044016847386956215,
+            "voltage": 0.015499711968004704,
+            "effort": 0.0010487301042303443,
+            "soc_penalty": 0.0,
+            "voltage_penalty": 1.986260045327981e-08
+          },
+          "mean_abs_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_p_mw": [
+            0.0,
+            0.0
+          ],
+          "mean_abs_q_mvar": [
+            0.18263070285320282,
+            0.2153630256652832
+          ],
+          "share_at_s_limit": 0.0013273326834933737,
+          "share_soc_clip_active": 0.0,
+          "days_at_end_of_day": 169,
+          "end_of_day_soc_min": 0.5,
+          "end_of_day_soc_max": 0.5,
+          "end_of_day_soc_mean": 0.5,
+          "share_of_end_of_day_values_inside_20_80": 1.0,
+          "summary": {
+            "steps": 48217,
+            "vvr_share_of_steps_with_any_violation": 0.0038368210382230335,
+            "vvr_share_of_bus_steps": 0.0004474720031473873,
+            "v_rmse_pu": 0.021672291681170464,
+            "v_min": 0.9462445378303528,
+            "v_max": 1.0334657430648804,
+            "mean_network_loss_kw": 44.016845703125,
+            "mean_abs_p_mw": 0.0,
+            "mean_abs_q_mvar": 0.19899675250053406,
+            "battery_stress_mean_p2_q2_pu": 0.0010487301042303443,
+            "soc_min": 0.5,
+            "soc_max": 0.5,
+            "share_of_battery_steps_outside_soc_limits": 0.0,
+            "share_of_battery_steps_breaking_inverter_limits": 0.0
+          }
+        }
+      }
+    }
+  },
+  "checks": {
+    "H72_weight_10": {
+      "uses_active_power": false,
+      "soc_stays_in_range": true,
+      "passes": false
+    },
+    "H72_weight_0": {
+      "uses_active_power": true,
+      "soc_stays_in_range": false,
+      "passes": false
+    },
+    "H72_weight_0.1": {
+      "uses_active_power": false,
+      "soc_stays_in_range": true,
+      "passes": false
+    },
+    "H72_dead_zone_30_70": {
+      "uses_active_power": false,
+      "soc_stays_in_range": true,
+      "passes": false
+    },
+    "H144_weight_10": {
+      "uses_active_power": false,
+      "soc_stays_in_range": true,
+      "passes": false
+    },
+    "H144_weight_0": {
+      "uses_active_power": true,
+      "soc_stays_in_range": false,
+      "passes": false
+    },
+    "H144_weight_0.1": {
+      "uses_active_power": false,
+      "soc_stays_in_range": true,
+      "passes": false
+    },
+    "H144_dead_zone_30_70": {
+      "uses_active_power": true,
+      "soc_stays_in_range": true,
+      "passes": true
+    }
+  },
+  "selected_by_rule": "H144_dead_zone_30_70"
+}

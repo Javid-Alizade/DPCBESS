@@ -1,0 +1,89 @@
+{
+  "objective": 0.012957728009686038,
+  "terms": {
+    "loss": 0.004479835741221905,
+    "voltage": 0.008433199487626553,
+    "effort": 0.0044447435066103935,
+    "soc_penalty": 0.0,
+    "voltage_penalty": 2.453457714768348e-10
+  },
+  "mean_abs_p_mw": [
+    0.007271511480212212,
+    0.006147562060505152
+  ],
+  "mean_p_mw": [
+    0.0020434046164155006,
+    0.0023974396754056215
+  ],
+  "mean_abs_q_mvar": [
+    0.43171247839927673,
+    0.4925679862499237
+  ],
+  "share_at_s_limit": 0.7684841445963042,
+  "share_soc_clip_active": 0.0,
+  "days_at_end_of_day": 169,
+  "end_of_day_soc_min": 0.2997145354747772,
+  "end_of_day_soc_max": 0.4560924768447876,
+  "end_of_day_soc_mean": 0.3548680245876312,
+  "share_of_end_of_day_values_inside_20_80": 1.0,
+  "summary": {
+    "steps": 48217,
+    "vvr_share_of_steps_with_any_violation": 0.0003940518904120953,
+    "vvr_share_of_bus_steps": 3.770831487197084e-05,
+    "v_rmse_pu": 0.01598597690463066,
+    "v_min": 0.949042558670044,
+    "v_max": 1.0170246362686157,
+    "mean_network_loss_kw": 44.79835891723633,
+    "mean_abs_p_mw": 0.006709949113428593,
+    "mean_abs_q_mvar": 0.462126761674881,
+    "battery_stress_mean_p2_q2_pu": 0.0044447435066103935,
+    "soc_min": 0.29970893263816833,
+    "soc_max": 0.6001315712928772,
+    "share_of_battery_steps_outside_soc_limits": 0.0,
+    "share_of_battery_steps_breaking_inverter_limits": 0.0
+  },
+  "steps": 48217,
+  "solve_seconds": {
+    "mean": 0.3540201734070678,
+    "median": 0.3428240998182446,
+    "p95": 0.4044552399311215,
+    "max": 5.031008299905807
+  },
+  "solver_statuses": {
+    "optimal": 48217
+  },
+  "share_battery_steps_safety_layer_changes_action": 0.0,
+  "share_battery_steps_simultaneous_charge_discharge": 0.0,
+  "regime": "stress_x1.0",
+  "part": "validation only, all steps",
+  "horizon": 144,
+  "forecast": "persistence",
+  "soc_model": "lossless",
+  "terminal_soc_dead_band": 0.2,
+  "weights": {
+    "loss": 1.0,
+    "voltage": 1.0,
+    "effort": 0.01,
+    "soc_penalty": 100.0,
+    "voltage_penalty": 1000.0,
+    "c_rate_penalty": 0.0,
+    "degradation": 0.0,
+    "terminal_soc": 10.0
+  },
+  "history": [
+    {
+      "event": "start",
+      "commit": "2c70d3f71f25f6f98c4cfb8de478ae53fcfbd67c",
+      "code_differs_from_commit": false,
+      "at_position": 0,
+      "time": "2026-11-07 03:42:16"
+    }
+  ],
+  "wall_seconds_this_session": 17290.329029300017,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  }
+}

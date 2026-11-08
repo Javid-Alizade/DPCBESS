@@ -1,0 +1,64 @@
+{
+  "objective": 0.0037947384570725263,
+  "terms": {
+    "loss": 0.0021662588696926832,
+    "voltage": 0.0015915215481072664,
+    "effort": 0.003695803927257657,
+    "soc_penalty": 0.0,
+    "voltage_penalty": 0.0
+  },
+  "wall_seconds": 2999.661445300095,
+  "mean_abs_p_mw": [
+    0.07675982266664505,
+    0.07670505344867706
+  ],
+  "mean_p_mw": [
+    0.012625677511096,
+    0.012337758205831051
+  ],
+  "mean_abs_q_mvar": [
+    0.3435189723968506,
+    0.45087870955467224
+  ],
+  "share_at_s_limit": 0.4768725198412698,
+  "share_soc_clip_active": 0.04892113095238095,
+  "days_at_end_of_day": 28,
+  "end_of_day_soc_min": 0.10000000149011612,
+  "end_of_day_soc_max": 0.1661340743303299,
+  "summary": {
+    "steps": 8064,
+    "vvr_share_of_steps_with_any_violation": 0.0,
+    "vvr_share_of_bus_steps": 0.0,
+    "v_rmse_pu": 0.006944633089005947,
+    "v_min": 0.9800470471382141,
+    "v_max": 1.0115834474563599,
+    "mean_network_loss_kw": 21.66259002685547,
+    "mean_abs_p_mw": 0.07673265039920807,
+    "mean_abs_q_mvar": 0.3971979022026062,
+    "battery_stress_mean_p2_q2_pu": 0.003695803927257657,
+    "soc_min": 0.10000000149011612,
+    "soc_max": 0.8999999761581421,
+    "share_of_battery_steps_outside_soc_limits": 0.0,
+    "share_of_battery_steps_breaking_inverter_limits": 0.0
+  },
+  "solver_statuses": {
+    "optimal": 8064
+  },
+  "solve_seconds": {
+    "mean": 0.36792463168381395,
+    "median": 0.36603715003002435,
+    "p95": 0.42834090982796624,
+    "max": 6.284258799860254
+  },
+  "share_battery_steps_safety_layer_changes_action": 0.007998511904761904,
+  "share_held_forecast_horizon_steps": 9.386711860670193e-05,
+  "controller": "oracle_mpc_upper_bound",
+  "regime": "base_x0.7",
+  "commit": "2c70d3f71f25f6f98c4cfb8de478ae53fcfbd67c",
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  }
+}

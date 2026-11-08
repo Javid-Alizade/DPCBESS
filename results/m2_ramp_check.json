@@ -1,0 +1,15 @@
+{
+  "part": "train only",
+  "threshold_mw_per_min": 0.04669529688382838,
+  "extreme_steps": 1567,
+  "daytime_steps": 79580,
+  "extreme_share_of_daytime_steps": 0.019690877104800202,
+  "falling_share_of_extreme_steps": 0.5047862156987875,
+  "reporting_set_changes_share_daytime_steps": 0.5407011812013068,
+  "reporting_set_changes_share_extreme_steps": 0.608806636885769,
+  "extreme_steps_also_extreme_with_same_set": 0.9617102744097,
+  "gap_over_threshold_median": 0.008947339785191275,
+  "gap_over_threshold_p95": 0.10268846539668972,
+  "gap_over_threshold_max": 0.41603239724149704,
+  "same_set_threshold_over_threshold": 0.9960036495644994
+}

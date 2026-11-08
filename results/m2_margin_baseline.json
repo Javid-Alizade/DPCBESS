@@ -1,0 +1,144 @@
+{
+  "part": "train only",
+  "controller": "none, batteries idle",
+  "pv_total_mw": 3.9,
+  "pv_buses": [
+    14,
+    17,
+    29,
+    32
+  ],
+  "metrics_config": {
+    "limits_pu": [
+      0.95,
+      1.05
+    ],
+    "safe_band_pu": [
+      0.96,
+      1.04
+    ],
+    "window_steps": 12,
+    "bootstrap_samples": 2000,
+    "confidence": 0.95,
+    "seed": 0
+  },
+  "regimes": {
+    "base_x0.7": {
+      "primary_over_ramp_windows": {
+        "extreme_steps": 1567,
+        "windows_used": 1562,
+        "windows_excluded_incomplete": 5,
+        "distinct_days": 287,
+        "worst_margin_pu": {
+          "mean": 0.01413177760859305,
+          "median": 0.015535324811935425,
+          "p05": -0.012842774391174316,
+          "p95": 0.03359485864639281,
+          "mean_ci": [
+            0.012592634917784312,
+            0.015728647768836493
+          ]
+        },
+        "max_deviation_pu": {
+          "mean": 0.035868190810866604,
+          "median": 0.03446465730667114,
+          "p05": 0.016405150294303894,
+          "p95": 0.0628427267074585,
+          "mean_ci": [
+            0.03427132365751972,
+            0.03740733111656321
+          ]
+        },
+        "minutes_to_safe_band": {
+          "mean": 5.003201024327785,
+          "median": 0.0,
+          "p05": 0.0,
+          "p95": 60.0,
+          "mean_ci": [
+            3.7675523915353386,
+            6.404651382741269
+          ]
+        },
+        "share_inside_safe_band_at_ramp_step": 0.8559539052496798,
+        "censored_share_never_inside_in_window": 0.05121638924455826,
+        "censored_share_ci": [
+          0.033462445106392305,
+          0.07162747390169638
+        ],
+        "share_of_windows_with_any_violation": 0.17413572343149808
+      },
+      "secondary_violations_at_extreme_step": {
+        "steps": 90,
+        "of_extreme_steps": 1567,
+        "distinct_days_with_violation": 43,
+        "distinct_days_with_extreme_step": 287,
+        "share": 0.0574345883854499,
+        "share_ci": [
+          0.04023272754231371,
+          0.07520703585995928
+        ]
+      }
+    },
+    "stress_x1.0": {
+      "primary_over_ramp_windows": {
+        "extreme_steps": 1567,
+        "windows_used": 1562,
+        "windows_excluded_incomplete": 5,
+        "distinct_days": 287,
+        "worst_margin_pu": {
+          "mean": 0.015224147621403889,
+          "median": 0.016634762287139893,
+          "p05": -0.006049200892448424,
+          "p95": 0.030913898348808286,
+          "mean_ci": [
+            0.014075688087129798,
+            0.01641279270742581
+          ]
+        },
+        "max_deviation_pu": {
+          "mean": 0.03477584109874144,
+          "median": 0.03336524963378906,
+          "p05": 0.019086113572120665,
+          "p95": 0.056049212813377366,
+          "mean_ci": [
+            0.033587197109671764,
+            0.03592430300625526
+          ]
+        },
+        "minutes_to_safe_band": {
+          "mean": 2.1606914212548016,
+          "median": 0.0,
+          "p05": 0.0,
+          "p95": 10.0,
+          "mean_ci": [
+            1.580665630317658,
+            2.8377900983128406
+          ]
+        },
+        "share_inside_safe_band_at_ramp_step": 0.9314980793854033,
+        "censored_share_never_inside_in_window": 0.02240717029449424,
+        "censored_share_ci": [
+          0.013792391484918244,
+          0.03249637271864475
+        ],
+        "share_of_windows_with_any_violation": 0.10435339308578745
+      },
+      "secondary_violations_at_extreme_step": {
+        "steps": 25,
+        "of_extreme_steps": 1567,
+        "distinct_days_with_violation": 19,
+        "distinct_days_with_extreme_step": 287,
+        "share": 0.01595405232929164,
+        "share_ci": [
+          0.008813161687956659,
+          0.024469795967324466
+        ]
+      }
+    }
+  },
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu"
+  }
+}

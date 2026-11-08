@@ -1,0 +1,90 @@
+{
+  "H72_weight_10": [
+    {
+      "run": "20261106-103153_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 9.277235984802246,
+      "seconds": 1295.6436958999839
+    }
+  ],
+  "H72_weight_0": [
+    {
+      "run": "20261106-105406_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 1.5650516748428345,
+      "seconds": 1071.8029374000616
+    }
+  ],
+  "H72_weight_0.1": [
+    {
+      "run": "20261106-111223_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 1.569919466972351,
+      "seconds": 716.270600099815
+    }
+  ],
+  "H72_dead_zone_30_70": [
+    {
+      "run": "20261106-112429_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 2.9141879081726074,
+      "seconds": 711.780573700089
+    }
+  ],
+  "H144_weight_10": [
+    {
+      "run": "20261106-113632_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 15.521718978881836,
+      "seconds": 1438.2218362998683
+    }
+  ],
+  "H144_weight_0": [
+    {
+      "run": "20261106-120044_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 2.332662582397461,
+      "seconds": 1444.6398192998022
+    }
+  ],
+  "H144_weight_0.1": [
+    {
+      "run": "20261106-122501_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 2.302774429321289,
+      "seconds": 1443.8780639001634
+    }
+  ],
+  "H144_dead_zone_30_70": [
+    {
+      "run": "20261106-124919_candidate_no-deg_seed0",
+      "truncate": null,
+      "unstable": false,
+      "stopped_on_nonfinite_at_step": null,
+      "share_of_steps_after_100_with_grad_norm_above_10": 0.0,
+      "max_grad_norm": 3.866824150085449,
+      "seconds": 1440.2086861999705
+    }
+  ]
+}

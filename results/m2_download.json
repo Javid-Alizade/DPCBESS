@@ -1,0 +1,39 @@
+{
+  "filtered_pv_power_measurements_ac.csv": {
+    "dataset": "solar",
+    "url": "https://zenodo.org/api/records/10953360/files/filtered_pv_power_measurements_ac.csv/content",
+    "bytes": 2985408767,
+    "md5": "13896fef43016d4f08cf671f7f37af4b",
+    "sha256": "b9f699de17f0d0ca73be181f4895aa3d94da7a325331d32914ca5f425e8b47bb",
+    "md5_checked_against_source": true
+  },
+  "metadata.csv": {
+    "dataset": "solar",
+    "url": "https://zenodo.org/api/records/10953360/files/metadata.csv/content",
+    "bytes": 22902,
+    "md5": "df6b38f4ca7c0ca5191c33acd2dc5b7b",
+    "sha256": "c13bc26674125d93a7416fc0cc92196125eb1af3ff91292ba761a93dba1fa563",
+    "md5_checked_against_source": true
+  },
+  "metadata_units.csv": {
+    "dataset": "solar",
+    "url": "https://zenodo.org/api/records/10953360/files/metadata_units.csv/content",
+    "bytes": 22221,
+    "md5": "fa21b348c1dd0b8ad772b6139788a5dd",
+    "sha256": "0a1f05725bd678aa5449df2220df9f4bfd2d29b87fdeed9a3a36e5ecb80ebaa0",
+    "md5_checked_against_source": true
+  },
+  "electricityloaddiagrams20112014.zip": {
+    "dataset": "load",
+    "url": "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip",
+    "bytes": 261335609,
+    "md5": "0f0fd085f742acd4f36687e7c071e521",
+    "sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
+    "md5_checked_against_source": false,
+    "zip_members": {
+      "LD2011_2014.txt": 710998915,
+      "__MACOSX/": 0,
+      "__MACOSX/._LD2011_2014.txt": 1080
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "part": "validation only, the two pilot days",
+  "commit": "152586a2ead52bd7c8929b90ca87a44854b7520c",
+  "code_differs_from_commit": false,
+  "versions": {
+    "python": "3.14.0",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu",
+    "cvxpy": "1.9.3"
+  },
+  "protocol": "docs/decisions.md, Overlap diagnostic and decision rule",
+  "pilot_days": [
+    "2013-07-27",
+    "2013-08-16"
+  ],
+  "ahead_steps": 12,
+  "regimes": {
+    "base_x0.7": {
+      "steps_with_solution": 576,
+      "steps": 576,
+      "overlap_mw": {
+        "n": 1152,
+        "mean": 0.12933225822611114,
+        "p95": 0.4571893339331417,
+        "max": 0.4651793025188423
+      },
+      "overlap_mean_share_of_limit": 0.25866451645222227,
+      "overlap_mean_mw_per_battery": [
+        0.13566789776712682,
+        0.12299661868509554
+      ],
+      "share_battery_steps_overlap_above_1e-6_pu": 0.3072916666666667,
+      "soc_gap_1_step": {
+        "n": 1152,
+        "mean": 0.001106138043632872,
+        "p95": 0.003910184624314239,
+        "max": 0.0039785251334134575
+      },
+      "soc_gap_12_steps": {
+        "n": 1108,
+        "mean": 0.014541899260657062,
+        "p95": 0.045496172584608335,
+        "max": 0.06274957076581544
+      },
+      "rule_overlap_exceeds": true,
+      "rule_gap_exceeds": false
+    },
+    "stress_x1.0": {
+      "steps_with_solution": 576,
+      "steps": 576,
+      "overlap_mw": {
+        "n": 1152,
+        "mean": 0.09555716816236358,
+        "p95": 0.4504717565115313,
+        "max": 0.4608202844804432
+      },
+      "overlap_mean_share_of_limit": 0.19111433632472716,
+      "overlap_mean_mw_per_battery": [
+        0.10926876631290483,
+        0.08184557001182241
+      ],
+      "share_battery_steps_overlap_above_1e-6_pu": 0.2387152777777778,
+      "soc_gap_1_step": {
+        "n": 1152,
+        "mean": 0.0008172726921745076,
+        "p95": 0.0038527126249091994,
+        "max": 0.00394122490058002
+      },
+      "soc_gap_12_steps": {
+        "n": 1108,
+        "mean": 0.010948612637507415,
+        "p95": 0.04451992605035751,
+        "max": 0.06864558433221923
+      },
+      "rule_overlap_exceeds": true,
+      "rule_gap_exceeds": false
+    }
+  },
+  "rule": {
+    "overlap_share_limit": 0.02,
+    "gap_limit": 0.02,
+    "triggered_in": [
+      "base_x0.7",
+      "stress_x1.0"
+    ],
+    "outcome": "add the 1e-5 penalty and re-run the pilot once"
+  }
+}
