@@ -15,5 +15,5 @@ parse:
     - dollarmath
 
 html:
-  use_repository_button: false   # the repository does not exist yet (S1, S8)
+  use_repository_button: false   # the repository link is on the landing page
   use_issues_button: false

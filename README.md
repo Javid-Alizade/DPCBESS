@@ -7,7 +7,7 @@ with rooftop solar, compared with no battery action, a Volt-VAR droop rule and a
 > All results so far come from the validation part of the data and one network. The code refuses to load the test part
 > (`ClosedTestPartError` in `src/dpc_grid/dpc.py`).
 
-- Site (Jupyter Book, built from the notebooks in `site/`): *not published yet*
+- Site (Jupyter Book, built from the notebooks in `site/`): https://javid-alizade.github.io/DPCBESS/
 - Decisions and protocols, with dates: [`docs/decisions.md`](docs/decisions.md)
 - Licences: code MIT ([`LICENSE`](LICENSE)); text and figures CC BY 4.0 ([`LICENSE-CONTENT.md`](LICENSE-CONTENT.md))
 

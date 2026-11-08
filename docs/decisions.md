@@ -172,7 +172,7 @@ Implementation details (option proposed, 2026-11-05):
   If no candidate passes, nothing is selected and the next step is decided separately.
 - Validation objective: mean over valid steps of the eq. (16) terms only (losses, voltage deviation, effort, SoC penalty,
   voltage penalty, configured weights), then the mean of both regimes. The terminal term is left out because it differs
-  between candidates. ((a), (b) and this objective were made precise .)
+  between candidates. ((a), (b) and this objective were made precise.)
 
 ## Documented change: SoC physically bounded (2026-11-05)
 
